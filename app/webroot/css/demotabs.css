@@ -1,0 +1,203 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,500,700);
+
+@font-face {
+	font-weight: normal;
+	font-style: normal;
+	font-family: 'codropsicons';
+	src:url('../fonts/codropsicons/codropsicons.eot');
+	src:url('../fonts/codropsicons/codropsicons.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/codropsicons/codropsicons.woff') format('woff'),
+		url('../fonts/codropsicons/codropsicons.ttf') format('truetype'),
+		url('../fonts/codropsicons/codropsicons.svg#codropsicons') format('svg');
+}
+
+*, *:after, *:before { -webkit-box-sizing: border-box; box-sizing: border-box; }
+.clearfix:before, .clearfix:after { content: ''; display: table; }
+.clearfix:after { clear: both; }
+
+body {
+	background: #E0E0E0;
+	color: #FFFFFF;
+	font-weight: 400;
+	font-size: 1em;
+	font-family: 'Roboto', Arial, sans-serif;
+	background-image: url(/img/background.svg);  background-position: 0 0;  background-size: cover;
+}
+
+a {
+	color: #2CC185;
+	text-decoration: none;
+	outline: none;
+}
+
+a:hover, a:focus {
+	color: #74777b;
+}
+
+.support {
+	display: none;
+	color: #ef5189;
+	text-align: left;
+	font-size: 1.5em;
+	max-width: 1200px;
+	margin: 1em auto 0;
+	padding: 0;
+}
+
+.no-flexbox .support {
+	display: block;
+}
+
+.hidden {
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	opacity: 0;
+}
+
+.container{
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	justify-content: center;
+}
+
+.container > section {
+	padding: 5em 0;
+	font-size: 1.25em;
+	min-height: 100%;
+}
+
+p {
+	text-align: center;
+	padding: 1em;
+}
+
+.teamname h1 {
+	font-size: 2.3em;
+	text-transform: uppercase;
+}
+
+.color-container div{
+	display:flex;
+	justify-content:left;
+}
+
+.colors-container{
+	display:flex;
+	justify-content:center;
+}
+
+.color-container svg{
+	position: relative;
+	top: -17px;
+	left: -20px;
+}
+
+.fileinput .thumbnail{
+	position: relative;
+}
+
+.fileinput-container{
+	width:400px;
+	height:400px;
+	position: absolute;
+	overflow: hidden;
+}
+
+.fileinput-container .actions{
+	width: 400px;
+	height: 400px;
+	transition: 100ms ease-in-out;
+	position: absolute;
+	background: rgba(0, 0, 0, 0.33);
+	top: 0;
+	left: 400px;
+	z-index: 99;
+}
+
+.fileinput-container .actions div{
+	height: 200px;
+	display:flex;
+	flex-direction:column;
+	justify-content:center;
+	font-size:1.3em;
+}
+
+.fileinput-container .actions div div.delete:hover{
+	background:#ef5350;
+	transition: all 100ms ease-in-out;
+}
+
+.fileinput-container .actions div div.change:hover{
+	background: #4caf50;
+	transition: all 100ms ease-in-out;
+}
+
+.fileinput-container .actions.visible{
+	transform: translateX(-400px);
+	transition: 200ms ease-in-out;
+	background: rgba(0, 0, 0, 0.68);
+}
+
+#section-flip-0 > div {
+	display:flex;
+}
+
+#section-flip-0 .fileinput-wrapper{
+	display: flex;
+	justify-content: center;
+}
+#section-flip-0 .fileinput-wrapper > div{
+	width:400px;
+	position: relative;
+	margin: 20px 0 0 0;
+}
+
+@media screen and (max-width: 1280px) {
+	.tabs-style-flip .content-wrap {
+		height: auto !important;
+	}
+	section#section-flip-0 {
+		height: 500px;
+	}
+}
+
+@media screen and (max-width: 30em) {
+	.container > section {
+		padding: 3em 0;
+	}
+
+	#section-flip-0 > div {
+		flex-direction: column;
+	}
+
+	#section-flip-0 .fileinput-wrapper {
+		flex-basis: 500px;
+	}
+
+	section#section-flip-0 {
+		height: auto !important;
+	}
+
+	.tabs nav ul li.tab {
+		display:none !important;
+		flex: 0 !important;
+	}
+	.tabs nav ul li.current {
+		flex: 5 !important;
+	}
+
+}
+
+
+@media screen and (max-width: 25em) {
+
+
+}
+
+.reveal-modal .close-reveal-modal {
+	top: -0.375rem;
+	color: #FFF;
+}

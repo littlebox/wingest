@@ -1,0 +1,818 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-01-29 18:19-0300\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: Controller/GroupsController.php:42;74;99
+msgid "Invalid group"
+msgstr ""
+
+#: Controller/GroupsController.php:57;78
+msgid "The group has been saved."
+msgstr ""
+
+#: Controller/GroupsController.php:60;81
+msgid "The group could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/GroupsController.php:103
+msgid "The group has been deleted."
+msgstr ""
+
+#: Controller/GroupsController.php:105
+msgid "The group could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/TeamsController.php:38;105;130;160;192;217
+msgid "Invalid team"
+msgstr ""
+
+#: Controller/TeamsController.php:70
+msgid "The team has been saved"
+msgstr ""
+
+#: Controller/TeamsController.php:73;91;112;178;199
+msgid "The team could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/TeamsController.php:88;109;175;196
+msgid "The team has been saved."
+msgstr ""
+
+#: Controller/TeamsController.php:134;221
+msgid "The team has been deleted."
+msgstr ""
+
+#: Controller/TeamsController.php:136;223
+msgid "The team could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/UsersController.php:72;84;192;245;261
+msgid "Invalid user"
+msgstr ""
+
+#: Controller/UsersController.php:100;218
+msgid "The user has been saved"
+msgstr ""
+
+#: Controller/UsersController.php:107;222
+msgid "The user could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/UsersController.php:131
+msgid "Invalid user."
+msgstr ""
+
+#: Controller/UsersController.php:137
+msgid "You can't edit this user."
+msgstr ""
+
+#: Controller/UsersController.php:157
+msgid "Incorrect current password"
+msgstr ""
+
+#: Controller/UsersController.php:172
+msgid "The changes has been saved"
+msgstr ""
+
+#: Controller/UsersController.php:174
+msgid "The changes could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/UsersController.php:182
+msgid "Invalid request type (has to be post or put)"
+msgstr ""
+
+#: Controller/UsersController.php:248;264
+msgid "User deleted"
+msgstr ""
+
+#: Controller/UsersController.php:250;267
+msgid "User was not deleted"
+msgstr ""
+
+#: Controller/UsersController.php:325
+msgid "Invalid username or password, try again"
+msgstr ""
+
+#: Controller/UsersController.php:371
+msgid "Please provide email adress that you used to register"
+msgstr ""
+
+#: Controller/UsersController.php:396
+msgid "Reset Your Password"
+msgstr ""
+
+#: Controller/UsersController.php:404
+msgid "Mail sended"
+msgstr ""
+
+#: Controller/UsersController.php:405
+msgid "Check your email to reset your password"
+msgstr ""
+
+#: Controller/UsersController.php:410
+msgid "Error generating reset link"
+msgstr ""
+
+#: Controller/UsersController.php:414
+msgid "User with this email does not exist"
+msgstr ""
+
+#: Controller/UsersController.php:434
+msgid "No reset token provided."
+msgstr ""
+
+#: Controller/UsersController.php:442
+msgid "The token has been used or is not valid."
+msgstr ""
+
+#: Controller/UsersController.php:448
+msgid "The token has expired."
+msgstr ""
+
+#: Controller/UsersController.php:468
+msgid "Your password has been updated!"
+msgstr ""
+
+#: Model/User.php:86;94
+msgid "Please upload jpg, png or gif files with size 5MB or less."
+msgstr ""
+
+#: Model/User.php:90
+msgid "Please upload an image."
+msgstr ""
+
+#: Model/User.php:98
+msgid "Please select file in gif, jpeg, png format."
+msgstr ""
+
+#: Plugin/AclExtras/Console/Command/AclExtrasShell.php:80
+msgid "Plugin to process"
+msgstr ""
+
+#: Plugin/AclExtras/Console/Command/AclExtrasShell.php:83
+msgid "Better manage, and easily synchronize you application's ACO tree"
+msgstr ""
+
+#: Plugin/AclExtras/Console/Command/AclExtrasShell.php:88
+msgid "Add new ACOs for new controllers and actions. Does not remove nodes from the ACO table."
+msgstr ""
+
+#: Plugin/AclExtras/Console/Command/AclExtrasShell.php:93
+msgid "Perform a full sync on the ACO table.Will create new ACOs or missing controllers and actions.Will also remove orphaned entries that no longer have a matching controller/action"
+msgstr ""
+
+#: Plugin/AclExtras/Console/Command/AclExtrasShell.php:97
+msgid "Verify the tree structure of either your Aco or Aro Trees"
+msgstr ""
+
+#: Plugin/AclExtras/Console/Command/AclExtrasShell.php:102
+msgid "The type of tree to verify"
+msgstr ""
+
+#: Plugin/AclExtras/Console/Command/AclExtrasShell.php:108
+msgid "Recover a corrupted Tree"
+msgstr ""
+
+#: Plugin/AclExtras/Console/Command/AclExtrasShell.php:113
+msgid "The type of tree to recover"
+msgstr ""
+
+#: Plugin/AclExtras/Lib/AclExtras.php:123
+msgid "<error>Plugin %s not found or not activated</error>"
+msgstr ""
+
+#: Plugin/AclExtras/Lib/AclExtras.php:136
+msgid "<success>Aco Update Complete</success>"
+msgstr ""
+
+#: Plugin/AclExtras/Lib/AclExtras.php:181
+msgid "Deleted %s and all children"
+msgstr ""
+
+#: Plugin/AclExtras/Lib/AclExtras.php:222
+msgid "Created Aco node: <success>%s</success>"
+msgstr ""
+
+#: Plugin/AclExtras/Lib/AclExtras.php:275
+msgid "Unable to get methods for \"%s\""
+msgstr ""
+
+#: Plugin/AclExtras/Lib/AclExtras.php:296
+msgid "Deleted Aco node: <warning>%s</warning>"
+msgstr ""
+
+#: Plugin/AclExtras/Lib/AclExtras.php:315
+msgid "<success>Tree is valid and strong</success>"
+msgstr ""
+
+#: Plugin/AclExtras/Lib/AclExtras.php:333
+msgid "Tree has been recovered, or tree did not need recovery."
+msgstr ""
+
+#: Plugin/AclExtras/Lib/AclExtras.php:335
+msgid "<error>Tree recovery failed.</error>"
+msgstr ""
+
+#: View/Elements/metrobox/footer.ctp:3
+#: View/Layouts/metrobox_login.ctp:67
+msgid "Admin Dashboard"
+msgstr ""
+
+#: View/Elements/metrobox/header.ctp:371
+msgid "My profile"
+msgstr ""
+
+#: View/Elements/metrobox/header.ctp:380
+msgid "Log Out"
+msgstr ""
+
+#: View/Elements/metrobox/sidebar_menu.ctp:36
+msgid "View users"
+msgstr ""
+
+#: View/Elements/metrobox/sidebar_menu.ctp:41
+msgid "Add user"
+msgstr ""
+
+#: View/Errors/metrobox/error400.ctp:6
+msgid "Your client has issued a malformed or illegal request."
+msgstr ""
+
+#: View/Errors/metrobox/error400.ctp:8
+msgid "That's all we know."
+msgstr ""
+
+#: View/Errors/metrobox/error400.ctp:11
+#: View/Errors/metrobox/error404.ctp:11
+msgid "Return home"
+msgstr ""
+
+#: View/Errors/metrobox/error403.ctp:6
+msgid "You shall not pass!"
+msgstr ""
+
+#: View/Errors/metrobox/error403.ctp:8
+msgid "You don't have permission to get this."
+msgstr ""
+
+#: View/Errors/metrobox/error404.ctp:6
+msgid "Houston, we have a problem."
+msgstr ""
+
+#: View/Errors/metrobox/error404.ctp:8
+msgid "Actually, the page you are looking for does not exist."
+msgstr ""
+
+#: View/Errors/metrobox/error405.ctp:6
+msgid "Method not allowed."
+msgstr ""
+
+#: View/Errors/metrobox/error405.ctp:8
+msgid "A request was made of a resource using a request method not supported by that resource."
+msgstr ""
+
+#: View/Errors/metrobox/error500.ctp:6
+msgid "Oops! Something went wrong."
+msgstr ""
+
+#: View/Errors/metrobox/error500.ctp:8
+msgid "We are fixing it! Please come back in a while."
+msgstr ""
+
+#: View/Groups/add.ctp:4
+msgid "Add Group"
+msgstr ""
+
+#: View/Groups/add.ctp:9
+#: View/Groups/edit.ctp:10
+#: View/Teams/add.ctp:14
+#: View/Teams/admin_add.ctp:14
+#: View/Teams/admin_edit.ctp:15
+#: View/Teams/edit.ctp:15
+#: View/Users/add_bkp.ctp:12
+#: View/Users/edit_bkp.ctp:13
+#: View/Users/login.ctp:72
+#: View/Users/reset_password.ctp:32
+msgid "Submit"
+msgstr ""
+
+#: View/Groups/add.ctp:12
+#: View/Groups/edit.ctp:13
+#: View/Groups/index.ctp:10;44
+#: View/Groups/view.ctp:27;53
+#: View/Teams/add.ctp:17
+#: View/Teams/admin_add.ctp:17
+#: View/Teams/admin_edit.ctp:18
+#: View/Teams/admin_index.ctp:13;50
+#: View/Teams/admin_view.ctp:42
+#: View/Teams/edit.ctp:18
+#: View/Teams/index.ctp:13;50
+#: View/Teams/view.ctp:42
+#: View/Users/add_bkp.ctp:15
+#: View/Users/admin_index.ctp:49
+#: View/Users/edit_bkp.ctp:16
+#: View/Users/index_bkp.ctp:17;60
+#: View/Users/view_bkp.ctp:62
+msgid "Actions"
+msgstr ""
+
+#: View/Groups/add.ctp:15
+#: View/Groups/edit.ctp:17
+#: View/Groups/view.ctp:31
+#: View/Users/add_bkp.ctp:19
+#: View/Users/edit_bkp.ctp:21
+#: View/Users/index_bkp.ctp:63
+#: View/Users/view_bkp.ctp:68
+msgid "List Groups"
+msgstr ""
+
+#: View/Groups/add.ctp:16
+#: View/Groups/edit.ctp:18
+#: View/Groups/index.ctp:47
+#: View/Groups/view.ctp:33
+#: View/Users/add_bkp.ctp:18
+#: View/Users/edit_bkp.ctp:20
+#: View/Users/view_bkp.ctp:66
+msgid "List Users"
+msgstr ""
+
+#: View/Groups/add.ctp:17
+#: View/Groups/edit.ctp:19
+#: View/Groups/index.ctp:48
+#: View/Groups/view.ctp:34;80
+#: View/Users/index_bkp.ctp:62
+#: View/Users/view_bkp.ctp:67
+msgid "New User"
+msgstr ""
+
+#: View/Groups/edit.ctp:4
+#: View/Groups/view.ctp:29
+msgid "Edit Group"
+msgstr ""
+
+#: View/Groups/edit.ctp:16
+#: View/Groups/index.ctp:23
+#: View/Groups/view.ctp:71
+#: View/Teams/admin_edit.ctp:21
+#: View/Teams/admin_index.ctp:29
+#: View/Teams/edit.ctp:21
+#: View/Teams/index.ctp:29
+#: View/Users/admin_index.ctp:82
+#: View/Users/edit_bkp.ctp:19
+#: View/Users/index_bkp.ctp:39
+msgid "Delete"
+msgstr ""
+
+#: View/Groups/edit.ctp:16
+#: View/Groups/index.ctp:23
+#: View/Groups/view.ctp:30;71
+#: View/Teams/admin_edit.ctp:21
+#: View/Teams/admin_index.ctp:29
+#: View/Teams/admin_view.ctp:45
+#: View/Teams/edit.ctp:21
+#: View/Teams/index.ctp:29
+#: View/Teams/view.ctp:45
+#: View/Users/edit_bkp.ctp:19
+#: View/Users/index_bkp.ctp:39
+#: View/Users/view_bkp.ctp:65
+msgid "Are you sure you want to delete # %s?"
+msgstr ""
+
+#: View/Groups/index.ctp:2
+msgid "Groups"
+msgstr ""
+
+#: View/Groups/index.ctp:21
+#: View/Groups/view.ctp:69
+#: View/Teams/admin_index.ctp:27
+#: View/Teams/index.ctp:27
+#: View/Users/index_bkp.ctp:37
+msgid "View"
+msgstr ""
+
+#: View/Groups/index.ctp:22
+#: View/Groups/view.ctp:70
+#: View/Teams/admin_index.ctp:28
+#: View/Teams/index.ctp:28
+#: View/Users/admin_edit.ctp:5
+#: View/Users/admin_index.ctp:81
+#: View/Users/index_bkp.ctp:38
+#: View/Users/view.ctp:88
+msgid "Edit"
+msgstr ""
+
+#: View/Groups/index.ctp:32
+#: View/Teams/admin_index.ctp:38
+#: View/Teams/index.ctp:38
+#: View/Users/index_bkp.ctp:48
+msgid "Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}"
+msgstr ""
+
+#: View/Groups/index.ctp:37
+#: View/Teams/admin_index.ctp:43
+#: View/Teams/index.ctp:43
+#: View/Users/index_bkp.ctp:53
+msgid "previous"
+msgstr ""
+
+#: View/Groups/index.ctp:39
+#: View/Teams/admin_index.ctp:45
+#: View/Teams/index.ctp:45
+#: View/Users/index_bkp.ctp:55
+msgid "next"
+msgstr ""
+
+#: View/Groups/index.ctp:46
+#: View/Groups/view.ctp:32
+#: View/Users/add_bkp.ctp:20
+#: View/Users/edit_bkp.ctp:22
+#: View/Users/index_bkp.ctp:64
+#: View/Users/view_bkp.ctp:69
+msgid "New Group"
+msgstr ""
+
+#: View/Groups/view.ctp:2
+#: View/Users/view_bkp.ctp:24
+msgid "Group"
+msgstr ""
+
+#: View/Groups/view.ctp:4;42
+#: View/Teams/admin_view.ctp:4
+#: View/Teams/view.ctp:4
+#: View/Users/view_bkp.ctp:4
+msgid "Id"
+msgstr ""
+
+#: View/Groups/view.ctp:9
+#: View/Teams/admin_view.ctp:9
+#: View/Teams/view.ctp:9
+msgid "Name"
+msgstr ""
+
+#: View/Groups/view.ctp:14;51
+#: View/Users/admin_index.ctp:48
+#: View/Users/view_bkp.ctp:49
+msgid "Created"
+msgstr ""
+
+#: View/Groups/view.ctp:19;52
+#: View/Users/view_bkp.ctp:54
+msgid "Modified"
+msgstr ""
+
+#: View/Groups/view.ctp:30
+msgid "Delete Group"
+msgstr ""
+
+#: View/Groups/view.ctp:38
+msgid "Related Users"
+msgstr ""
+
+#: View/Groups/view.ctp:43
+#: View/Users/admin_index.ctp:46
+#: View/Users/view_bkp.ctp:9
+msgid "Username"
+msgstr ""
+
+#: View/Groups/view.ctp:44
+#: View/Users/admin_index.ctp:47
+#: View/Users/login.ctp:25;69
+#: View/Users/view_bkp.ctp:14
+msgid "Email"
+msgstr ""
+
+#: View/Groups/view.ctp:45
+#: View/Users/login.ctp:26
+#: View/Users/reset_password.ctp:28
+#: View/Users/view_bkp.ctp:19
+msgid "Password"
+msgstr ""
+
+#: View/Groups/view.ctp:46
+msgid "Group Id"
+msgstr ""
+
+#: View/Groups/view.ctp:47
+#: View/Users/view_bkp.ctp:29
+msgid "Reset Password Token"
+msgstr ""
+
+#: View/Groups/view.ctp:48
+#: View/Users/view_bkp.ctp:34
+msgid "Reset Password Token Created"
+msgstr ""
+
+#: View/Groups/view.ctp:49
+#: View/Users/view_bkp.ctp:39
+msgid "Login Last Attempt"
+msgstr ""
+
+#: View/Groups/view.ctp:50
+#: View/Users/view_bkp.ctp:44
+msgid "Login Last Attempts Count"
+msgstr ""
+
+#: View/Pages/index.ctp:2
+msgid "Ohhhh yeah :) "
+msgstr ""
+
+#: View/Pages/test.ctp:2
+msgid "So far, so good :) "
+msgstr ""
+
+#: View/Teams/add.ctp:4
+msgid "Add Team"
+msgstr ""
+
+#: View/Teams/add.ctp:20
+#: View/Teams/admin_add.ctp:20
+#: View/Teams/admin_edit.ctp:22
+#: View/Teams/admin_view.ctp:46
+#: View/Teams/edit.ctp:22
+#: View/Teams/view.ctp:46
+msgid "List Teams"
+msgstr ""
+
+#: View/Teams/admin_add.ctp:4
+msgid "Admin Add Team"
+msgstr ""
+
+#: View/Teams/admin_edit.ctp:4
+msgid "Admin Edit Team"
+msgstr ""
+
+#: View/Teams/admin_index.ctp:2
+#: View/Teams/index.ctp:2
+msgid "Teams"
+msgstr ""
+
+#: View/Teams/admin_index.ctp:52
+#: View/Teams/admin_view.ctp:47
+#: View/Teams/index.ctp:52
+#: View/Teams/view.ctp:47
+msgid "New Team"
+msgstr ""
+
+#: View/Teams/admin_view.ctp:2
+#: View/Teams/view.ctp:2
+msgid "Team"
+msgstr ""
+
+#: View/Teams/admin_view.ctp:14
+#: View/Teams/view.ctp:14
+msgid "Delegado"
+msgstr ""
+
+#: View/Teams/admin_view.ctp:19
+#: View/Teams/view.ctp:19
+msgid "Email Delegado"
+msgstr ""
+
+#: View/Teams/admin_view.ctp:24
+#: View/Teams/view.ctp:24
+msgid "Torneo"
+msgstr ""
+
+#: View/Teams/admin_view.ctp:29
+#: View/Teams/view.ctp:29
+msgid "Remeras"
+msgstr ""
+
+#: View/Teams/admin_view.ctp:34
+#: View/Teams/view.ctp:34
+msgid "Colores"
+msgstr ""
+
+#: View/Teams/admin_view.ctp:44
+#: View/Teams/edit.ctp:4
+#: View/Teams/view.ctp:44
+msgid "Edit Team"
+msgstr ""
+
+#: View/Teams/admin_view.ctp:45
+#: View/Teams/view.ctp:45
+msgid "Delete Team"
+msgstr ""
+
+#: View/Users/add.ctp:5
+#: View/Users/admin_add.ctp:5
+msgid "Add"
+msgstr ""
+
+#: View/Users/add.ctp:6
+#: View/Users/admin_add.ctp:6
+#: View/Users/admin_edit.ctp:6
+#: View/Users/admin_index.ctp:7
+#: View/Users/index_bkp.ctp:2
+msgid "Users"
+msgstr ""
+
+#: View/Users/add.ctp:43
+#: View/Users/admin_add.ctp:43
+#: View/Users/admin_edit.ctp:43
+msgid "Profile picture"
+msgstr ""
+
+#: View/Users/add.ctp:53
+#: View/Users/admin_add.ctp:53
+#: View/Users/admin_edit.ctp:59
+#: View/Users/view.ctp:117
+msgid "Select image"
+msgstr ""
+
+#: View/Users/add.ctp:54
+#: View/Users/admin_add.ctp:54
+#: View/Users/admin_edit.ctp:60
+#: View/Users/view.ctp:137
+msgid "Change"
+msgstr ""
+
+#: View/Users/add.ctp:84
+#: View/Users/admin_add.ctp:84
+#: View/Users/admin_edit.ctp:90
+#: View/Users/view.ctp:89
+msgid "Cancel"
+msgstr ""
+
+#: View/Users/add.ctp:89
+#: View/Users/admin_add.ctp:89
+#: View/Users/admin_edit.ctp:95
+msgid "Save"
+msgstr ""
+
+#: View/Users/add_bkp.ctp:4
+msgid "Add User"
+msgstr ""
+
+#: View/Users/admin_index.ctp:6
+msgid "List"
+msgstr ""
+
+#: View/Users/admin_index.ctp:19
+msgid "Add New"
+msgstr ""
+
+#: View/Users/admin_index.ctp:24
+msgid "Tools"
+msgstr ""
+
+#: View/Users/admin_index.ctp:29
+msgid "Print"
+msgstr ""
+
+#: View/Users/admin_index.ctp:33
+msgid "Save as PDF"
+msgstr ""
+
+#: View/Users/admin_index.ctp:37
+msgid "Export to Excel"
+msgstr ""
+
+#: View/Users/admin_index.ctp:83
+msgid "Details"
+msgstr ""
+
+#: View/Users/admin_index.ctp:92
+msgid "Are you sure?"
+msgstr ""
+
+#: View/Users/admin_index.ctp:93
+msgid "You will not be able to recover this imaginary file!"
+msgstr ""
+
+#: View/Users/admin_index.ctp:97
+msgid "Yes, delete it!"
+msgstr ""
+
+#: View/Users/admin_index.ctp:114
+msgid "Deleted!"
+msgstr ""
+
+#: View/Users/admin_index.ctp:123;127
+msgid "Error"
+msgstr ""
+
+#: View/Users/admin_index.ctp:127
+msgid "User hasn't been deleted."
+msgstr ""
+
+#: View/Users/edit_bkp.ctp:4
+#: View/Users/view_bkp.ctp:64
+msgid "Edit User"
+msgstr ""
+
+#: View/Users/login.ctp:13;43
+#: View/Users/reset_password.ctp:13
+msgid "Login"
+msgstr ""
+
+#: View/Users/login.ctp:19
+msgid "Sign In"
+msgstr ""
+
+#: View/Users/login.ctp:45
+msgid "Remember"
+msgstr ""
+
+#: View/Users/login.ctp:47
+msgid "Forgot Password?"
+msgstr ""
+
+#: View/Users/login.ctp:53
+msgid "Forget Password?"
+msgstr ""
+
+#: View/Users/login.ctp:67
+msgid "Enter your e-mail address to reset your password"
+msgstr ""
+
+#: View/Users/login.ctp:71
+#: View/Users/reset_password.ctp:36
+msgid "Back"
+msgstr ""
+
+#: View/Users/login.ctp:103
+msgid "Ok"
+msgstr ""
+
+#: View/Users/login.ctp:113
+msgid "An error ocurred, please try later."
+msgstr ""
+
+#: View/Users/reset_password.ctp:19
+msgid "Reset Password"
+msgstr ""
+
+#: View/Users/reset_password.ctp:26
+msgid "Hi %s! Please enter a new password:"
+msgstr ""
+
+#: View/Users/reset_password.ctp:29
+msgid "Repeat Password"
+msgstr ""
+
+#: View/Users/view.ctp:25
+msgid "Something"
+msgstr ""
+
+#: View/Users/view.ctp:33
+msgid "Something Else"
+msgstr ""
+
+#: View/Users/view.ctp:41
+msgid "Thing"
+msgstr ""
+
+#: View/Users/view.ctp:60
+msgid "Profile Account"
+msgstr ""
+
+#: View/Users/view.ctp:64
+msgid "Personal Info"
+msgstr ""
+
+#: View/Users/view.ctp:67
+msgid "Change Avatar"
+msgstr ""
+
+#: View/Users/view.ctp:70;154
+msgid "Change Password"
+msgstr ""
+
+#: View/Users/view.ctp:73
+msgid "Account Settings"
+msgstr ""
+
+#: View/Users/view.ctp:90
+msgid "Save Changes"
+msgstr ""
+
+#: View/Users/view.ctp:118
+msgid "Change image"
+msgstr ""
+
+#: View/Users/view.ctp:165
+msgid "I want recive newslwtter."
+msgstr ""
+
+#: View/Users/view_bkp.ctp:2
+msgid "User"
+msgstr ""
+
+#: View/Users/view_bkp.ctp:65
+msgid "Delete User"
+msgstr ""
+
