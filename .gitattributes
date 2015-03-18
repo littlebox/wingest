@@ -33,6 +33,11 @@
 *.ico binary
 *.mo binary
 *.pdf binary
-*.woff binary
-*.ttf binary
+*.otf binary
 *.eot binary
+*.ttf binary
+*.woff binary
+*.wof binary
+*.ai binary
+*.eps binary
+*.bat binary

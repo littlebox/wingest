@@ -209,12 +209,16 @@ Login page
   font-size: 13px;
 }
 
-@media (max-width: 440px) {
+@media (max-width: 40em) {
   /***
   Login page
   ***/
   .login .logo {
     margin-top: 10px;
+  }
+
+  .login .logo img{
+    width:100%;
   }
 
   .login .content {

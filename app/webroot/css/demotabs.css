@@ -97,6 +97,7 @@ p {
 
 .fileinput .thumbnail{
 	position: relative;
+	background: #fff;
 }
 
 .fileinput-container{
