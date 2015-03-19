@@ -179,7 +179,14 @@ class DataTableComponent extends Component{
 
 		$orderBy = '';
 
-		$fields = !empty($this->fields) ? $this->fields : $this->controller->paginate['fields'];
+		/* Linea original. La cambiamos porque tiraba un error al ordenar los campos al no setear el index fields en paginate*/
+		//$fields = !empty($this->fields) ? $this->fields : $this->controller->paginate['fields'];
+
+		if(!empty($this->fields)){
+			$fields = $this->fields;
+		}elseif( isset($this->controller->paginate['fields']) ){
+			$fields = $this->controller->paginate['fields'];
+		}
 
 		// loop through sorting columbns in GET
 		//for ( $i=0 ; $i<intval( $this->controller->request->query['iSortingCols'] ) ; $i++ ){

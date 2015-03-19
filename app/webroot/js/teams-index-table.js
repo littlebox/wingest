@@ -6,7 +6,7 @@ var TeamsIndexTable = function () {
 
 		// begin first table
 		LocalVar.dataTable = table.dataTable({
-			"ordering": false,
+			// "ordering": false,
 			"bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
 			"pagingType": "bootstrap_full_number",
 			"language": {
