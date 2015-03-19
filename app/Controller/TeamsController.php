@@ -17,6 +17,13 @@ class TeamsController extends AppController {
  */
 	public $components = array('Paginator', 'Session','DataTable');
 
+	public function test(){
+		$this->Team->contain('Player');
+		$this->Team->contain(array('Player','MatchLocal.id'));
+		$eq1 = $this->Team->find('first');
+		debug($eq1);die();
+	}
+
 /**
  * index method
  *
@@ -55,6 +62,8 @@ class TeamsController extends AppController {
 				}
 
 
+				// debug($this->request->data);die();
+
 				$this->request->data['Team']['id'] = $_SESSION['data']['Team']['id'];
 
 				foreach( $this->request->data['Player'] as $k => $player ){
@@ -79,10 +88,10 @@ class TeamsController extends AppController {
 				$this->layout = 'players_inscription';
 
 				$resultado = $this->Team->find('first', array(
-					'recursive' => 1,
+					'contain' => array('Player','Tournament'),
 					'conditions' => array(
 						'Team.id' => $_SESSION['data']['Team']['id'],
-						)
+						),
 				));
 
 				$this->set('datos', $resultado);
@@ -341,6 +350,8 @@ class TeamsController extends AppController {
 					'Team.name' => $this->request->data['Team']['name'],
 					)
 			));
+
+			// debug($data);die();
 
 			if(isset($data['Team']['password']) && password_verify($this->request->data['Team']['password'],$data['Team']['password'])){
 

@@ -43,15 +43,15 @@ class Match extends AppModel {
 			'fields' => '',
 			'order' => ''
 		),
-		'Team1' => array(
-			'className' => 'Team1',
+		'TeamLocal' => array(
+			'className' => 'Team',
 			'foreignKey' => 'team1_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'Team2' => array(
-			'className' => 'Team2',
+		'TeamVisitor' => array(
+			'className' => 'Team',
 			'foreignKey' => 'team2_id',
 			'conditions' => '',
 			'fields' => '',

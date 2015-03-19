@@ -19,6 +19,9 @@ class Team extends AppModel {
  */
 	public $displayField = 'name';
 
+	//Activa el comportamiento containable
+	public $actsAs = array('Containable');
+
 /**
  * Validation rules
  *
@@ -150,7 +153,7 @@ class Team extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'Match' => array(
+		'MatchLocal' => array(
 			'className' => 'Match',
 			'foreignKey' => 'team1_id',
 			'dependent' => false,
@@ -163,7 +166,7 @@ class Team extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'Match' => array(
+		'MatchVisitor' => array(
 			'className' => 'Match',
 			'foreignKey' => 'team2_id',
 			'dependent' => false,

@@ -1,9 +1,3 @@
-<?php
-	// debug($datos);die();
-	$cant = array(0,12,14,14);
-	$cantjugadores = $cant[$datos['Team']['tournament_id']];
-
-?>
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 	<head>
@@ -55,7 +49,7 @@
 								</a>
 							</li>
 
-							<?php for($i = 1; $i <= $cantjugadores; $i++): ?>
+							<?php for($i = 1; $i <= $datos['Tournament']['players_per_team']; $i++): ?>
 								<li class="tab">
 									<a href="#section-flip-<?= $i;?>">
 										<span class="span span-<?= $i;?>">J<?= $i;?></span>
@@ -223,10 +217,12 @@
 
 						</section>
 
-						<?php for($i = 1; $i <= $cantjugadores; $i++): ?>
-						<section id="section-flip-<?= $i;?>">
+
+						<?php for($i = 0; $i <= intval($datos['Tournament']['players_per_team']) - 1 ; $i++): //Bucle con el indice desfasado para que funcionen bien los tabs?>
+						<section id="section-flip-<?= $i + 1 ;?>">
 
 							<?php
+								//Si el array está vacio, lo seteo con '' para que no tire un warning que se ve feo
 								$datos['Player'][$i]['name'] = ( isset($datos['Player'][$i]['name']) )? $datos['Player'][$i]['name'] :'';
 								$datos['Player'][$i]['last_name'] = ( isset($datos['Player'][$i]['last_name']) )? $datos['Player'][$i]['last_name'] :'';
 								$datos['Player'][$i]['nickname'] = ( isset($datos['Player'][$i]['nickname']) )? $datos['Player'][$i]['nickname'] :'';
@@ -241,7 +237,7 @@
 							<div class="small-12 row">
 
 								<div class="small-12 large-4 columns">
-									<label for="data[Player]<?= $i?>[nombre]">Nombre</label>
+									<label for="data[Player]<?= $i?>[name]">Nombre</label>
 									<?= $this->Form->input("Player.".$i.".name", array(
 										'value' => $datos['Player'][$i]['name'],
 										'placeholder' => 'Javier',
