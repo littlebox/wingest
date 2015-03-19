@@ -15,7 +15,7 @@ class TeamsController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator', 'Session','DataTable');
+	public $components = array('Paginator', 'Session', 'DataTable');
 
 	public function test(){
 		$this->Team->contain('Player');

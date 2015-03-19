@@ -14,7 +14,7 @@ class TournamentsController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator', 'Session');
+	public $components = array('Paginator', 'Session', 'DataTable');
 
 /**
  * index method
@@ -22,8 +22,16 @@ class TournamentsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Tournament->recursive = 0;
-		$this->set('tournaments', $this->Paginator->paginate());
+		$this->layout = 'metrobox';
+
+		$this->paginate = array(
+			'fields' => array('id','name','players_per_team'),
+			'contain' => false, //Only brings Tournaments, whitout any asociated model
+		);
+
+		$this->DataTable->mDataProp = true;
+		$this->set('response', $this->DataTable->getResponse());
+		$this->set('_serialize','response');
 	}
 
 /**
@@ -90,17 +98,41 @@ class TournamentsController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
-		$this->Tournament->id = $id;
-		if (!$this->Tournament->exists()) {
-			throw new NotFoundException(__('Invalid tournament'));
+		$this->request->allowMethod('post');
+
+		if($this->request->is('ajax')){
+			$data = array(
+				'content' => '',
+				'error' => '',
+			);
+
+			$this->Tournament->id = $id;
+			if (!$this->Tournament->exists()) {
+				$data['error'] = __('Invalid Tournament');
+			} else {
+				if ($this->Tournament->delete()) {
+					$data['content'] = __('Tournament deleted');
+				} else {
+					$data['error'] = __('Tournament was not deleted');
+				}
+			}
+
+			$this->set(compact('data')); // Pass $data to the view
+			$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+
+		}else{
+
+			$this->Tournament->id = $id;
+			if (!$this->Tournament->exists()) {
+				throw new NotFoundException(__('Invalid Tournament'));
+			}
+			if ($this->Tournament->delete()) {
+				$this->Session->setFlash(__('Tournament deleted'), 'metrobox/flash_success');
+				return $this->redirect(array('action' => 'index'));
+			}
+			$this->Session->setFlash(__('Tournament was not deleted', 'metrobox/flash_danger'));
+			return $this->redirect(array('action' => 'index'));
 		}
-		$this->request->allowMethod('post', 'delete');
-		if ($this->Tournament->delete()) {
-			$this->Session->setFlash(__('The tournament has been deleted.'));
-		} else {
-			$this->Session->setFlash(__('The tournament could not be deleted. Please, try again.'));
-		}
-		return $this->redirect(array('action' => 'index'));
 	}
 
 	public function beforeFilter() {

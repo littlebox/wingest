@@ -16,6 +16,9 @@ class Tournament extends AppModel {
  */
 	public $displayField = 'name';
 
+	//Activa el comportamiento containable
+	public $actsAs = array('Containable');
+
 /**
  * Validation rules
  *
