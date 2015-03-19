@@ -6,7 +6,7 @@ var PlayersIndexTable = function () {
 
 		// begin first table
 		LocalVar.dataTable = table.dataTable({
-			"ordering": false,
+			// "ordering": false,
 			"bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
 			"pagingType": "bootstrap_full_number",
 			"language": {
@@ -22,7 +22,7 @@ var PlayersIndexTable = function () {
 				[10, 25, 50, 100, "All"] // change per page values here
 			],
 			"columnDefs": [
-				{ "orderable": false, "targets": 0 }
+				{"targets": 0 }
 			],
 			"pageLength": 50, // set the initial value
 			"bProcessing": true,
@@ -36,7 +36,7 @@ var PlayersIndexTable = function () {
 						},
 						orderable: false
 					},
-					{mData:"Player.name"},
+					{mData:"Player.name", orderable: true,},
 					{mData:"Player.last_name"},
 					{mData:"Team.name"},
 					{mData:"Player.dni"},
