@@ -460,7 +460,7 @@ msgstr ""
 #: View/Teams/admin_view.ctp:9
 #: View/Teams/view.ctp:9
 msgid "Name"
-msgstr "Nombre del equipo"
+msgstr "Nombre"
 
 #: View/Groups/view.ctp:14;51
 #: View/Users/admin_index.ctp:48

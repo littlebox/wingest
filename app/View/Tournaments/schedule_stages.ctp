@@ -33,9 +33,10 @@
 			<div class="form-body">
 
 				<?php
-					echo $this->Form->input('id', array('hidden' => true));
-					echo $this->Form->input('name');
-					echo $this->Form->input('players_per_team');
+					echo $this->Form->input('name',array('readonly' => 'readonly', 'disabled' => 'disabled', 'label' => array('class' => 'control-label col-md-3', 'text' => __('Tournament Name'))));
+					echo $this->Form->input('number_of_teams');
+					echo $this->Form->input('number_of_zones');
+					echo $this->Form->input('qualifying_teams_per_group');
 				?>
 
 			</div>
@@ -82,10 +83,10 @@
 
 <?php $this->append('pageScripts'); ?>
 	<?= $this->Html->script('global-setups');?>
-	<?= $this->Html->script('tournaments-add-edit.js');?>
+	<?= $this->Html->script('tournaments-schedule-stages.js');?>
 	<script>
 		jQuery(document).ready(function() {
-			TournamentAddEdit.init();
+			TournamentScheduleStages.init();
 		});
 	</script>
 <?php $this->end(); ?>

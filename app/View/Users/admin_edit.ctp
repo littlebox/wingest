@@ -96,12 +96,11 @@
 								'div' => false,
 								'class' => 'btn green',
 							));
-							echo $this->Form->end();
 						?>
 					</div>
 				</div>
 			</div>
-		</form>
+		<?php echo $this->Form->end(); ?>
 		<!-- END FORM-->
 	</div>
 </div>
