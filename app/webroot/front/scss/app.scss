@@ -1,0 +1,212 @@
+@import "settings";
+//@import "foundation";
+
+// Or selectively include components
+@import
+//   "foundation/components/accordion",
+//   "foundation/components/alert-boxes",
+//   "foundation/components/block-grid",
+//   "foundation/components/breadcrumbs",
+//   "foundation/components/button-groups",
+"foundation/components/buttons",
+//   "foundation/components/clearing",
+//   "foundation/components/dropdown",
+//   "foundation/components/dropdown-buttons",
+//   "foundation/components/flex-video",
+//   "foundation/components/forms",
+"foundation/components/grid",
+//   "foundation/components/inline-lists",
+//   "foundation/components/joyride",
+//   "foundation/components/keystrokes",
+//   "foundation/components/labels",
+//   "foundation/components/magellan",
+//   "foundation/components/orbit",
+//   "foundation/components/pagination",
+//   "foundation/components/panels",
+//   "foundation/components/pricing-tables",
+//   "foundation/components/progress-bars",
+//   "foundation/components/reveal",
+//   "foundation/components/side-nav",
+//   "foundation/components/split-buttons",
+//   "foundation/components/sub-nav",
+//   "foundation/components/switches",
+//   "foundation/components/tables",
+//   "foundation/components/tabs",
+//   "foundation/components/thumbs",
+//   "foundation/components/tooltips",
+//   "foundation/components/top-bar",
+"foundation/components/type",
+//   "foundation/components/offcanvas",
+"foundation/components/visibility";
+
+@import url(http://fonts.googleapis.com/css?family=Roboto);
+
+$img-url: "/front/img";
+
+*, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+.clearfix:before, .clearfix:after { content: ''; display: table; }
+.clearfix:after { clear: both; }
+
+@media #{$small-up} {
+	body{
+		background-color: #e0e0e0;
+	}
+
+	#load{
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: 9;
+		background: rgba(0, 0, 0, 0.7);
+
+		#progress-bar{
+		width: 100%;
+		position: absolute;
+		top: 0;
+		left: -100%;
+		height: 20px;
+		background: #FFF;
+		}
+	}
+
+	//Sub section
+	$sub-section-height: rem-calc(130);
+	$sub-section-spacing: rem-calc(0 0 10);
+	$sub-section-title-size: rem-calc(16);
+
+	.sub-section:hover{
+		opacity:1;
+		transition:opacity 200ms ease-in-out;
+	}
+
+	.sub-section{
+		height:$sub-section-height;
+		margin:$sub-section-spacing;
+		background:#919191;
+		overflow:hidden;
+		opacity:0.7;
+		transition:opacity 200ms ease-in-out;
+		padding:0 !important;
+
+		h1{
+			text-transform:uppercase;
+			font-size:$sub-section-title-size;
+			color:white;
+			font-weight:bold;
+		}
+	}
+
+
+	//Slider
+	$slider-controls-height: rem-calc(20);
+
+	.slider{
+		position:relative;
+		will-change:transform;
+		height:$sub-section-height;
+		cursor:pointer;
+		.slide{
+		height:$sub-section-height;
+		}
+
+		.shadow-side{
+		height:$sub-section-height;
+		background-image:url('#{$img-url}/slider-reach-side-shadow.svg');
+		width: 70px;
+		position: absolute;
+		background-size: contain;
+		background-repeat: no-repeat;
+		left: -70px;
+
+		&.active{
+			transform: translateX(35px);
+			transition: transform 800ms ease-in-out;
+		}
+		}
+	}
+
+	.controls{
+		position:absolute;
+		top:$sub-section-height - $slider-controls-height;
+		left:rem-calc(320 - 60px);
+		height: $slider-controls-height;
+
+		div.control-back{
+			z-index:1;
+			position:absolute;
+			width:rem-calc(40); //Setear con js!!!
+			height:$slider-controls-height;
+			left:$slider-controls-height;
+			background:#bcbcbc;
+
+			div.control{
+			position:absolute;
+			background-image:url('#{$img-url}/slider-control.svg');
+			background-size:$slider-controls-height;
+			width:$slider-controls-height;
+			height:$slider-controls-height;
+			}
+
+		}
+
+		div.positions{
+			z-index:2;
+			position:absolute;
+			height:$slider-controls-height;
+			width:rem-calc(80);
+
+			div{
+
+			z-index:2;
+			float:left;
+			width:$slider-controls-height;
+			height:$slider-controls-height;
+
+			a{
+
+			}
+			&:nth-child(1){
+			background-image:url('#{$img-url}/slider-controls-first.svg');
+			background-size:$slider-controls-height;
+			}
+			}
+
+			.selector{
+				background-image:url('#{$img-url}/slider-controls-background.svg');
+				background-size:$slider-controls-height;
+			}
+		}
+
+		}
+
+
+	#manofthematch{
+		background-image:url('#{$img-url}/manofthematch-back.png');
+		background-size:cover;
+	}
+	#teamsofthematch{
+		background-image:url('#{$img-url}/fondo2.png');
+		background-size:cover;
+	}
+
+}
+@media #{$small-only} { }
+
+@media #{$medium-up} { }
+@media #{$medium-only} { }
+
+@media #{$large-up} {
+	body{
+		background: url('#{$img-url}/background.svg');
+		background-size: cover;
+	}
+}
+@media #{$large-only} { }
+
+@media #{$xlarge-up} { }
+@media #{$xlarge-only} { }
+
+@media #{$xxlarge-up} { }
+@media #{$xxlarge-only} { }
+
+

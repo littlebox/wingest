@@ -21,7 +21,7 @@ Like: www.facebook.com/littlefacebox
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<meta content="" name="description"/>
 	<meta content="" name="author"/>
-	<link rel="icon" type="image" href="img/twfavicon.png" />
+	<link rel="icon" type="image" href="/img/twfavicon.png" />
 	<!-- BEGIN GLOBAL MANDATORY STYLES -->
 	<?php
 		echo $this->Html->css('googlefonts');
