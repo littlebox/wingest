@@ -10,34 +10,34 @@
 
 		<div class="slider">
 
-		<div class="shadow-side"></div>
+			<!--<div class="shadow-side"></div>-->
 
-		<div id="manofthematch" class="small-6 slide left">
-			<h1>Jugador de la fecha</h1>
-		</div>
-
-		<div id="teamsofthematch" class="small-6 slide left">
-			<h1>Equipos de la fecha</h1>
-		</div>
-
-		</div>
-
-		<div class="controls">
-
-			<div class="positions">
-				<div></div>
-				<div class="selector"><a href="#"></a></div>
-				<div class="selector"><a href="#"></a></div>
+			<div id="manofthematch" class="small-6 slide left">
+				<h1>Jugador de la fecha</h1>
 			</div>
 
-		<div class="control-back">
-			<div class="control"></div>
-		</div>
+			<div id="teamsofthematch" class="small-6 slide left">
+				<h1>Equipos de la fecha</h1>
+			</div>
 
 		</div>
 
+			<!--<div class="controls">
 
-	</div>
+				<div class="positions">
+					<div></div>
+					<div class="selector"><a href="#"></a></div>
+					<div class="selector"><a href="#"></a></div>
+				</div>
+
+				<div class="control-back">
+					<div class="control"></div>
+				</div>
+
+			</div>-->
+
+
+		</div>
 
 	</div>
 
@@ -51,17 +51,17 @@
 
 		<div class="slider">
 
-		<div id="goleadores" class="small-4 slide left">
-			<h1>Goleadores</h1>
-		</div>
+			<div id="goleadores" class="small-4 slide left">
+				<h1>Goleadores</h1>
+			</div>
 
-		<div class="small-4 slide left">
-			<h1>Prueba 2</h1>
-		</div>
+			<div class="small-4 slide left">
+				<h1>Prueba 2</h1>
+			</div>
 
-		<div class="small-4 slide left">
-			<h1>Prueba 3</h1>
-		</div>
+			<div class="small-4 slide left">
+				<h1>Prueba 3</h1>
+			</div>
 
 		</div>
 
