@@ -4,33 +4,6 @@ Wingest = {
 
 	sections: [],
 
-	init: function(){
-		Wingest.setSliders();
-
-		//Set history object when the page is loaded
-		window.history.replaceState({'url':location.pathname},'Title',location.pathname)
-		
-		//When the history changes
-		window.addEventListener('popstate', Wingest.historyChange);
-
-		Wingest.setNavigation();
-
-	},
-
-	setNavigation: function(){
-		//inside a for loop is faster, but this is prettier
-		[].forEach.call(document.querySelectorAll('section .sub-section'),
-			function(ss){
-				if(ss.hasAttribute('data-href')){
-
-					//I don't like this part, even if it works. Gotta change it
-					ss.addEventListener('click',Wingest.loadSection.bind(null,ss.getAttribute('data-href')))
-
-				}
-			}
-		)
-	},		
-
 	createSlider: function(obj) {
 
 		var slider = {
@@ -43,7 +16,7 @@ Wingest = {
 
 			controlSkeleton: '<div class=\"controls\"><div class=\"positions\"><div></div></div><div class=\"control-back\"><div class=\"control\"></div></div></div>',
 
-			controlSelectorSkeleton: '<div class="selector"><a href="#"></a></div></div>',
+			controlSelectorSkeleton: '<div class=\"selector\"><a href=\"#\"></a></div></div>',
 
 			controlShadow: '<div class="shadow-side"></div>',
 
@@ -70,14 +43,13 @@ Wingest = {
 				o.prepend(this.controlShadow);
 				p.append(this.controlSkeleton);
 				o.append(this.controlShadow);
-				//append as many controls as slides are inside and set data index for click ;)
+				//append as many controls as slides are inside
 				for(i=0;i < this.slides; i++){
-					p.find('.positions').append(this.controlSelectorSkeleton.slice(0,21) +' data-index='+i+' '+this.controlSelectorSkeleton.slice(21,50));
+					p.find('.positions').append(this.controlSelectorSkeleton);
 				}
 
 				//set variables in object
 				this.shadow = o.find('.shadow-side')[0]
-				this.controls = p.find('.controls');
 				this.control = p.find('.controls .control');
 				this.controlWidth = p.find('.controls .control').width();
 				this.slideWidth = o.find('.slide').width();
@@ -106,19 +78,16 @@ Wingest = {
 				this.obj.addEventListener('touchmove',this.touchmove.bind(null,this));
 				this.obj.addEventListener('touchend',this.touchend.bind(null,this));
 
-				if(this.controls[0]){
-					this.controls[0].addEventListener('click',this.click.bind(null,this))
+				if(this.control[0]){
+					this.control[0].addEventListener('click',this.click.bind(null,this))
 				}
 
 			},
 
 			click: function(sl,ev){
 
-				if(i = $(ev.target).attr('data-index')){
-					console.log("curpos:%s, i:%s",sl.curpos,i)
-					sl.moveTo(i,0.2*(Math.abs(sl.curpos - i)))
-				}
-
+				console.log('click')
+				sl.moveTo(2,1)
 
 			},
 
@@ -194,7 +163,6 @@ Wingest = {
 			moveForward: function(t){
 
 				if(this.curpos != this.slides - 1){
-					console.log(this.curpos)
 					this.curpos++;
 					}
 				TweenLite.to(this.obj,Math.abs(t),{x:-this.slideWidth*this.curpos, ease:Power4.easeOut})
@@ -214,13 +182,23 @@ Wingest = {
 			moveTo: function(pos,t){
 				TweenLite.to(this.obj,Math.abs(t),{x:-this.slideWidth*pos, ease:Power4.easeOut})
 				TweenLite.to(this.control,Math.abs(t),{x:this.controlWidth*pos, ease:Power4.easeOut})
-				this.curpos = pos;
 				}
 		}
 
 		slider.initSlider();
 		return slider;
 
+	},
+
+	init: function(){
+		Wingest.setSliders();
+
+		//Set history object when the page is loaded
+		window.history.replaceState({'url':location.pathname},'Title',location.pathname)
+		
+		//When the history changes
+		window.addEventListener('popstate', Wingest.historyChange);
+		// Wingest.loadSection();
 	},
 
 	historyChange: function(){
@@ -240,8 +218,6 @@ Wingest = {
 		sectionLoaded = function(){
 			$('#container').html(xhr.response);
 			history.pushState({'url':url},'Title',url)
-			Wingest.setSliders();
-			Wingest.setNavigation();
 		}
 
 		xhr.addEventListener('load',sectionLoaded)
