@@ -134,7 +134,7 @@ class TournamentsController extends AppController {
 				$this->Session->setFlash(__('Tournament deleted'), 'metrobox/flash_success');
 				return $this->redirect(array('action' => 'index'));
 			}
-			$this->Session->setFlash(__('Tournament was not deleted', 'metrobox/flash_danger'));
+			$this->Session->setFlash(__('Tournament was not deleted'), 'metrobox/flash_danger');
 			return $this->redirect(array('action' => 'index'));
 		}
 	}
@@ -163,7 +163,7 @@ class TournamentsController extends AppController {
 			if ( $this->Tournament->saveAssociated($this->request->data) ) {
 				$this->Session->setFlash(__('Stages were sheduled.'), 'metrobox/flash_success');
 			} else {
-				$this->Session->setFlash(__('A problem happened whe try to schedule stages', 'metrobox/flash_danger'));
+				$this->Session->setFlash(__('A problem happened whe try to schedule stages'), 'metrobox/flash_danger');
 			}
 			return $this->redirect(array('controller' => 'tournaments','action' => 'index'));
 		} else {
@@ -173,6 +173,50 @@ class TournamentsController extends AppController {
 		}
 
 	}
+
+	public function schedule_zones ($id = null) {
+		//Check if Tournament exist
+		if (!$this->Tournament->exists($id)) {
+			throw new NotFoundException(__('Invalid tournament'));
+		}
+
+		$this->layout = 'metrobox';
+
+		if ($this->request->is(array('ajax'))) {
+			//Check if request is post or put
+			if ($this->request->is('post') || $this->request->is('put')) {
+
+				$this->loadModel('Zone');
+
+				//Return array
+				$data = array(
+					'content' => '',
+					'error' => '',
+				);
+
+				$jsonDecoded = json_decode($this->request->data['Tournament']['json'], true);
+
+				if ( $this->Zone->saveAll($jsonDecoded) ) {
+					$data['content'] = __('The changes has been saved');
+				}else{
+					$data['error'] = __('The changes could not be saved. Please, try again.');
+				}
+
+				$this->set(compact('data')); // Pass $data to the view
+				$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+
+
+			} else {
+				throw new BadRequestException(__('Invalid request type (has to be post or put)'));
+			}
+		} else {
+			//Si la consulta no es AJAZ, devuelve los TOrneos, equipos y zonas para msotrar en la vista
+			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id), 'contain' => array('Team.id','Team.name','Zone.id','Zone.name','Zone.Team' => array('fields' => array('id', 'name'))));
+			$this->set('tournament', $this->Tournament->find('first', $options));
+		}
+
+	}
+
 
 	public function beforeFilter() {
 		parent::beforeFilter();

@@ -26,16 +26,22 @@
 					<div class="tab-content">
 
 						<div class="tab-pane active" id="tournament_data">
-							<dl>
-								<dt><?php echo 'Nombre del equipo'; ?></dt>
-								<dd>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><?php echo 'Nombre del Torneo'; ?></h3>
+								</div>
+								<div class="panel-body">
 									<?php echo h($tournament['Tournament']['name']); ?>
-								</dd>
-								<dt><?php echo 'Jugadores por equipo'; ?></dt>
-								<dd>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><?php echo 'Jugadores por equipo'; ?></h3>
+								</div>
+								<div class="panel-body">
 									<?php echo h($tournament['Tournament']['players_per_team']); ?>
-								</dd>
-							</dl>
+								</div>
+							</div>
 						</div>
 
 						<div class="tab-pane" id="tournament_groups">
