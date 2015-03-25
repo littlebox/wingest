@@ -2,40 +2,23 @@
 
 	<div class="row">
 
-	<div id="resultados" class="sub-section columns small-12 medium-6">
-		<h1>Resultados</h1>
-	</div>
-
-	<div class="sub-section columns small-12 medium-6">
-
-		<div class="slider">
-
-			<!--<div class="shadow-side"></div>-->
-
-			<div id="manofthematch" class="small-6 slide left">
-				<h1>Jugador de la fecha</h1>
-			</div>
-
-			<div id="teamsofthematch" class="small-6 slide left">
-				<h1>Equipos de la fecha</h1>
-			</div>
-
+		<div id="resultados" class="sub-section columns small-12 medium-6">
+			<h1>Resultados</h1>
 		</div>
 
-			<!--<div class="controls">
+		<div class="sub-section columns small-12 medium-6">
 
-				<div class="positions">
-					<div></div>
-					<div class="selector"><a href="#"></a></div>
-					<div class="selector"><a href="#"></a></div>
+			<div class="slider">
+
+				<div id="manofthematch" class="small-6 slide left">
+					<h1>Jugador de la fecha</h1>
 				</div>
 
-				<div class="control-back">
-					<div class="control"></div>
+				<div id="teamsofthematch" class="small-6 slide left">
+					<h1>Equipos de la fecha</h1>
 				</div>
 
-			</div>-->
-
+			</div>
 
 		</div>
 
