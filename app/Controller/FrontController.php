@@ -20,7 +20,7 @@ class FrontController extends AppController {
 	}
 
 	public function resultados(){
-		
+
 		$this->render('resultados');
 
 	}

@@ -2,6 +2,7 @@ Wingest = {
 
 	sliders: [],
 
+	//user for caching, not implemented yet
 	sections: [],
 
 	init: function(){
@@ -9,9 +10,9 @@ Wingest = {
 
 		//Set history object when the page is loaded
 		window.history.replaceState({'url':location.pathname},'Title',location.pathname)
-		
+
 		//When the history changes
-		window.addEventListener('popstate', Wingest.historyChange);
+		window.addEventListener('popstate', Wingest.historyChange.bind(null,true,history.state.url));
 
 		Wingest.setNavigation();
 
@@ -24,12 +25,12 @@ Wingest = {
 				if(ss.hasAttribute('data-href')){
 
 					//I don't like this part, even if it works. Gotta change it
-					ss.addEventListener('click',Wingest.loadSection.bind(null,ss.getAttribute('data-href')))
+					ss.addEventListener('click',Wingest.historyChange.bind(null,false,ss.getAttribute('data-href')))
 
 				}
 			}
 		)
-	},		
+	},
 
 	createSlider: function(obj) {
 
@@ -62,7 +63,7 @@ Wingest = {
 
 				o = $(this.obj);
 				p = o.parent();
-				
+
 				this.slides = o.find('.slide').length;
 
 
@@ -81,7 +82,7 @@ Wingest = {
 				this.control = p.find('.controls .control');
 				this.controlWidth = p.find('.controls .control').width();
 				this.slideWidth = o.find('.slide').width();
-				
+
 				//set width (this should be another function to call on window resize)
 				p.find('.positions')[0].style.width = (this.slides*20 + 40)+'px';
 				if(p.find('.controls').length != 0){
@@ -91,7 +92,7 @@ Wingest = {
 				o.attr('data-index', Wingest.sliders.length)
 
 				this.setHandlers();
-			
+
 			},
 
 			tstart:0, //touch start time
@@ -219,13 +220,16 @@ Wingest = {
 		}
 
 		slider.initSlider();
-		return slider;
+		//return slider;
 
 	},
 
-	historyChange: function(){
-		console.log(history.state);
-		Wingest.loadSection(history.state.url)
+	historyChange: function(ispop,url,ev){
+		console.log(ispop,url);
+
+		if(!ispop){history.pushState({'url':url},'',url)}
+
+		Wingest.loadSection(history.state.url);
 	},
 
 	loadSection: function(url){
@@ -239,12 +243,11 @@ Wingest = {
 
 		sectionLoaded = function(){
 			$('#container').html(xhr.response);
-			history.pushState({'url':url},'Title',url)
 			Wingest.setSliders();
 			Wingest.setNavigation();
 		}
 
-		xhr.addEventListener('load',sectionLoaded)
+		xhr.addEventListener('load', sectionLoaded)
 
 
 	},
@@ -253,7 +256,7 @@ Wingest = {
 
 		$('section .slider').each(function(k,v){
 			var $v = $(v)
-			
+
 			//set width equals to elements inside
 			v.style.width = $v.find('.slide').length * 100 +'%'
 
@@ -273,4 +276,4 @@ Wingest = {
 };
 
 Wingest.init();
-sl = Wingest.sliders[0];
+//sl = Wingest.sliders[0];
