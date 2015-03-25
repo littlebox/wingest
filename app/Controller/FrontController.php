@@ -8,21 +8,21 @@ class FrontController extends AppController {
 		parent::beforeFilter();
 		$this->Auth->allow('home','resultados');
 
-		$this->layout = ($this->request->header('X-Request-With') == 'XMLHttpRequest')?false:'wingest_front';
-
-		// debug($this->request->header('X-Request-With'));die();
+		//if is ajax, set layout to false, and retrive only html for container
+		$this->layout = ($this->request->header('X-Request-With') == 'XMLHttpRequest') ? false : 'wingest_front';
 
 	}
 
 	public function home(){
-		// $this->layout = false;
+
 		$this->render ('home');
-		// $this->autoRender = false;
+
 	}
 
 	public function resultados(){
-		echo 'asdf';
-		$this->autoRender = false;
+		
+		$this->render('resultados');
+
 	}
 
 }
