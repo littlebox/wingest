@@ -84,7 +84,7 @@ Wingest = {
 				this.slideWidth = o.find('.slide').width();
 
 				//set width (this should be another function to call on window resize)
-				p.find('.positions')[0].style.width = (this.slides*20 + 40)+'px';
+				p.find('.positions')[0].style.width = (this.slides*20 + 20)+'px';
 				if(p.find('.controls').length != 0){
 					p.find('.controls')[0].style.left = (this.slideWidth - p.find('.positions').width()) + 'px';
 				}

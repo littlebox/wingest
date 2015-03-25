@@ -19,9 +19,9 @@ class FrontController extends AppController {
 
 	}
 
-	public function resultados(){
+	public function results(){
 
-		$this->render('resultados');
+		$this->render('results');
 
 	}
 

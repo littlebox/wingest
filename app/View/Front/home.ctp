@@ -2,7 +2,7 @@
 
 	<div class="row">
 
-		<div id="resultados" data-href="<?= $this->Html->url('resultados'); ?>" class="sub-section columns small-12 medium-6">
+		<div id="results" data-href="<?= $this->Html->url('results'); ?>" class="sub-section columns small-12 medium-6">
 			<h1>Resultados</h1>
 		</div>
 
