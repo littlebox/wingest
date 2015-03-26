@@ -6,7 +6,7 @@ class FrontController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('home','resultados');
+		$this->Auth->allow('home','results');
 
 		//if is ajax, set layout to false, and retrive only html for container
 		$this->layout = ($this->request->header('X-Request-With') == 'XMLHttpRequest') ? false : 'wingest_front';

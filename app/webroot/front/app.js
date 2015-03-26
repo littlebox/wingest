@@ -116,7 +116,7 @@ Wingest = {
 			click: function(sl,ev){
 
 				if(i = $(ev.target).attr('data-index')){
-					console.log("curpos:%s, i:%s",sl.curpos,i)
+					// console.log("curpos:%s, i:%s",sl.curpos,i)
 					sl.moveTo(i,0.2*(Math.abs(sl.curpos - i)))
 				}
 

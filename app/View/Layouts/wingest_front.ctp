@@ -65,10 +65,12 @@
 <?php
 	echo $this->Html->script('/front/assets/jquery/dist/jquery.min.js');
 	echo $this->Html->script('/front/assets/foundation/js/foundation.min.js');
+	echo $this->Html->script('/front/assets/foundation/js/foundation/foundation.equalizer.js');
 	echo $this->Html->script('/front/app.js');
 ?>
 <script>
 	jQuery(document).ready(function() {
+		$(document).foundation()
 		// Wingest.init();
 	});
 </script>

@@ -39,7 +39,7 @@
 			</div>
 
 			<div class="small-4 slide left">
-				<h1>Prueba 2</h1>
+				<h1>Goldeador de la fecha</h1>
 			</div>
 
 			<div class="small-4 slide left">
