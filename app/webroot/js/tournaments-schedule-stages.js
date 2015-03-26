@@ -61,6 +61,82 @@ var TournamentScheduleStages = {
 
 	init: function (){
 		TournamentScheduleStages.validateTournament();
+		TournamentScheduleStages.addHandlers();
+	},
+
+	addHandlers: function(){
+
+		var canteq;
+		var cantgr;
+
+		scanteq = document.getElementById('TournamentNumberOfTeams');
+		scantgr = document.getElementById('TournamentNumberOfZones');
+		scantcl = document.getElementById('TournamentQualifyingTeamsPerGroup');
+
+		scanteq.addEventListener('change',function(){
+			canteq = $(scanteq).val() ;
+			cantgrupos(canteq)
+		})
+
+		scantgr.addEventListener('change',function(){
+			cantgr = scantgr.querySelectorAll('option')[scantgr.selectedIndex].getAttribute('value') ;
+			cantequiposclasifican(canteq,cantgr)
+		})
+
+		//funciones
+		cantgrupos = function(canteq){
+			scantgr.innerHTML = '';
+			entro = false;
+
+			for(i=2;i<canteq;i++){
+				if(canteq % i == 0){
+					entro = true;
+					option = document.createElement('option');
+					option.setAttribute('value', i);
+					option.textContent = i+' grupos de '+ canteq/i +' equipos';
+					if((canteq/i)%2 != 0){
+						option.textContent += ' (equipos con fecha libre!)'
+					}
+					scantgr.appendChild(option)
+				}
+			}
+
+			if(!entro){
+				option = document.createElement('option');
+				option.textContent = 'Numeros primos NO. No puedo armar grupos asi. La concha de la lora!';
+				scantgr.appendChild(option)
+			}
+		}
+
+		cantequiposclasifican = function(canteq,cantgr){
+			scantcl.innerHTML = '';
+
+			for( i=1; i < canteq/cantgr; i++){ // recorro los equipos desde 1 hasta todos menos uno
+				canteqcl = cantgr * i; // cant de eq que clasifican
+
+				option = document.createElement('option');
+				option.setAttribute('value', i);
+				option.textContent = i;
+
+				if((canteqcl & (canteqcl - 1)) == 0){ //comprueba si es potencia de 2. Lo vienen usando asi desde que se invento la computadora
+					scantcl.appendChild(option)
+				}else{
+					option.textContent += ' - Clasifican los mejores '+ (i+1) +'º?'
+					scantcl.appendChild(option)
+				}
+
+			}
+
+		}
+
+
+		function factorial(num){
+			var rval=1;
+			for (var i = 2; i <= num; i++)
+				rval = rval * i;
+			return rval;
+		}
+
 	}
 
 }

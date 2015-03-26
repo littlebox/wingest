@@ -217,6 +217,10 @@ class TournamentsController extends AppController {
 
 	}
 
+	public function schedule_matches(){
+
+	}
+
 
 	public function beforeFilter() {
 		parent::beforeFilter();

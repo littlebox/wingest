@@ -34,9 +34,10 @@
 
 				<?php
 					echo $this->Form->input('name',array('readonly' => 'readonly', 'disabled' => 'disabled', 'label' => array('class' => 'control-label col-md-3', 'text' => __('Tournament Name'))));
-					echo $this->Form->input('number_of_teams');
-					echo $this->Form->input('number_of_zones');
-					echo $this->Form->input('qualifying_teams_per_group');
+					echo $this->Form->input('number_of_teams',array('type'=> 'number'));
+					echo $this->Form->input('number_of_zones',array('type'=> 'select'));
+					echo $this->Form->input('number_of_playoffs',array('type'=> 'select','options' => array(1, 2, 3, 4, 5)));
+					echo $this->Form->input('qualifying_teams_per_group',array('type'=> 'select'));
 				?>
 
 			</div>
