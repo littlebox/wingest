@@ -23,10 +23,41 @@
 				</div>
 				<div class="portlet-body">
 					<div class="dd sortable-list">
-						<ol class="dd-list">
+						<ol id="list-0" class="dd-list">
 							<?php foreach ($tournament['Team'] as $team): ?>
 								<?php if (!in_array($team['id'], $equiposUbicados)): ?>
-									<li draggable="true" class="dd-item" id="<?= $team['id']?>"><div class="dd-handle"><?= $team['name']?></div></li>
+
+									<?php
+
+										//Set team colors for the badge. This is pure aesthetics.
+										//By the way, the badge is awful. We gotta make one prettier.
+
+										if( $team['main_shirt_color'] != ''){
+													$main_color = $team['main_shirt_color'];
+												}else{
+													$main_color = '#0F570F';
+												}
+												if( $team['main_shirt_color'] != ''){
+													$sec_color = $team['secondary_shirt_color'];
+												}else{
+													$sec_color = '#FFDA00';
+												}
+									?>
+
+									<li draggable="true" class="dd-item" id="<?= $team['id']?>">
+										<div class="dd-handle">
+											<span>
+												<svg width="1em" height="1em" viewbox="0 0 100 100">
+												  <g transform="translate(0,-952.36223)">
+												    <path fill="<?php echo $main_color; ?>" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+												       d="m 0,952.36224 50,0 0,61.99996 0,38 -50,-38 z" />
+												    <path fill="<?php echo $sec_color; ?>" d="m 100,952.36224 -50,0 0,61.99996 0,38 50,-38 z"
+												       style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+												  </g>
+												</svg>
+											</span>
+											<?= $team['name']?></div>
+									</li>
 								<?php endif; ?>
 							<?php endforeach; ?>
 						</ol>
@@ -42,17 +73,45 @@
 					<div class="portlet box green-haze">
 						<div class="portlet-title">
 							<div class="caption">
-								<i class="fa fa-shield"></i><?= $zone['name']?>
+								<i class="fa fa-shield"></i>GRUPO <?= $zone['name']?>
+							</div>
+							<div class="actions">
+								<span class="qty_teams"><?= count($zone['Team'])?></span>/<span class="total_qty_teams">6</span> <!-- Verify qty of teams allowed by zone! -->
 							</div>
 						</div>
 						<div class="portlet-body">
 							<div class="dd sortable-list">
-								<ol class="dd-list" id="<?= $zone['id']?>">
+								<ol class="zone dd-list" id="list-<?= $zone['id']?>">
 									<?php if(!empty($zone['Team'])):
-										foreach ($zone['Team'] as $team): ?>
-											<li class="dd-item" data-id="<?= $team['id']?>">
-												<div class="dd-handle"><?= $team['name']?></div>
-											</li>
+										foreach ($zone['Team'] as $team):
+
+											if( $team['main_shirt_color'] != ''){
+												$main_color = $team['main_shirt_color'];
+											}else{
+												$main_color = '#0F570F';
+											}
+											if( $team['main_shirt_color'] != ''){
+												$sec_color = $team['secondary_shirt_color'];
+											}else{
+												$sec_color = '#FFDA00';
+											}
+										?>
+
+										<li draggable="true" class="dd-item" id="<?= $team['id']?>">
+											<div class="dd-handle">
+												<span>
+													<svg width="1em" height="1em" viewbox="0 0 100 100">
+													  <g transform="translate(0,-952.36223)">
+													    <path fill="<?php echo $main_color; ?>" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+													       d="m 0,952.36224 50,0 0,61.99996 0,38 -50,-38 z" />
+													    <path fill="<?php echo $sec_color; ?>" d="m 100,952.36224 -50,0 0,61.99996 0,38 50,-38 z"
+													       style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+													  </g>
+													</svg>
+												</span>
+												<?= $team['name']?></div>
+										</li>
+
 										<?php endforeach;
 									else:?>
 										<div class="dd-empty"></div>
@@ -99,7 +158,6 @@
 <?php $this->end(); ?>
 
 <?php $this->append('pagePlugins'); ?>
-	<?= $this->Html->script('/plugins/jquery-nestable/jquery.nestable');?>
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/spin.min');?>
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.min');?>
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.jquery.min');?>

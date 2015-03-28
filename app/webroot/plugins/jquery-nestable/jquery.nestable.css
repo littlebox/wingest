@@ -1,7 +1,8 @@
 /**
  * Nestable
  */
-.dd-list { display: block; position: relative; margin: 0; padding: 0; list-style: none; }
+.dd-list { display: block; position: relative; margin: 0; padding: 10px; list-style: none; cursor: pointer;
+  background: #F5F5F5;}
 .dd-list .dd-list { padding-left: 30px; }
 .dd-collapsed .dd-list { display: none; }
 
