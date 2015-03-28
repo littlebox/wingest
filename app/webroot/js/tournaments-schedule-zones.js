@@ -44,6 +44,8 @@ var TournamentScheduleZones = {
 				//if target is ol and has empty div, remove it and append li
 				ev.target.removeChild(ev.target.children[0]);
 				ev.target.appendChild(document.getElementById(id));
+			}else if(ev.target.className == 'dd-handle'){
+				ev.target.parentNode.parentNode.appendChild(document.getElementById(id));
 			}
 
 			if(document.getElementById(idParent).childElementCount == 0){
