@@ -211,7 +211,7 @@ class TournamentsController extends AppController {
 			}
 		} else {
 			//Si la consulta no es AJAZ, devuelve los TOrneos, equipos y zonas para msotrar en la vista
-			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id), 'contain' => array('Team.id','Team.name','Team.main_shirt_color','Team.secondary_shirt_color','Zone.id','Zone.name','Zone.Team' => array('fields' => array('id', 'name'))));
+			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id), 'contain' => array('Team.id','Team.name','Team.main_shirt_color','Team.secondary_shirt_color','Zone.id','Zone.name','Zone.Team' => array('fields' => array('id', 'name','main_shirt_color','secondary_shirt_color'))));
 			$this->set('tournament', $this->Tournament->find('first', $options));
 		}
 

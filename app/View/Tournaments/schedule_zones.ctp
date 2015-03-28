@@ -37,31 +37,30 @@
 										//Set team colors for the badge. This is pure aesthetics.
 										//By the way, the badge is awful. We gotta make one prettier.
 
-										if( $team['main_shirt_color'] != ''){
-													$main_color = $team['main_shirt_color'];
-												}else{
-													$main_color = '#0F570F';
-												}
-												if( $team['main_shirt_color'] != ''){
-													$sec_color = $team['secondary_shirt_color'];
-												}else{
-													$sec_color = '#FFDA00';
-												}
+										if(!empty($team['main_shirt_color'])){
+											$main_color = $team['main_shirt_color'];
+										}else{
+											$main_color = '#0F570F';
+										}
+										if(!empty($team['main_shirt_color'])){
+											$sec_color = $team['secondary_shirt_color'];
+										}else{
+											$sec_color = '#FFDA00';
+										}
 									?>
 
 									<li draggable="true" class="dd-item" id="<?= $team['id']?>">
 										<div class="dd-handle">
 											<span>
 												<svg width="1em" height="1em" viewbox="0 0 100 100">
-												  <g transform="translate(0,-952.36223)">
-												    <path fill="<?php echo $main_color; ?>" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-												       d="m 0,952.36224 50,0 0,61.99996 0,38 -50,-38 z" />
-												    <path fill="<?php echo $sec_color; ?>" d="m 100,952.36224 -50,0 0,61.99996 0,38 50,-38 z"
-												       style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-												  </g>
+													<g transform="translate(0,-952.36223)">
+														<path fill="<?php echo $main_color; ?>" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 0,952.36224 50,0 0,61.99996 0,38 -50,-38 z" />
+														<path fill="<?php echo $sec_color; ?>" d="m 100,952.36224 -50,0 0,61.99996 0,38 50,-38 z" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+													</g>
 												</svg>
 											</span>
-											<?= $team['name']?></div>
+											<?= $team['name']?>
+										</div>
 									</li>
 								<?php endif; ?>
 							<?php endforeach; ?>
@@ -74,7 +73,7 @@
 
 			<?php foreach ($tournament['Zone'] as $zone): ?>
 
-				<div  style="flex:1 0 200px; margin:0 1em 1em 0">
+				<div style="flex:1 0 200px; margin:0 1em 1em 0">
 					<div class="portlet box green-haze">
 						<div class="portlet-title">
 							<div class="caption">
@@ -85,17 +84,17 @@
 							</div>
 						</div>
 						<div class="portlet-body">
-							<div class="dd sortable-list">
-								<ol class="zone dd-list" id="list-<?= $zone['id']?>">
+							<div class="dd sortable-list" id="list-<?= $zone['id'] ?>" data-id="<?= $zone['id'] ?>">
+								<ol class="zone dd-list">
 									<?php if(!empty($zone['Team'])):
 										foreach ($zone['Team'] as $team):
 
-											if( $team['main_shirt_color'] != ''){
+											if(!empty($team['main_shirt_color'])){
 												$main_color = $team['main_shirt_color'];
 											}else{
 												$main_color = '#0F570F';
 											}
-											if( $team['main_shirt_color'] != ''){
+											if(!empty($team['main_shirt_color'])){
 												$sec_color = $team['secondary_shirt_color'];
 											}else{
 												$sec_color = '#FFDA00';
@@ -106,15 +105,14 @@
 											<div class="dd-handle">
 												<span>
 													<svg width="1em" height="1em" viewbox="0 0 100 100">
-													  <g transform="translate(0,-952.36223)">
-													    <path fill="<?php echo $main_color; ?>" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-													       d="m 0,952.36224 50,0 0,61.99996 0,38 -50,-38 z" />
-													    <path fill="<?php echo $sec_color; ?>" d="m 100,952.36224 -50,0 0,61.99996 0,38 50,-38 z"
-													       style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-													  </g>
-													</svg>
+													<g transform="translate(0,-952.36223)">
+														<path fill="<?php echo $main_color; ?>" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 0,952.36224 50,0 0,61.99996 0,38 -50,-38 z" />
+														<path fill="<?php echo $sec_color; ?>" d="m 100,952.36224 -50,0 0,61.99996 0,38 50,-38 z" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+													</g>
+												</svg>
 												</span>
-												<?= $team['name']?></div>
+												<?= $team['name']?>
+											</div>
 										</li>
 
 										<?php endforeach;
@@ -184,12 +182,34 @@
 	</script>
 
 	<script>
+		function outputJsonZones(){
+			zonesContainer = document.getElementById('schedule_zones');
+			var saveString = "";
+			saveString += '[';
+			var lists = zonesContainer.getElementsByClassName('dd');
+			for(var no=1;no<lists.length;no++){	// Looping through all <ul> except the one who contain all items
+				saveString += '{"Zone":{"id":' + lists[no].dataset.id + '},"Team":{"Team":[';
+				var elements = lists[no].getElementsByClassName('dd-item');
+				for(var no2=0;no2<elements.length;no2++){
+					saveString += elements[no2].id;
+					if(no2<(elements.length-1)) saveString += ',';
+				}
+				saveString += ']}}';
+				if(no<(lists.length-1)) saveString += ',';
+			}
+			saveString += ']';
+
+			console.log(saveString);
+			return saveString;
+
+		}
+
 		function sendScheduleZones() {
 			var button = $( '#send-shedule-zones' ).ladda();
 			button.ladda( 'start' ); //Show loader in button
 
 			var targeturl = '<?= $this->Html->url(); ?>'+'.json';
-			sheduleZonesJson = saveDragDropNodes();
+			sheduleZonesJson = outputJsonZones();
 			$('#hidden-json').val(sheduleZonesJson);
 
 			var formData = $('#schedule-zones-form').serializeArray();
