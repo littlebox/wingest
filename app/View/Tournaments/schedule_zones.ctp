@@ -22,14 +22,20 @@
 					</div>
 				</div>
 				<div class="portlet-body">
-					<div class="dd sortable-list">
-						<ol class="dd-list">
-							<?php foreach ($tournament['Team'] as $team): ?>
-								<?php if (!in_array($team['id'], $equiposUbicados)): ?>
-									<li class="dd-item" data-id="<?= $team['id']?>"><div class="dd-handle"><?= $team['name']?></div></li>
-								<?php endif; ?>
-							<?php endforeach; ?>
-						</ol>
+					<div class="dd">
+						<?php if (count($equiposUbicados) == count($tournament['Team'])): ?>
+							<div class="dd-empty"></div>
+						<?php else: ?>
+							<ol class="dd-list">
+								<?php foreach ($tournament['Team'] as $team): ?>
+									<?php if (!in_array($team['id'], $equiposUbicados)): ?>
+										<li class="dd-item" data-id="<?= $team['id']?>">
+											<div class="dd-handle"><?= $team['name']?></div>
+										</li>
+									<?php endif; ?>
+								<?php endforeach; ?>
+							</ol>
+						<?php endif; ?>
 					</div>
 				</div>
 			</div>
@@ -42,16 +48,23 @@
 					<div class="portlet box green-haze">
 						<div class="portlet-title">
 							<div class="caption">
-								<i class="fa fa-shield"></i><?= $zone['name']?>
+								<i class="fa fa-shield"></i>Zona <?= $zone['name']?>
 							</div>
 						</div>
-						<div class="portlet-body">
-							<div class="dd sortable-list">
-								<ol class="dd-list" id="<?= $zone['id']?>" style="min-height:200px;">
-									<?php foreach ($zone['Team'] as $team): ?>
-										<li class="dd-item" data-id="<?= $team['id']?>"><div class="dd-handle"><?= $team['name']?></div></li>
-									<?php endforeach; ?>
-								</ol>
+						<div class="portlet-body" style="height:<?= ($equiposPorZona * 30 + ($equiposPorZona+1) * 5 + 10 + 8) ?>px;">
+							<div class="dd" id="<?= $zone['id']?>">
+
+								<?php if (count($zone['Team']) == 0): ?>
+									<div class="dd-empty"></div>
+								<?php else: ?>
+									<ol class="dd-list">
+										<?php foreach ($zone['Team'] as $team): ?>
+											<li class="dd-item" data-id="<?= $team['id']?>">
+												<div class="dd-handle"><?= $team['name']?></div>
+											</li>
+										<?php endforeach; ?>
+									</ol>
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>
@@ -60,39 +73,6 @@
 			<?php endforeach; ?>
 
 		</div>
-
-
-		<!-- <div id="dhtmlgoodies_dragDropContainer">
-			<div id="dhtmlgoodies_listOfItems">
-				<div>
-					<p>Equipos sin Zona</p>
-				<ul id="allItems">
-					<?php foreach ($tournament['Team'] as $team) { ?>
-						<?php if (!in_array($team['id'], $equiposUbicados)) { ?>
-							<li id="<?= $team['id']?>"><?= $team['name']?></li>
-						<?php } ?>
-					<?php } ?>
-				</ul>
-				</div>
-			</div>
-			<div id="dhtmlgoodies_mainContainer">
-				<?php foreach ($tournament['Zone'] as $zone) { ?>
-
-					<div>
-						<p><?= $zone['name']?></p>
-						<ul id="<?= $zone['id']?>">
-							<?php foreach ($zone['Team'] as $team) { ?>
-									<li id="<?= $team['id']?>"><?= $team['name']?></li>
-							<?php } ?>
-						</ul>
-					</div>
-
-				<?php } ?>
-			</div>
-		</div>
-		<ul id="dragContent"></ul>
-		<div id="dragDropIndicator"><img src="/plugins/drag-and-drop-zones/insert.gif"></div>
-		-->
 
 		<?php //Formulario oculto para poder setear el string JSON en el campo hidden y poder mandar por AJAX
 		echo $this->Form->create('Tournament', array(
@@ -109,24 +89,23 @@
 		<div class="form-actions">
 			<div class="row">
 				<div class="col-md-offset-10 col-md-2">
-					<button type="button" onClick="sendScheduleZones();" id="send-shedule-zones" class="btn green ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Save') ?></span></button>
+					<button type="button" onClick="sendScheduleZones();" id="send-shedule-zones" class="btn green-haze ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Save') ?></span></button>
 				</div>
 			</div>
 		</div>
 
-
 	</div>
+
+
 </div>
 
 <?php $this->append('pageStyles'); ?>
-	<?//echo $this->Html->css('/plugins/drag-and-drop-zones/drag-and-drop-zones');?>
 	<?= $this->Html->css('/plugins/bootstrap-buttons-loader/dist/ladda-themeless.min');?>
 	<?= $this->Html->css('/plugins/sweetalert/lib/sweet-alert');?>
 	<?= $this->Html->css('/plugins/jquery-nestable/jquery.nestable');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pagePlugins'); ?>
-	<?//echo $this->Html->script('/plugins/drag-and-drop-zones/drag-and-drop-zones');?>
 	<?= $this->Html->script('/plugins/jquery-nestable/jquery.nestable');?>
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/spin.min');?>
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.min');?>
@@ -149,12 +128,34 @@
 	</script>
 
 	<script>
+		function outputJsonZones(){
+			zonesContainer = document.getElementById('schedule_zones');
+			var saveString = "";
+			saveString += '[';
+			var lists = zonesContainer.getElementsByClassName('dd');
+			for(var no=1;no<lists.length;no++){	// Looping through all <ul> except the one who contain all items
+				saveString += '{"Zone":{"id":' + lists[no].id + '},"Team":{"Team":[';
+				var elements = lists[no].getElementsByClassName('dd-item');
+				for(var no2=0;no2<elements.length;no2++){
+					saveString += elements[no2].dataset.id;
+					if(no2<(elements.length-1)) saveString += ',';
+				}
+				saveString += ']}}';
+				if(no<(lists.length-1)) saveString += ',';
+			}
+			saveString += ']';
+
+			//console.log(saveString);
+			return saveString;
+
+		}
+
 		function sendScheduleZones() {
 			var button = $( '#send-shedule-zones' ).ladda();
 			button.ladda( 'start' ); //Show loader in button
 
 			var targeturl = '<?= $this->Html->url(); ?>'+'.json';
-			sheduleZonesJson = saveDragDropNodes();
+			sheduleZonesJson = outputJsonZones();
 			$('#hidden-json').val(sheduleZonesJson);
 
 			var formData = $('#schedule-zones-form').serializeArray();

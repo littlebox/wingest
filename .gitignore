@@ -26,3 +26,4 @@ Icon?
 ehthumbs.db
 Thumbs.db
 .sass-cache
+*.css.map
