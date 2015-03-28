@@ -16,6 +16,8 @@ var TournamentScheduleZones = {
 				list.addEventListener('dragover',TournamentScheduleZones.drdrZone.onDragOver)
 			});
 
+			document.getElementById('sortRandom').addEventListener('click',TournamentScheduleZones.drdrZone.sortRandom)
+
 		},
 
 		onDragStart: function(ev){
@@ -67,6 +69,35 @@ var TournamentScheduleZones = {
 			})
 		},
 		
+		sortRandom: function(){
+
+			var zones = document.querySelectorAll('ol.zone');
+			var qtyZones = zones.length - 1;
+			var k = 0;
+
+			var items = [].slice.call(document.querySelectorAll('.dd-item'),0);
+
+			for (var i = items.length - 1; i > 0; i--) {
+		        var j = Math.floor(Math.random() * (i + 1));
+		        
+		        var temp = items[i];
+		        items[i] = items[j];
+		        items[j] = temp;
+
+		        zones[k].appendChild(items[i]);
+				(k != qtyZones) ? k++ : k=0;
+
+		    }
+
+			if(document.querySelectorAll('.dd-empty').length != 0){
+				[].forEach.call(document.querySelectorAll('.dd-empty'),function(dd){
+					dd.parentNode.removeChild(dd);
+				})
+			}
+
+			TournamentScheduleZones.drdrZone.countTeams();
+		},
+
 		divEmpty: '<div class="dd-empty"></div>',
 
 	},

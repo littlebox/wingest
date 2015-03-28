@@ -13,6 +13,11 @@
 ?>
 
 <div class="portlet light">
+	<div class="portlet-title">
+		<div class="actions">
+			<button id="sortRandom" class="btn green">Aleatorio</button>
+		</div>
+	</div>
 	<div class="portlet-body" id="schedule_zones">
 		<div class="col-md-3 column">
 			<div class="portlet box red-sunglo">
