@@ -12,16 +12,57 @@
 	}
 ?>
 
-<div class="portlet light bordered form-fit">
-	<div class="portlet-title">
-		<div class="caption">
-			<i class="icon-plus font-blue-hoki"></i>
-			<span class="caption-subject font-blue-hoki bold uppercase"><?= __('Add')?></span>
-			<span class="caption-helper"><?= __('Tournaments')?></span>
+<div class="portlet light">
+	<div class="portlet-body" id="schedule_zones">
+		<div class="col-md-3 column">
+			<div class="portlet box red-sunglo">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="fa fa-shield"></i>Equipos sin Zona
+					</div>
+				</div>
+				<div class="portlet-body">
+					<div class="dd sortable-list">
+						<ol class="dd-list">
+							<?php foreach ($tournament['Team'] as $team): ?>
+								<?php if (!in_array($team['id'], $equiposUbicados)): ?>
+									<li class="dd-item" data-id="<?= $team['id']?>"><div class="dd-handle"><?= $team['name']?></div></li>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						</ol>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
-	<div class="portlet-body form">
-		<div id="dhtmlgoodies_dragDropContainer">
+		<div class="col-md-9 column">
+
+			<?php foreach ($tournament['Zone'] as $zone): ?>
+
+				<div class="col-md-4">
+					<div class="portlet box green-haze">
+						<div class="portlet-title">
+							<div class="caption">
+								<i class="fa fa-shield"></i><?= $zone['name']?>
+							</div>
+						</div>
+						<div class="portlet-body">
+							<div class="dd sortable-list">
+								<ol class="dd-list" id="<?= $zone['id']?>" style="min-height:200px;">
+									<?php foreach ($zone['Team'] as $team): ?>
+										<li class="dd-item" data-id="<?= $team['id']?>"><div class="dd-handle"><?= $team['name']?></div></li>
+									<?php endforeach; ?>
+								</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			<?php endforeach; ?>
+
+		</div>
+
+
+		<!-- <div id="dhtmlgoodies_dragDropContainer">
 			<div id="dhtmlgoodies_listOfItems">
 				<div>
 					<p>Equipos sin Zona</p>
@@ -35,7 +76,6 @@
 				</div>
 			</div>
 			<div id="dhtmlgoodies_mainContainer">
-				<!-- ONE <UL> for each "room" -->
 				<?php foreach ($tournament['Zone'] as $zone) { ?>
 
 					<div>
@@ -52,6 +92,7 @@
 		</div>
 		<ul id="dragContent"></ul>
 		<div id="dragDropIndicator"><img src="/plugins/drag-and-drop-zones/insert.gif"></div>
+		-->
 
 		<?php //Formulario oculto para poder setear el string JSON en el campo hidden y poder mandar por AJAX
 		echo $this->Form->create('Tournament', array(
@@ -78,13 +119,15 @@
 </div>
 
 <?php $this->append('pageStyles'); ?>
-	<?= $this->Html->css('/plugins/drag-and-drop-zones/drag-and-drop-zones');?>
+	<?//echo $this->Html->css('/plugins/drag-and-drop-zones/drag-and-drop-zones');?>
 	<?= $this->Html->css('/plugins/bootstrap-buttons-loader/dist/ladda-themeless.min');?>
 	<?= $this->Html->css('/plugins/sweetalert/lib/sweet-alert');?>
+	<?= $this->Html->css('/plugins/jquery-nestable/jquery.nestable');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pagePlugins'); ?>
-	<?= $this->Html->script('/plugins/drag-and-drop-zones/drag-and-drop-zones');?>
+	<?//echo $this->Html->script('/plugins/drag-and-drop-zones/drag-and-drop-zones');?>
+	<?= $this->Html->script('/plugins/jquery-nestable/jquery.nestable');?>
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/spin.min');?>
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.min');?>
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.jquery.min');?>
