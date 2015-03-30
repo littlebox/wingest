@@ -13,6 +13,11 @@
 ?>
 
 <div class="portlet light">
+	<div class="portlet-title">
+		<div class="actions">
+			<button type="button" onClick="sendScheduleZones();" id="send-shedule-zones" class="btn btn-circle green-haze ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Save') ?></span></button>
+		</div>
+	</div>
 	<div class="portlet-body" id="schedule_zones">
 		<div class="col-md-3 column">
 			<div class="portlet box red-sunglo">
@@ -27,8 +32,32 @@
 						<ul class="dd-list dd-list-teams" style="min-height:<?= ($equiposPorZona * 30 + ($equiposPorZona-1) * 5) ?>px;">
 							<?php foreach ($tournament['Team'] as $team): ?>
 								<?php if (!in_array($team['id'], $equiposUbicados)): ?>
+									<?php
+										//Set team colors for the badge. This is pure aesthetics.
+										//By the way, the badge is awful. We gotta make one prettier.
+										if(!empty($team['main_shirt_color'])){
+											$main_color = $team['main_shirt_color'];
+										}else{
+											$main_color = '#0F570F';
+										}
+										if(!empty($team['main_shirt_color'])){
+											$sec_color = $team['secondary_shirt_color'];
+										}else{
+											$sec_color = '#FFDA00';
+										}
+									?>
 									<li class="dd-item" data-id="<?= $team['id']?>">
-										<div class="dd-handle"><?= $team['name']?></div>
+										<div class="dd-handle">
+											<span>
+												<svg width="1em" height="1em" viewbox="0 0 100 100">
+													<g transform="translate(0,-952.36223)">
+														<path fill="<?php echo $main_color; ?>" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 0,952.36224 50,0 0,61.99996 0,38 -50,-38 z" />
+														<path fill="<?php echo $sec_color; ?>" d="m 100,952.36224 -50,0 0,61.99996 0,38 50,-38 z" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+													</g>
+												</svg>
+											</span>
+											<?= $team['name']?>
+										</div>
 									</li>
 								<?php endif; ?>
 							<?php endforeach; ?>
@@ -55,8 +84,32 @@
 									<ul class="dd-list dd-list-zone" style="height:<?= ($equiposPorZona * 30 + ($equiposPorZona-1) * 5) ?>px;">
 
 										<?php foreach ($zone['Team'] as $team): ?>
+											<?php
+												//Set team colors for the badge. This is pure aesthetics.
+												//By the way, the badge is awful. We gotta make one prettier.
+												if(!empty($team['main_shirt_color'])){
+													$main_color = $team['main_shirt_color'];
+												}else{
+													$main_color = '#0F570F';
+												}
+												if(!empty($team['main_shirt_color'])){
+													$sec_color = $team['secondary_shirt_color'];
+												}else{
+													$sec_color = '#FFDA00';
+												}
+											?>
 											<li class="dd-item" data-id="<?= $team['id']?>">
-												<div class="dd-handle"><?= $team['name']?></div>
+												<div class="dd-handle">
+													<span>
+														<svg width="1em" height="1em" viewbox="0 0 100 100">
+															<g transform="translate(0,-952.36223)">
+																<path fill="<?php echo $main_color; ?>" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 0,952.36224 50,0 0,61.99996 0,38 -50,-38 z" />
+																<path fill="<?php echo $sec_color; ?>" d="m 100,952.36224 -50,0 0,61.99996 0,38 50,-38 z" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+															</g>
+														</svg>
+													</span>
+													<?= $team['name']?>
+												</div>
 											</li>
 										<?php endforeach; ?>
 
