@@ -22,7 +22,7 @@ var TournamentScheduleZones = {
 
 		onDragStart: function(ev){
 			ev.dataTransfer.setData('idElement', ev.target.id); //set data to transfer, in this case, id of team
-			ev.dataTransfer.setData('idParent', ev.target.parentNode.id); //set data to transfer, in this case, id of team
+			ev.dataTransfer.setData('idParent', ev.target.parentNode.parentNode.id); //set data to transfer, in this case, id of team
 		},
 
 		onDropList: function(ev){
@@ -50,8 +50,8 @@ var TournamentScheduleZones = {
 				ev.target.parentNode.parentNode.appendChild(document.getElementById(id));
 			}
 
-			if(document.getElementById(idParent).childElementCount == 0){
-				document.getElementById(idParent).innerHTML = TournamentScheduleZones.drdrZone.divEmpty;
+			if(idParent != '' && document.getElementById(idParent).childElementCount <= 1){
+				document.getElementById(idParent).children[0].innerHTML = TournamentScheduleZones.drdrZone.divEmpty;
 			}
 
 			//FIX TEAM COUNT PER ZONE!
