@@ -21,21 +21,19 @@
 						<i class="fa fa-shield"></i>Equipos sin Zona
 					</div>
 				</div>
-				<div class="portlet-body">
+				<div class="portlet-body" style="min-height:<?= ($equiposPorZona * 30 + ($equiposPorZona+1) * 5 + 10 + 8) ?>px;">
 					<div class="dd">
-						<?php if (count($equiposUbicados) == count($tournament['Team'])): ?>
-							<div class="dd-empty"></div>
-						<?php else: ?>
-							<ol class="dd-list">
-								<?php foreach ($tournament['Team'] as $team): ?>
-									<?php if (!in_array($team['id'], $equiposUbicados)): ?>
-										<li class="dd-item" data-id="<?= $team['id']?>">
-											<div class="dd-handle"><?= $team['name']?></div>
-										</li>
-									<?php endif; ?>
-								<?php endforeach; ?>
-							</ol>
-						<?php endif; ?>
+
+						<ul class="dd-list dd-list-teams" style="min-height:<?= ($equiposPorZona * 30 + ($equiposPorZona-1) * 5) ?>px;">
+							<?php foreach ($tournament['Team'] as $team): ?>
+								<?php if (!in_array($team['id'], $equiposUbicados)): ?>
+									<li class="dd-item" data-id="<?= $team['id']?>">
+										<div class="dd-handle"><?= $team['name']?></div>
+									</li>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						</ul>
+
 					</div>
 				</div>
 			</div>
@@ -54,17 +52,15 @@
 						<div class="portlet-body" style="height:<?= ($equiposPorZona * 30 + ($equiposPorZona+1) * 5 + 10 + 8) ?>px;">
 							<div class="dd" id="<?= $zone['id']?>">
 
-								<?php if (count($zone['Team']) == 0): ?>
-									<div class="dd-empty"></div>
-								<?php else: ?>
-									<ol class="dd-list">
+									<ul class="dd-list dd-list-zone" style="height:<?= ($equiposPorZona * 30 + ($equiposPorZona-1) * 5) ?>px;">
+
 										<?php foreach ($zone['Team'] as $team): ?>
 											<li class="dd-item" data-id="<?= $team['id']?>">
 												<div class="dd-handle"><?= $team['name']?></div>
 											</li>
 										<?php endforeach; ?>
-									</ol>
-								<?php endif; ?>
+
+									</ul>
 							</div>
 						</div>
 					</div>
@@ -106,7 +102,6 @@
 <?php $this->end(); ?>
 
 <?php $this->append('pagePlugins'); ?>
-	<?= $this->Html->script('/plugins/jquery-nestable/jquery.nestable');?>
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/spin.min');?>
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.min');?>
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.jquery.min');?>
@@ -116,13 +111,8 @@
 <?php $this->append('pageScripts'); ?>
 	<?= $this->Html->script('tournaments-schedule-zones.js');?>
 	<script>
+		var equiposPorZona = <?= $equiposPorZona ?>;
 		jQuery(document).ready(function() {
-			maxTeamsPerGroupArray = [];
-
-			for (var i = 0; i < <?= $cantidadDeZonas ?>; i++) {
-				maxTeamsPerGroupArray.push(<?= $equiposPorZona ?>);
-			};
-
 			TournamentScheduleZones.init();
 		});
 	</script>
