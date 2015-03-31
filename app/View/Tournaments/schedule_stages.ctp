@@ -36,9 +36,17 @@
 					echo $this->Form->input('name',array('readonly' => 'readonly', 'disabled' => 'disabled', 'label' => array('class' => 'control-label col-md-3', 'text' => __('Tournament Name'))));
 					echo $this->Form->input('number_of_teams',array('type'=> 'number'));
 					echo $this->Form->input('number_of_zones',array('type'=> 'select'));
-					echo $this->Form->input('number_of_playoffs',array('type'=> 'select','options' => array(1, 2, 3, 4, 5)));
-					echo $this->Form->input('qualifying_teams_per_group',array('type'=> 'select'));
+					echo $this->Form->input('number_of_playoffs',array('disabled' => 'disabled','type'=> 'select','options' => array('Seleccionar...', 1, 2, 3, 4, 5)));
+					//echo $this->Form->input('qualifying_teams_per_group',array('type'=> 'select'));
 				?>
+
+				<div class="form-group">
+					<div class="col-md-12">
+						<div class="playoff-portlet-container">
+
+						</div>
+					</div>
+				</div>
 
 			</div>
 
@@ -72,6 +80,7 @@
 	<?= $this->Html->css('/plugins/jquery-tags-input/jquery.tagsinput');?>
 	<?= $this->Html->css('/plugins/jcrop/css/jquery.Jcrop.min');?>
 	<?= $this->Html->css('image-crop.css');?>
+	<?= $this->Html->css('tournaments-schedule-stages.css');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pagePlugins'); ?>
