@@ -138,7 +138,7 @@
 		<div class="form-actions">
 			<div class="row">
 				<div class="col-md-offset-10 col-md-2">
-					<button type="button" onClick="sendScheduleZones();" id="send-shedule-zones" class="btn green-haze ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Save') ?></span></button>
+					<!-- <button type="button" onClick="sendScheduleZones();" id="send-shedule-zones" class="btn green-haze ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Save') ?></span></button> -->
 				</div>
 			</div>
 		</div>

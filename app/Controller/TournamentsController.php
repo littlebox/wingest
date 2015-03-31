@@ -29,9 +29,12 @@ class TournamentsController extends AppController {
 			'contain' => false, //Only brings Tournaments, whitout any asociated model
 		);
 
+
 		$this->DataTable->mDataProp = true;
+		//debug($this->DataTable->getResponse());die();
 		$this->set('response', $this->DataTable->getResponse());
 		$this->set('_serialize','response');
+
 	}
 
 /**
