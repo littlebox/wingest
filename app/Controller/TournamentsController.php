@@ -141,23 +141,53 @@ class TournamentsController extends AppController {
 
 	public function schedule_stages ($id = null) {
 		$this->layout = 'metrobox';
+		if (!$this->Tournament->exists($id)) {
+			throw new NotFoundException(__('Invalid tournament'));
+		}
 
 		if ($this->request->is(array('post', 'put'))) {
-			if (!$this->Tournament->exists($id)) {
-				throw new NotFoundException(__('Invalid tournament'));
-			}
+
+			// debug($this->request->data);die();
+
+			//Bring count of existing zones to compare if user change it
+			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) ,'contain' => array('Zone', 'Playoff'));
+			$savedNumberOfZones = $this->Tournament->Zone->find('count', $options);
+			$savedNumberOfPlayoffs = $this->Tournament->Playoff->find('count', $options);
 
 			//Set tournament ID to save groups asociated to it.
 			$this->request->data['Tournament']['id'] = $id;
-			$this->request->data['Zone'] = [];
 
-			$groupName = "A";
+			//If user changet, we delete all existing zones and create newones
+			if($savedNumberOfZones != $this->request->data['Tournament']['number_of_zones']){
+				$this->Tournament->Zone->deleteAll(array('Tournament.' . $this->Tournament->primaryKey => $id));
 
-			//Leer datos y crear grupos y Playoffs
-			for ($i=0; $i < intval($this->request->data['Tournament']['number_of_zones']); $i++) {
-				$this->request->data['Zone'][$i]['name'] = $groupName;
-				$groupName++; //Next letter in the abc
+				$this->request->data['Zone'] = [];
+
+				$groupName = "A";
+
+				//Leer datos y crear grupos y Playoffs
+				for ($i=0; $i < intval($this->request->data['Tournament']['number_of_zones']); $i++) {
+					$this->request->data['Zone'][$i]['name'] = $groupName;
+					$groupName++; //Next letter in the abc
+				}
+
 			}
+
+			// //If user changet, we delete all existing zones and create newones
+			// if($savedNumberOfPlayoffs != $this->request->data['Tournament']['number_of_playoffs']){
+			// 	$this->Tournament->Playoff->deleteAll(array('Tournament.' . $this->Tournament->primaryKey => $id));
+
+			// 	$this->request->data['Playoff'] = [];
+
+			// 	$groupName = "A";
+
+			// 	//Leer datos y crear grupos y Playoffs
+			// 	for ($i=0; $i < intval($this->request->data['Tournament']['number_of_zones']); $i++) {
+			// 		$this->request->data['Zone'][$i]['name'] = $groupName;
+			// 		$groupName++; //Next letter in the abc
+			// 	}
+
+			// }
 
 			//Guardamos los datos
 			if ( $this->Tournament->saveAssociated($this->request->data) ) {
@@ -168,8 +198,14 @@ class TournamentsController extends AppController {
 			return $this->redirect(array('controller' => 'tournaments','action' => 'index'));
 		} else {
 			//Lleva los
-			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id), 'contain' => false);
+
+			//SELECT tournaments.name,COUNT(zones.tournament_id) FROM `tournaments` LEFT JOIN `zones` ON zones.tournament_id=tournaments.id GROUP BY tournaments.id
+
+			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) , 'contain' => 'Playoff');
 			$this->request->data = $this->Tournament->find('first', $options);
+
+			$this->request->data['Tournament']['actual_number_of_zones'] = $this->Tournament->Zone->find('count', $options);
+
 		}
 
 	}

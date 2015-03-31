@@ -38,12 +38,41 @@
 					echo $this->Form->input('number_of_zones',array('type'=> 'select'));
 					echo $this->Form->input('number_of_playoffs',array('disabled' => 'disabled','type'=> 'select','options' => array('Seleccionar...', 1, 2, 3, 4, 5)));
 					//echo $this->Form->input('qualifying_teams_per_group',array('type'=> 'select'));
+					echo $this->Form->input('actual_number_of_zones', array('type' => 'hidden'))
 				?>
 
 				<div class="form-group">
 					<div class="col-md-12">
 						<div class="playoff-portlet-container">
+							<?php
+								if(isset($this->request->data['Playoff'])){
+									foreach($this->request->data['Playoff'] as $k=>$playoff):?>
 
+									<div id="cup<?= $k ?>" class="portlet box red-soft">
+										<div class="portlet-title">
+											<div class="caption">
+												<i class="fa fa-lg fa-trophy"></i><input name="data[Playoff][<?= $k ?>][name]" class="portlet-title-input" type="text" placeholder="Nombre Torneo <?= $k ?>" value="<?= $playoff['name'] ?>">
+											</div>
+										</div>
+										<div class="portlet-body">
+											<div class="playoffField">
+												<div>Cantidad total de equipos que clasifican: </div>
+												<div>
+													<?php
+														printf('<select name="data[Playoff][%u][number_of_teams]">',$k);
+														for($i=2;$i<$this->request->data['Tournament']['number_of_teams'];$i = $i*2){
+															printf('<option value="%u">%u</option>',$i,$i);
+														}
+														echo '</select>';
+													?>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<?php endforeach;
+								}
+							?>
 						</div>
 					</div>
 				</div>
@@ -77,18 +106,14 @@
 <?php $this->append('pageStyles'); ?>
 	<?= $this->Html->css('/plugins/bootstrap-fileinput/bootstrap-fileinput');?>
 	<?= $this->Html->css('/plugins/bootstrap-switch/css/bootstrap-switch.min');?>
-	<?= $this->Html->css('/plugins/jquery-tags-input/jquery.tagsinput');?>
-	<?= $this->Html->css('/plugins/jcrop/css/jquery.Jcrop.min');?>
-	<?= $this->Html->css('image-crop.css');?>
+	<?= $this->Html->css('/plugins/sweetalert/lib/sweet-alert');?>
 	<?= $this->Html->css('tournaments-schedule-stages.css');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pagePlugins'); ?>
 	<?= $this->Html->script('/plugins/jquery-validation/js/jquery.validate.min');?>
 	<?= $this->Html->script('/plugins/jquery-validation/js/additional-methods.min');?>
-	<?= $this->Html->script('/plugins/bootstrap-fileinput/bootstrap-fileinput');?>
-	<?= $this->Html->script('/plugins/jcrop/js/jquery.color.js');?>
-	<?= $this->Html->script('/plugins/jcrop/js/jquery.Jcrop.min.js');?>
+	<?= $this->Html->script('/plugins/sweetalert/lib/sweet-alert.min');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>

@@ -43,7 +43,16 @@ var TournamentScheduleStages = {
 			},
 
 			submitHandler: function(form) {
-				form.submit();
+				if($('#TournamentNumberOfZones').val() != $('#TournamentActualNumberOfZones').val() && $('#TournamentActualNumberOfZones').val() != 0 ){
+					swal({
+						title: '\'Tas seguro Gera?',
+						text: 'Mirá que se van a borrar las zonas que creaste antes en este torneo!',
+						type: 'warning',
+						showCancelButton: true,
+						confirmButtonText: "Si",
+					},
+					function(){form.submit();})
+				}else{form.submit()}
 			}
 		});
 
@@ -74,19 +83,28 @@ var TournamentScheduleStages = {
 		//scantcl = document.getElementById('TournamentQualifyingTeamsPerGroup');
 		scantpl = document.getElementById('TournamentNumberOfPlayoffs');
 
-		scanteq.addEventListener('change',function(){
+		scanteq.addEventListener('input',function(){
 			canteq = $(scanteq).val() ;
 			cantgrupos(canteq)
 		})
 
-		scantgr.addEventListener('change',function(){
+		scantgr.addEventListener('input',function(){
 			cantgr = scantgr.querySelectorAll('option')[scantgr.selectedIndex].getAttribute('value') ;
 			//cantequiposclasifican(canteq,cantgr)
 		})
 
-		scantpl.addEventListener('change',function(){
+		scantpl.addEventListener('input',function(){
 			cantpl = scantpl.querySelectorAll('option')[scantpl.selectedIndex].getAttribute('value') ;
 			schedulePlayoffs(cantpl)
+		})
+
+		$(document).ready(function(){
+			if(canteq = $(scanteq).val()){
+				cantgrupos(canteq);
+				if(savednumberofzones = $('#TournamentActualNumberOfZones').val()){
+					$('#TournamentNumberOfZones').val(savednumberofzones);
+				}
+			}
 		})
 
 		//funciones
@@ -146,13 +164,13 @@ var TournamentScheduleStages = {
 
 			portletHtml = function(i){
 				var s;
-				s = '<div id="cup'+i+'" class="portlet box red-soft"><div class="portlet-title"><div class="caption"><i class="fa fa-lg fa-trophy"></i><input class="portlet-title-input" type="text" placeholder="Nombre Torneo '+(i+1)+'"></div></div><div class="portlet-body"></div></div>';
+				s = '<div id="cup'+i+'" class="portlet box red-soft"><div class="portlet-title"><div class="caption"><i class="fa fa-lg fa-trophy"></i><input name="data[Playoff]['+i+'][name]" class="portlet-title-input" type="text" placeholder="Nombre Torneo '+(i+1)+'"></div></div><div class="portlet-body"></div></div>';
 				return s;
 			}
 
-			numberTeamsPlayoffsSlider = function(){
+			numberTeamsPlayoffsSlider = function(j){
 				var s;
-				s='<select>';
+				s='<select name="data[Playoff]['+j+'][number_of_teams]">';
 				for(var i=2;i<canteq;i = i*2){
 					s += '<option value="'+i+'">'+i+'</option>';
 				}
@@ -163,7 +181,7 @@ var TournamentScheduleStages = {
 			for(var i = 0; i < cantpl; i++){
 				playoffContainer.innerHTML += portletHtml(i);
 
-				select = numberTeamsPlayoffsSlider();
+				select = numberTeamsPlayoffsSlider(i);
 
 				playoffContainer.querySelector('#cup'+i+' .portlet-body').innerHTML = '<div class="playoffField"><div>Cantidad total de equipos que clasifican: </div><div>'+select+'</div></div>'
 
