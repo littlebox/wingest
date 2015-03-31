@@ -220,8 +220,48 @@ class TournamentsController extends AppController {
 
 	}
 
-	public function schedule_matches(){
+	public function schedule_matches($id = null){
+		//Check if Tournament exist
+		if (!$this->Tournament->exists($id)) {
+			throw new NotFoundException(__('Invalid tournament'));
+		}
 
+		$this->layout = 'metrobox';
+
+		if ($this->request->is(array('ajax'))) {
+			//Check if request is post or put
+			if ($this->request->is('post') || $this->request->is('put')) {
+
+				$this->loadModel('Zone');
+				$this->loadModel('Match');
+
+				//Return array
+				$data = array(
+					'content' => '',
+					'error' => '',
+				);
+
+				$jsonDecoded = json_decode($this->request->data['Tournament']['json'], true);
+
+				if ( $this->Zone->saveAll($jsonDecoded) ) {
+					$data['content'] = __('The changes has been saved');
+				}else{
+					$data['error'] = __('The changes could not be saved. Please, try again.');
+				}
+
+				$this->set(compact('data')); // Pass $data to the view
+				$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+
+
+			} else {
+				throw new BadRequestException(__('Invalid request type (has to be post or put)'));
+			}
+		} else {
+			//Si la consulta no es AJAZ, devuelve los TOrneos, equipos y zonas para msotrar en la vista
+			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id), 'contain' => array('Zone.id','Zone.name','Zone.Match','Zone.Match.TeamLocal' => array('fields' => array('id', 'name','main_shirt_color','secondary_shirt_color')),'Zone.Match.TeamVisitor' => array('fields' => array('id', 'name','main_shirt_color','secondary_shirt_color')), 'Playoff.id', 'Playoff.name', 'Playoff.Match.MatchType','Playoff.Match.TeamLocal' => array('fields' => array('id', 'name','main_shirt_color','secondary_shirt_color')),'Playoff.Match.TeamVisitor' => array('fields' => array('id', 'name','main_shirt_color','secondary_shirt_color'))));
+			//debug($this->Tournament->find('first', $options));die();
+			$this->set('tournament', $this->Tournament->find('first', $options));
+		}
 	}
 
 

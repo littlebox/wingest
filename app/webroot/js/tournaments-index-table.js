@@ -26,11 +26,12 @@ var TournamentsIndexTable = function () {
 			],
 			"fnCreatedRow": function(nRow, aData, iDataIndex){ //callback function after create a row for add action buttons en column 3
 				htmlContent = '';
-				htmlContent += '<button class="btn btn-sm red" onclick="confirmAlert(\''+LocalVar.tournamentDeleterUrl+"/"+aData.Tournament.id+'\');" ><i class="fa fa-times"></i> '+LocalVar.tournamentDeleteText+'</button>';
-				htmlContent += '<a class="btn btn-sm blue" href="'+LocalVar.tournamentEditUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-pencil"></i> '+LocalVar.tournamentEditText+'</a>';
-				htmlContent += '<a class="btn btn-sm green" href="'+LocalVar.tournamentViewrUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-file"></i> '+LocalVar.tournamentViewText+'</a>';
-				htmlContent += '<a class="btn btn-sm yellow" href="'+LocalVar.tournamentScheduleStagesUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-file"></i> '+LocalVar.tournamentScheduleStagesText+'</a>';
-				htmlContent += '<a class="btn btn-sm purple" href="'+LocalVar.tournamentScheduleZonesUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-file"></i> '+LocalVar.tournamentScheduleZonesText+'</a>';
+				htmlContent += '<button class="btn btn-sm red" onclick="confirmAlert(\''+LocalVar.tournamentDeleterUrl+"/"+aData.Tournament.id+'\');" ><i class="fa fa-times"></i> '+LocalVar.tournamentDeleteText+'</button> ';
+				htmlContent += '<a class="btn btn-sm blue" href="'+LocalVar.tournamentEditUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-pencil"></i> '+LocalVar.tournamentEditText+'</a> ';
+				htmlContent += '<a class="btn btn-sm green" href="'+LocalVar.tournamentViewrUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-file"></i> '+LocalVar.tournamentViewText+'</a> ';
+				htmlContent += '<a class="btn btn-sm yellow" href="'+LocalVar.tournamentScheduleStagesUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-file"></i> '+LocalVar.tournamentScheduleStagesText+'</a> ';
+				htmlContent += '<a class="btn btn-sm purple" href="'+LocalVar.tournamentScheduleZonesUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-file"></i> '+LocalVar.tournamentScheduleZonesText+'</a> ';
+				//Set to column 3
 				$('td:eq(2)', nRow).html(htmlContent);
 			}
 		});
