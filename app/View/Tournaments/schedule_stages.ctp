@@ -38,7 +38,9 @@
 					echo $this->Form->input('number_of_zones',array('type'=> 'select'));
 					echo $this->Form->input('number_of_playoffs',array('disabled' => 'disabled','type'=> 'select','options' => array('Seleccionar...', 1, 2, 3, 4, 5)));
 					//echo $this->Form->input('qualifying_teams_per_group',array('type'=> 'select'));
-					echo $this->Form->input('actual_number_of_zones', array('type' => 'hidden'))
+					echo $this->Form->input('actual_number_of_zones', array('type' => 'hidden'));
+					echo $this->Form->input('actual_number_of_playoffs', array('type' => 'hidden'));
+					echo $this->Form->input('playoffs_number_changed', array('type' => 'hidden'));
 				?>
 
 				<div class="form-group">
@@ -51,20 +53,35 @@
 									<div id="cup<?= $k ?>" class="portlet box red-soft">
 										<div class="portlet-title">
 											<div class="caption">
-												<i class="fa fa-lg fa-trophy"></i><input name="data[Playoff][<?= $k ?>][name]" class="portlet-title-input" type="text" placeholder="Nombre Torneo <?= $k ?>" value="<?= $playoff['name'] ?>">
+												<i class="fa fa-lg fa-trophy"></i><?= $playoff['name'] ?>
 											</div>
 										</div>
-										<div class="portlet-body">
+										<div class="portlet-body form">
 											<div class="playoffField">
-												<div>Cantidad total de equipos que clasifican: </div>
-												<div>
-													<?php
-														printf('<select name="data[Playoff][%u][number_of_teams]">',$k);
-														for($i=2;$i<$this->request->data['Tournament']['number_of_teams'];$i = $i*2){
-															printf('<option value="%u">%u</option>',$i,$i);
-														}
-														echo '</select>';
-													?>
+												<div class="form-group">
+													<label class="control-label col-md-6">Equipos que clasifican</label>
+													<div class="col-md-6">
+														<?php
+															printf('<input type="hidden" name="data[Playoff][%u][id]" value="%u">',$k,$playoff['id']);
+															printf('<select name="data[Playoff][%u][number_of_teams]" class="form-control">',$k);
+															for($i=2;$i<$this->request->data['Tournament']['number_of_teams'];$i = $i*2){
+																printf('<option value="%u">%u</option>',$i,$i);
+															}
+															echo '</select>';
+														?>
+													</div>
+													<script type="text/javascript">
+														(function(){
+															opts = document.querySelectorAll('select[name="data[Playoff][<?= $k?>][number_of_teams]"] option');
+															sel = document.querySelector('select[name="data[Playoff][<?= $k?>][number_of_teams]"]');
+															for(i=0; i<opts.length; i++){
+																if(opts[i].value == <?= $playoff['number_of_teams'] ?>){
+																	sel.selectedIndex = i;
+																	break;
+																}
+															}
+														})()
+													</script>
 												</div>
 											</div>
 										</div>
@@ -120,6 +137,8 @@
 	<?= $this->Html->script('global-setups');?>
 	<?= $this->Html->script('tournaments-schedule-stages.js');?>
 	<script>
+		Localvar = {}
+		Localvar.playoffNumberChanged = false;
 		jQuery(document).ready(function() {
 			TournamentScheduleStages.init();
 		});
