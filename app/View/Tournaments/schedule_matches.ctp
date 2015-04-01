@@ -1,8 +1,8 @@
 <div class="portlet light">
 	<div class="portlet-title">
 		<div class="caption">
-			<i class="fa fa-futbol-o font-purple-plum"></i>
-			<span class="caption-subject bold font-purple-plum uppercase">
+			<i class="fa fa-futbol-o"></i>
+			<span class="caption-subject bold uppercase">
 				<?= __('Schedule Matches') ?>
 			</span>
 		</div>

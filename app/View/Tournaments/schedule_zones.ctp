@@ -1,6 +1,8 @@
 <?php
+	//Si está seteado en la base de datos, sacamos la cantidad de equipos del torneo de ahí, si no la calcula con la cantidad de equipos inscriptos al torneo
+	$numeroDeEquiposDelTorneo = (empty($tournament['Tournament']['number_of_teams'])) ? count($tournament['Team']) : $tournament['Tournament']['number_of_teams'] ;
 	//Calculamos la cantidad de equipos por zona (cantidad de equipos dividido cantidad de zonas redondeado hacia arriba)
-	$equiposPorZona = ceil(count($tournament['Team'])/count($tournament['Zone']));
+	$equiposPorZona = ceil($numeroDeEquiposDelTorneo/count($tournament['Zone']));
 	//Cantidad de equipos
 	$cantidadDeZonas = count($tournament['Zone']);
 	//Guardamos todos los equipos ya ubicados en zonas en un array para no mostrarlos en los equipos sin ubicar
@@ -14,13 +16,19 @@
 
 <div class="portlet light">
 	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-futbol-o"></i>
+			<span class="caption-subject bold uppercase">
+				<?= __('Schedule Zones') ?>
+			</span>
+		</div>
 		<div class="actions">
 			<button type="button" onClick="sendScheduleZones();" id="send-shedule-zones" class="btn btn-circle green-haze ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Save') ?></span></button>
 		</div>
 	</div>
 	<div class="portlet-body" id="schedule_zones">
 		<div class="col-md-3 column">
-			<div class="portlet box red-sunglo">
+			<div class="portlet box purple-plum">
 				<div class="portlet-title">
 					<div class="caption">
 						<i class="fa fa-shield"></i>Equipos sin Zona
@@ -72,7 +80,7 @@
 			<?php foreach ($tournament['Zone'] as $zone): ?>
 
 				<div class="col-md-4">
-					<div class="portlet box green-haze">
+					<div class="portlet box yellow">
 						<div class="portlet-title">
 							<div class="caption">
 								<i class="fa fa-shield"></i>Zona <?= $zone['name']?>

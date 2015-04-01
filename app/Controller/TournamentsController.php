@@ -223,7 +223,7 @@ class TournamentsController extends AppController {
 
 				$jsonDecoded = json_decode($this->request->data['Tournament']['json'], true);
 
-				if ( $this->Match->saveAll($jsonDecoded) ) {
+				if ( $this->Zone->saveAll($jsonDecoded) ) {
 					$data['content'] = __('The changes has been saved');
 				}else{
 					$data['error'] = __('The changes could not be saved. Please, try again.');
@@ -266,7 +266,7 @@ class TournamentsController extends AppController {
 
 				$jsonDecoded = json_decode($this->request->data['Tournament']['json'], true);
 
-				if ( $this->Zone->saveAll($jsonDecoded) ) {
+				if ( $this->Match->saveAll($jsonDecoded) ) {
 					$data['content'] = __('The changes has been saved');
 				}else{
 					$data['error'] = __('The changes could not be saved. Please, try again.');
