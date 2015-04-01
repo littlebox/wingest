@@ -53,7 +53,7 @@
 									<div id="cup<?= $k ?>" class="portlet box red-soft">
 										<div class="portlet-title">
 											<div class="caption">
-												<i class="fa fa-lg fa-trophy"></i><?= $playoff['name'] ?>
+												<i class="fa fa-lg fa-trophy"></i><input name="data[Playoff][<?= $k ?>][name]" class="portlet-title-input form-playoff-name" type="text" placeholder="Nombre Torneo <?= $k ?>" value="<?= $playoff['name'] ?>">
 											</div>
 										</div>
 										<div class="portlet-body form">
@@ -63,7 +63,7 @@
 													<div class="col-md-6">
 														<?php
 															printf('<input type="hidden" name="data[Playoff][%u][id]" value="%u">',$k,$playoff['id']);
-															printf('<select name="data[Playoff][%u][number_of_teams]" class="form-control">',$k);
+															printf('<select name="data[Playoff][%u][number_of_teams]" class="form-control form-playoff-number-of-teams">',$k);
 															for($i=2;$i<$this->request->data['Tournament']['number_of_teams'];$i = $i*2){
 																printf('<option value="%u">%u</option>',$i,$i);
 															}
