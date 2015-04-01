@@ -29,8 +29,8 @@
 											<?= $match['TeamLocal']['name'];?> Vs. <?= $match['TeamVisitor']['name'];?>
 										</div>
 									</div>
-									<div class="portlet-body">
-										<form action="#" class="form-horizontal form-bordered form-row-stripped">
+									<div class="portlet-body form">
+										<form action="#" class="form-horizontal form-bordered form-row-stripped team-form" id="<?= $match['id'];?>">
 											<div class="form-body">
 												<div class="form-group">
 													<label class="control-label col-md-3"><?= __('Date') ?></label>
@@ -39,19 +39,19 @@
 															$dbDateTime = DateTime::createFromFormat('Y-m-d', $match['date']);
 															$espDateString = $dbDateTime->format('d/m/Y');
 														?>
-														<input class="form-control date-picker" size="16" type="text" value="<?= $espDateString;?>">
+														<input class="form-control date-picker team-form-date" size="16" type="text" value="<?= $espDateString;?>">
 													</div>
 												</div>
 												<div class="form-group">
 													<label class="control-label col-md-3"><?= __('Time') ?></label>
 													<div class="col-md-9">
-														<input type="text" class="form-control timepicker timepicker-24" value="<?= $match['time'];?>">
+														<input type="text" class="form-control timepicker timepicker-24 team-form-time" value="<?= $match['time'];?>">
 													</div>
 												</div>
 												<div class="form-group last">
 													<label class="control-label col-md-3"><?= __('Field') ?></label>
 													<div class="col-md-9">
-														<input type="text" placeholder="Ej: Cancha 4" class="form-control" value="<?= $match['field'];?>">
+														<input type="text" placeholder="Ej: Cancha 4" class="form-control team-form-field" value="<?= $match['field'];?>">
 													</div>
 												</div>
 											</div>
@@ -68,7 +68,7 @@
 				<div class="portlet box red-sunglo">
 					<div class="portlet-title">
 						<div class="caption">
-							Zona <?= $playoff['name'];?>
+							<?= $playoff['name'];?>
 						</div>
 					</div>
 					<div class="portlet-body">
@@ -81,8 +81,8 @@
 											<?= $match['TeamLocal']['name'];?> Vs. <?= $match['TeamVisitor']['name'];?>
 										</div>
 									</div>
-									<div class="portlet-body">
-										<form action="#" class="form-horizontal form-bordered form-row-stripped">
+									<div class="portlet-body form">
+										<form action="#" class="form-horizontal form-bordered form-row-stripped team-form" id="<?= $match['id'];?>">
 											<div class="form-body">
 												<div class="form-group">
 													<label class="control-label col-md-3"><?= __('Date') ?></label>
@@ -91,19 +91,19 @@
 															$dbDateTime = DateTime::createFromFormat('Y-m-d', $match['date']);
 															$espDateString = $dbDateTime->format('d/m/Y');
 														?>
-														<input class="form-control date-picker" size="16" type="text" value="<?= $match['date'];?>">
+														<input class="form-control date-picker team-form-date" size="16" type="text" value="<?= $match['date'];?>">
 													</div>
 												</div>
 												<div class="form-group">
 													<label class="control-label col-md-3"><?= __('Time') ?></label>
 													<div class="col-md-9">
-														<input type="text" class="form-control timepicker timepicker-24" value="<?= $match['time'];?>">
+														<input type="text" class="form-control timepicker timepicker-24 team-form-time" value="<?= $match['time'];?>">
 													</div>
 												</div>
 												<div class="form-group last">
 													<label class="control-label col-md-3"><?= __('Field') ?></label>
 													<div class="col-md-9">
-														<input type="text" placeholder="Ej: Cancha 4" class="form-control" value="<?= $match['field'];?>">
+														<input type="text" placeholder="Ej: Cancha 4" class="form-control team-form-field" value="<?= $match['field'];?>">
 													</div>
 												</div>
 											</div>
@@ -177,19 +177,17 @@
 
 	<script>
 		function outputJsonZones(){
-			zonesContainer = document.getElementById('schedule_zones');
+			teamForms = document.getElementsByClassName('team-form');
 			var saveString = "";
 			saveString += '[';
-			var lists = zonesContainer.getElementsByClassName('dd');
-			for(var no=1;no<lists.length;no++){	// Looping through all <ul> except the one who contain all items
-				saveString += '{"Zone":{"id":' + lists[no].id + '},"Team":{"Team":[';
-				var elements = lists[no].getElementsByClassName('dd-item');
-				for(var no2=0;no2<elements.length;no2++){
-					saveString += elements[no2].dataset.id;
-					if(no2<(elements.length-1)) saveString += ',';
-				}
-				saveString += ']}}';
-				if(no<(lists.length-1)) saveString += ',';
+			//var lists = teamForms.getElementsByClassName('dd');
+			for(var i=0; i<teamForms.length; i++){	// Looping through all <ul> except the one who contain all items
+				id = teamForms[i].id;
+				date = teamForms[i].getElementsByClassName('team-form-date')[0].value.split("/").reverse().join("-"); //Transform the date from d/m/Y to Y-m-d format
+				time = teamForms[i].getElementsByClassName('team-form-time')[0].value;
+				field = teamForms[i].getElementsByClassName('team-form-field')[0].value;
+				saveString += '{"Match":{"id":' + id + ', "date":"' + date + '", "time":"' + time + '", "field":"' + field + '"}}';
+				if(i<(teamForms.length-1)) saveString += ',';
 			}
 			saveString += ']';
 
