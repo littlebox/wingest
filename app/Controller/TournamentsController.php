@@ -223,7 +223,7 @@ class TournamentsController extends AppController {
 
 				$jsonDecoded = json_decode($this->request->data['Tournament']['json'], true);
 
-				if ( $this->Zone->saveAll($jsonDecoded) ) {
+				if ( $this->Match->saveAll($jsonDecoded) ) {
 					$data['content'] = __('The changes has been saved');
 				}else{
 					$data['error'] = __('The changes could not be saved. Please, try again.');
@@ -256,7 +256,6 @@ class TournamentsController extends AppController {
 			//Check if request is post or put
 			if ($this->request->is('post') || $this->request->is('put')) {
 
-				$this->loadModel('Zone');
 				$this->loadModel('Match');
 
 				//Return array
