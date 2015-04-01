@@ -83,8 +83,8 @@
 		LocalVar.dataTable = '';
 		LocalVar.deleting = false;
 		LocalVar.ajaxSource = ('<?= $this->Html->url(array('controller'=>'teams', 'action' => 'index', 'ext' => 'json')) ?>');
-		LocalVar.teamEditUrl = ('<?= $this->Html->url(array('controller'=>'teams', 'action' => 'edit', 'admin' => true)) ?>');
-		LocalVar.teamDeleterUrl = ('<?= $this->Html->url(array('controller'=>'teams', 'action' => 'delete', 'admin' => true)) ?>');
+		LocalVar.teamEditUrl = ('<?= $this->Html->url(array('controller'=>'teams', 'action' => 'edit')) ?>');
+		LocalVar.teamDeleterUrl = ('<?= $this->Html->url(array('controller'=>'teams', 'action' => 'delete')) ?>');
 		LocalVar.teamViewUrl = ('<?= $this->Html->url(array('controller'=>'teams', 'action' => 'view')) ?>');
 		LocalVar.teamEditText = ('<?= __("Edit") ?>');
 		LocalVar.teamDeleteText = ('<?= __("Delete") ?>');
