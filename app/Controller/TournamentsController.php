@@ -287,6 +287,22 @@ class TournamentsController extends AppController {
 		}
 	}
 
+	//create new matches
+	public function set_matches($id = null){
+
+		$matches = [];
+
+		$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) ,'contain' => array('Tournament.id','Team.id','Team.name'));
+		$zones = $this->Tournament->Zone->find('all',$options);
+		foreach($zones as $zone){
+			foreach($zone['Team'] as $k=>$team){
+				for($i = $k+1; $i < (count($zone['Team']) - 1 ); $i++ ){
+					echo $zone['Team'][$k]['name'].'-'.$zone['Team'][$i]['name'].'<br>';
+				}
+			}
+		}
+		debug($zones);die();
+	}
 
 	public function beforeFilter() {
 		parent::beforeFilter();
