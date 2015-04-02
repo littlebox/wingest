@@ -80,11 +80,13 @@
 		LocalVar.tournamentViewrUrl = ('<?= $this->Html->url(array('controller'=>'tournaments', 'action' => 'view')) ?>');
 		LocalVar.tournamentScheduleStagesUrl = ('<?= $this->Html->url(array('controller'=>'tournaments', 'action' => 'schedule_stages')) ?>');
 		LocalVar.tournamentScheduleZonesUrl = ('<?= $this->Html->url(array('controller'=>'tournaments', 'action' => 'schedule_zones')) ?>');
+		LocalVar.tournamentMatchesUrl = ('<?= $this->Html->url(array('controller'=>'tournaments', 'action' => 'schedule_matches')) ?>');
 		LocalVar.tournamentEditText = ('<?= __("Edit") ?>');
 		LocalVar.tournamentDeleteText = ('<?= __("Delete") ?>');
 		LocalVar.tournamentViewText = ('<?= __("Details") ?>');
-		LocalVar.tournamentScheduleStagesText = ('<?= __("Schedule Stages") ?>');
-		LocalVar.tournamentScheduleZonesText = ('<?= __("Schedule Zones") ?>');
+		LocalVar.tournamentScheduleStagesText = ('<?= __("Stages") ?>');
+		LocalVar.tournamentScheduleZonesText = ('<?= __("Zones") ?>');
+		LocalVar.tournamentMatchesText = ('<?= __("Matches") ?>');
 
 		jQuery(document).ready(function() {
 			TournamentsIndexTable.init();

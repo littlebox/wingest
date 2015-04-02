@@ -29,8 +29,9 @@ var TournamentsIndexTable = function () {
 				htmlContent += '<button class="btn btn-sm red" onclick="confirmAlert(\''+LocalVar.tournamentDeleterUrl+"/"+aData.Tournament.id+'\');" ><i class="fa fa-times"></i> '+LocalVar.tournamentDeleteText+'</button> ';
 				htmlContent += '<a class="btn btn-sm blue" href="'+LocalVar.tournamentEditUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-pencil"></i> '+LocalVar.tournamentEditText+'</a> ';
 				htmlContent += '<a class="btn btn-sm green" href="'+LocalVar.tournamentViewrUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-file"></i> '+LocalVar.tournamentViewText+'</a> ';
-				htmlContent += '<a class="btn btn-sm yellow" href="'+LocalVar.tournamentScheduleStagesUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-file"></i> '+LocalVar.tournamentScheduleStagesText+'</a> ';
-				htmlContent += '<a class="btn btn-sm purple" href="'+LocalVar.tournamentScheduleZonesUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-file"></i> '+LocalVar.tournamentScheduleZonesText+'</a> ';
+				htmlContent += '<a class="btn btn-sm yellow" href="'+LocalVar.tournamentScheduleStagesUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-futbol-o"></i> '+LocalVar.tournamentScheduleStagesText+'</a> ';
+				htmlContent += '<a class="btn btn-sm purple" href="'+LocalVar.tournamentScheduleZonesUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-futbol-o"></i> '+LocalVar.tournamentScheduleZonesText+'</a> ';
+				htmlContent += '<a class="btn btn-sm green-haze" href="'+LocalVar.tournamentMatchesUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-futbol-o"></i> '+LocalVar.tournamentMatchesText+'</a> ';
 				//Set to column 3
 				$('td:eq(2)', nRow).html(htmlContent);
 			}

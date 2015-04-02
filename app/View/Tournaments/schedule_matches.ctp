@@ -1,3 +1,6 @@
+<?php
+	// debug($tournament);die();
+?>
 <div class="portlet light">
 	<div class="portlet-title">
 		<div class="caption">
@@ -20,48 +23,89 @@
 						</div>
 					</div>
 					<div class="portlet-body">
-						<div style="display:flex;">
-						<?php foreach ($zone['Match'] as $match): ?>
-							<div class="col-md-3 column">
-								<div class="portlet box green-haze">
-									<div class="portlet-title">
-										<div class="caption">
-											<?= $match['TeamLocal']['name'];?> Vs. <?= $match['TeamVisitor']['name'];?>
-										</div>
+						<div class="flex-table">
+							<?php
+								$i = 0;
+								foreach ($zone['Match'] as $match):
+									//Set team colors for the badge. This is pure aesthetics.
+									//By the way, the badge is awful. We gotta make one prettier.
+									if(!empty($match['TeamLocal']['main_shirt_color'])){
+										$local_main_color = $match['TeamLocal']['main_shirt_color'];
+									}else{
+										$local_main_color = '#0F570F';
+									}
+									if(!empty($match['TeamLocal']['main_shirt_color'])){
+										$local_sec_color = $match['TeamLocal']['secondary_shirt_color'];
+									}else{
+										$local_sec_color = '#FFDA00';
+									}
+
+									if(!empty($match['TeamVisitor']['main_shirt_color'])){
+										$visitor_main_color = $match['TeamVisitor']['main_shirt_color'];
+									}else{
+										$visitor_main_color = '#0F570F';
+									}
+									if(!empty($match['TeamVisitor']['main_shirt_color'])){
+										$visitor_sec_color = $match['TeamVisitor']['secondary_shirt_color'];
+									}else{
+										$visitor_sec_color = '#FFDA00';
+									}
+
+									if($i == 0):
+							?>
+								<div class="flex-row flex-thead">
+									<div class="flex-td small"></div>
+									<div class="flex-td"><?= __('Local Team') ?></div>
+									<div class="flex-td"><?= __('Visitor Team') ?></div>
+									<div class="flex-td"><?= __('Date') ?></div>
+									<div class="flex-td"><?= __('Time') ?></div>
+									<div class="flex-td"><?= __('Field') ?></div>
+									<div class="flex-td"><?= __('Actions') ?></div>
+								</div>
+							<?php endif;?>
+								<div class="team-data flex-row" id="<?= $match['id'];?>">
+
+									<div class="flex-td small"><?= $i?></div>
+									<div class="flex-td">
+										<span class="team-badge">
+											<svg width="1em" height="1em" viewbox="0 0 100 100">
+												<g transform="translate(0,-952.36223)">
+													<path fill="<?php echo $local_main_color; ?>" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 0,952.36224 50,0 0,61.99996 0,38 -50,-38 z" />
+													<path fill="<?php echo $local_sec_color; ?>" d="m 100,952.36224 -50,0 0,61.99996 0,38 50,-38 z" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+												</g>
+											</svg>
+										</span>
+										<?= $match['TeamLocal']['name'];?>
 									</div>
-									<div class="portlet-body form">
-										<form action="#" class="form-horizontal form-bordered form-row-stripped team-form" id="<?= $match['id'];?>">
-											<div class="form-body">
-												<div class="form-group">
-													<label class="control-label col-md-3"><?= __('Date') ?></label>
-													<div class="col-md-9">
-														<?php
-															if(isset($match['date'])){
-																$dbDateTime = DateTime::createFromFormat('Y-m-d', $match['date']);
-																$espDateString = $dbDateTime->format('d/m/Y');
-															}
-														?>
-														<input class="form-control date-picker team-form-date" size="16" type="text" value="<?= $espDateString;?>">
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="control-label col-md-3"><?= __('Time') ?></label>
-													<div class="col-md-9">
-														<input type="text" class="form-control timepicker timepicker-24 team-form-time" value="<?= $match['time'];?>">
-													</div>
-												</div>
-												<div class="form-group last">
-													<label class="control-label col-md-3"><?= __('Field') ?></label>
-													<div class="col-md-9">
-														<input type="text" placeholder="Ej: Cancha 4" class="form-control team-form-field" value="<?= $match['field'];?>">
-													</div>
-												</div>
-											</div>
-										</form>
+									<div class="flex-td">
+										<span class="team-badge">
+											<svg width="1em" height="1em" viewbox="0 0 100 100">
+												<g transform="translate(0,-952.36223)">
+													<path fill="<?php echo $visitor_main_color; ?>" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 0,952.36224 50,0 0,61.99996 0,38 -50,-38 z" />
+													<path fill="<?php echo $visitor_sec_color; ?>" d="m 100,952.36224 -50,0 0,61.99996 0,38 50,-38 z" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+												</g>
+											</svg>
+										</span>
+										<?= $match['TeamVisitor']['name'];?>
+									</div>
+									<div class="flex-td"><?php
+										if(isset($match['date']) && $match['date'] != '0000-00-00'){
+											$dbDateTime = DateTime::createFromFormat('Y-m-d', $match['date']);
+											$espDateString = $dbDateTime->format('d/m/Y');
+											// debug($match['date']);die();
+										}else{
+											$espDateString = '';
+										}
+									?>
+										<input class="date-picker team-form-date" size="8" type="text" placeholder="--/--/----" value="<?= $espDateString;?>">
+									</div>
+									<div class="flex-td"><input type="text" class="timepicker timepicker-24 team-form-time" placeholder="--:--" value="<?= $match['time'];?>"></div>
+									<div class="flex-td"><input type="text" placeholder="Ej: Cancha 4" class="team-form-field" value="<?= $match['field'];?>"></div>
+									<div class="flex-td" style="text-align:center;">
+										<a class="btn btn-sm blue"><i class="fa fa-futbol-o"></i> <?= __('Planilla') ?></a>
 									</div>
 								</div>
-							</div>
-						<?php endforeach; ?>
+						<?php $i++;endforeach; ?>
 						</div>
 					</div>
 				</div>
@@ -74,46 +118,87 @@
 						</div>
 					</div>
 					<div class="portlet-body">
-						<div style="display:flex;">
-						<?php foreach ($playoff['Match'] as $match): ?>
-							<div class="col-md-3 column">
-								<div class="portlet box green-haze">
-									<div class="portlet-title">
-										<div class="caption">
-											<?= $match['TeamLocal']['name'];?> Vs. <?= $match['TeamVisitor']['name'];?>
-										</div>
+						<div class="flex-table">
+							<div class="flex-row flex-thead">
+								<div class="flex-td"></div>
+								<div class="flex-td"><?= __('Local Team') ?></div>
+								<div class="flex-td"><?= __('Visitor Team') ?></div>
+								<div class="flex-td"><?= __('Date') ?></div>
+								<div class="flex-td"><?= __('Time') ?></div>
+								<div class="flex-td"><?= __('Field') ?></div>
+								<div class="flex-td"><?= __('Type of match') ?></div>
+								<div class="flex-td"><?= __('Actions') ?></div>
+							</div>
+							<?php
+								$i = 0;
+								foreach ($playoff['Match'] as $match):
+									//Set team colors for the badge. This is pure aesthetics.
+									//By the way, the badge is awful. We gotta make one prettier.
+									if(!empty($match['TeamLocal']['main_shirt_color'])){
+										$local_main_color = $match['TeamLocal']['main_shirt_color'];
+									}else{
+										$local_main_color = '#0F570F';
+									}
+									if(!empty($match['TeamLocal']['main_shirt_color'])){
+										$local_sec_color = $match['TeamLocal']['secondary_shirt_color'];
+									}else{
+										$local_sec_color = '#FFDA00';
+									}
+
+									if(!empty($match['TeamVisitor']['main_shirt_color'])){
+										$visitor_main_color = $match['TeamVisitor']['main_shirt_color'];
+									}else{
+										$visitor_main_color = '#0F570F';
+									}
+									if(!empty($match['TeamVisitor']['main_shirt_color'])){
+										$visitor_sec_color = $match['TeamVisitor']['secondary_shirt_color'];
+									}else{
+										$visitor_sec_color = '#FFDA00';
+									}
+							?>
+								<div class="team-data flex-row" id="<?= $match['id'];?>">
+									<div class="flex-td"><?= $i?></div>
+									<div class="flex-td">
+										<span class="team-badge">
+											<svg width="1em" height="1em" viewbox="0 0 100 100">
+												<g transform="translate(0,-952.36223)">
+													<path fill="<?php echo $local_main_color; ?>" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 0,952.36224 50,0 0,61.99996 0,38 -50,-38 z" />
+													<path fill="<?php echo $local_sec_color; ?>" d="m 100,952.36224 -50,0 0,61.99996 0,38 50,-38 z" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+												</g>
+											</svg>
+										</span>
+										<?= $match['TeamLocal']['name'];?>
 									</div>
-									<div class="portlet-body form">
-										<form action="#" class="form-horizontal form-bordered form-row-stripped team-form" id="<?= $match['id'];?>">
-											<div class="form-body">
-												<div class="form-group">
-													<label class="control-label col-md-3"><?= __('Date') ?></label>
-													<div class="col-md-9">
-														<?php
-															$dbDateTime = DateTime::createFromFormat('Y-m-d', $match['date']);
-															$espDateString = $dbDateTime->format('d/m/Y');
-														?>
-														<input class="form-control date-picker team-form-date" size="16" type="text" value="<?= $match['date'];?>">
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="control-label col-md-3"><?= __('Time') ?></label>
-													<div class="col-md-9">
-														<input type="text" class="form-control timepicker timepicker-24 team-form-time" value="<?= $match['time'];?>">
-													</div>
-												</div>
-												<div class="form-group last">
-													<label class="control-label col-md-3"><?= __('Field') ?></label>
-													<div class="col-md-9">
-														<input type="text" placeholder="Ej: Cancha 4" class="form-control team-form-field" value="<?= $match['field'];?>">
-													</div>
-												</div>
-											</div>
-										</form>
+									<div class="flex-td">
+										<span class="team-badge">
+											<svg width="1em" height="1em" viewbox="0 0 100 100">
+												<g transform="translate(0,-952.36223)">
+													<path fill="<?php echo $visitor_main_color; ?>" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 0,952.36224 50,0 0,61.99996 0,38 -50,-38 z" />
+													<path fill="<?php echo $visitor_sec_color; ?>" d="m 100,952.36224 -50,0 0,61.99996 0,38 50,-38 z" style="fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+												</g>
+											</svg>
+										</span>
+										<?= $match['TeamVisitor']['name'];?>
+									</div>
+									<div class="flex-td"><?php
+										if(isset($match['date']) && $match['date'] != '0000-00-00'){
+											$dbDateTime = DateTime::createFromFormat('Y-m-d', $match['date']);
+											$espDateString = $dbDateTime->format('d/m/Y');
+											// debug($match['date']);die();
+										}else{
+											$espDateString = '';
+										}
+									?>
+										<input class="date-picker team-form-date" size="8" type="text" placeholder="--/--/----" value="<?= $espDateString;?>">
+									</div>
+									<div class="flex-td"><input type="text" class="timepicker timepicker-24 team-form-time" placeholder="--:--" value="<?= $match['time'];?>"></div>
+									<div class="flex-td"><input type="text" placeholder="Ej: Cancha 4" class="team-form-field" value="<?= $match['field'];?>"></div>
+									<div class="flex-td"><input disabled="disabled" value="<?= $match['MatchType']['name'];?>"></div>
+									<div class="flex-td" style="text-align:center;">
+										<a class="btn btn-sm blue"><i class="fa fa-futbol-o"></i> <?= __('Planilla') ?></a>
 									</div>
 								</div>
-							</div>
-						<?php endforeach; ?>
+						<?php $i++;endforeach; ?>
 						</div>
 					</div>
 				</div>
@@ -150,7 +235,7 @@
 <?php $this->append('pageStyles'); ?>
 	<?= $this->Html->css('/plugins/bootstrap-buttons-loader/dist/ladda-themeless.min');?>
 	<?= $this->Html->css('/plugins/sweetalert/lib/sweet-alert');?>
-	<?= $this->Html->css('/plugins/jquery-nestable/jquery.nestable');?>
+	<?= $this->Html->css('schedule-matches.css');?>
 	<?= $this->Html->css('/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min');?>
 	<?= $this->Html->css('/plugins/bootstrap-datepicker/css/datepicker3');?>
 
@@ -179,13 +264,21 @@
 
 	<script>
 		function outputJsonZones(){
-			teamForms = document.getElementsByClassName('team-form');
+			teamForms = document.getElementsByClassName('team-data');
 			var saveString = "";
 			saveString += '[';
 			//var lists = teamForms.getElementsByClassName('dd');
 			for(var i=0; i<teamForms.length; i++){	// Looping through all <ul> except the one who contain all items
 				id = teamForms[i].id;
-				date = teamForms[i].getElementsByClassName('team-form-date')[0].value.split("/").reverse().join("-"); //Transform the date from d/m/Y to Y-m-d format
+
+				dateArray = teamForms[i].getElementsByClassName('team-form-date')[0].value.split('/')
+				//verify if is a valid date, or set 0
+				if(!isNaN(Date.parse(dateArray[1]+'/'+dateArray[0]+'/'+dateArray[2]))){
+					date = dateArray[2]+'-'+dateArray[1]+'-'+dateArray[0]
+				}else{
+					date = '0000-00-00';
+				}
+
 				time = teamForms[i].getElementsByClassName('team-form-time')[0].value;
 				field = teamForms[i].getElementsByClassName('team-form-field')[0].value;
 				saveString += '{"Match":{"id":' + id + ', "date":"' + date + '", "time":"' + time + '", "field":"' + field + '"}}';

@@ -65,7 +65,7 @@ class Zone extends AppModel {
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
-			'order' => '',
+			'order' => 'date ASC',
 			'limit' => '',
 			'offset' => '',
 			'exclusive' => '',

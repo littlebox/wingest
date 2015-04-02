@@ -280,15 +280,58 @@ class TournamentsController extends AppController {
 				throw new BadRequestException(__('Invalid request type (has to be post or put)'));
 			}
 		} else {
-			//Si la consulta no es AJAZ, devuelve los TOrneos, equipos y zonas para msotrar en la vista
-			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id), 'contain' => array('Zone.id','Zone.name','Zone.Match','Zone.Match.TeamLocal' => array('fields' => array('id', 'name','main_shirt_color','secondary_shirt_color')),'Zone.Match.TeamVisitor' => array('fields' => array('id', 'name','main_shirt_color','secondary_shirt_color')), 'Playoff.id', 'Playoff.name', 'Playoff.Match.MatchType','Playoff.Match.TeamLocal' => array('fields' => array('id', 'name','main_shirt_color','secondary_shirt_color')),'Playoff.Match.TeamVisitor' => array('fields' => array('id', 'name','main_shirt_color','secondary_shirt_color'))));
-			//debug($this->Tournament->find('first', $options));die();
+			//Si la consulta no es AJAX, devuelve los Torneos, equipos y zonas para mostrar en la vista
+			$options = array(
+				'conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id),
+				'contain' => array(
+					'Zone.id',
+					'Zone.name',
+					'Zone.Match',
+					'Zone.Match.TeamLocal' => array(
+						'fields' => array(
+							'id',
+							'name',
+							'main_shirt_color',
+							'secondary_shirt_color'
+						)
+					),
+					'Zone.Match.TeamVisitor' => array(
+						'fields' => array(
+							'id',
+							'name',
+							'main_shirt_color',
+							'secondary_shirt_color'
+						)
+					),
+					'Playoff.id',
+					'Playoff.name',
+					'Playoff.Match.MatchType',
+					'Playoff.Match.TeamLocal' => array(
+						'fields' => array(
+							'id',
+							'name',
+							'main_shirt_color',
+							'secondary_shirt_color'
+						)
+					),
+					'Playoff.Match.TeamVisitor' => array(
+						'fields' => array(
+							'id',
+							'name',
+							'main_shirt_color',
+							'secondary_shirt_color'
+						)
+					)
+				),
+				// 'order' => array('Zone.Match.date DESC'),
+			);
+			// debug($this->Tournament->find('first', $options));die();
 			$this->set('tournament', $this->Tournament->find('first', $options));
 		}
 	}
 
 	//create new matches
-	public function set_matches($id = null){
+	public function generate_zone_matches($id = null){
 
 		$matches = [];
 
@@ -312,7 +355,7 @@ class TournamentsController extends AppController {
 		// debug($matches);die();
 
 		$m = $this->Tournament->Zone->Match->create($matches);
-		
+
 		$this->Tournament->Zone->Match->saveMany($matches);
 
 		debug($m['Match']);die();
