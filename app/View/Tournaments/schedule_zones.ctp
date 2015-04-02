@@ -33,6 +33,11 @@
 					<div class="caption">
 						<i class="fa fa-shield"></i>Equipos sin Zona
 					</div>
+					<div class="actions">
+						<div class="btn btn-circle btn-default">
+							<span class="qty_teams"><?= intval(count($tournament['Team']) - count($equiposUbicados))?></span>/<span class="total_qty_teams"><?= intval(count($tournament['Team'])) ?></span>
+						</div>
+					</div>
 				</div>
 				<div class="portlet-body" style="min-height:<?= ($equiposPorZona * 30 + ($equiposPorZona+1) * 5 + 10 + 8) ?>px;">
 					<div class="dd">
@@ -84,6 +89,11 @@
 						<div class="portlet-title">
 							<div class="caption">
 								<i class="fa fa-shield"></i>Zona <?= $zone['name']?>
+							</div>
+							<div class="actions">
+								<div class="btn btn-circle btn-default">
+									<span class="qty_teams"><?= count($zone['Team'])?></span>/<span class="total_qty_teams"><?= ($equiposPorZona) ?></span>
+								</div>
 							</div>
 						</div>
 						<div class="portlet-body" style="height:<?= ($equiposPorZona * 30 + ($equiposPorZona+1) * 5 + 10 + 8) ?>px;">
