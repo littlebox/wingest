@@ -36,8 +36,10 @@
 													<label class="control-label col-md-3"><?= __('Date') ?></label>
 													<div class="col-md-9">
 														<?php
-															$dbDateTime = DateTime::createFromFormat('Y-m-d', $match['date']);
-															$espDateString = $dbDateTime->format('d/m/Y');
+															if(isset($match['date'])){
+																$dbDateTime = DateTime::createFromFormat('Y-m-d', $match['date']);
+																$espDateString = $dbDateTime->format('d/m/Y');
+															}
 														?>
 														<input class="form-control date-picker team-form-date" size="16" type="text" value="<?= $espDateString;?>">
 													</div>

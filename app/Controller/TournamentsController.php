@@ -190,10 +190,10 @@ class TournamentsController extends AppController {
 			return $this->redirect(array('controller' => 'tournaments','action' => 'index'));
 		} else {
 
-			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) , 'contain' => 'Playoff');
+			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) , 'contain' => array('Playoff'));
 			$this->request->data = $this->Tournament->find('first', $options);
 
-			$this->request->data['Tournament']['actual_number_of_zones'] = $this->Tournament->Zone->find('count', $options);
+			$this->request->data['Tournament']['actual_number_of_zones'] = $this->Tournament->Zone->find('count', array('conditions' => array('Tournament.id'=> $id)));
 			$this->request->data['Tournament']['number_of_playoffs'] = $this->Tournament->Playoff->find('count', $options);
 			$this->request->data['Tournament']['actual_number_of_playoffs'] = $this->request->data['Tournament']['number_of_playoffs'];
 
@@ -296,12 +296,27 @@ class TournamentsController extends AppController {
 		$zones = $this->Tournament->Zone->find('all',$options);
 		foreach($zones as $zone){
 			foreach($zone['Team'] as $k=>$team){
-				for($i = $k+1; $i < (count($zone['Team']) - 1 ); $i++ ){
-					echo $zone['Team'][$k]['name'].'-'.$zone['Team'][$i]['name'].'<br>';
+				for($i = $k+1; $i <= (count($zone['Team']) - 1 ); $i++ ){
+
+					array_push($matches, array(
+						'team1_id' => $zone['Team'][$k]['id'],
+						'team2_id' => $zone['Team'][$i]['id'],
+						'zone_id' => $zone['Zone']['id'],
+						'match_type_id' => 1,
+						)
+					);
+
 				}
 			}
 		}
-		debug($zones);die();
+		// debug($matches);die();
+
+		$m = $this->Tournament->Zone->Match->create($matches);
+		
+		$this->Tournament->Zone->Match->saveMany($matches);
+
+		debug($m['Match']);die();
+
 	}
 
 	public function beforeFilter() {
