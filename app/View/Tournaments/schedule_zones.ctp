@@ -23,7 +23,9 @@
 			</span>
 		</div>
 		<div class="actions">
-			<button type="button" onClick="sendScheduleZones();" id="send-shedule-zones" class="btn btn-circle green-haze ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Save') ?></span></button>
+			<button type="button" onClick="generateZonesMatches();" id="generate-zones-matches" class="btn btn-circle green-haze ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Generate Zone Matches') ?></span></button>
+			<button type="button" onClick="generatePlayoffMatches();" id="generate-playoff-matches" class="btn btn-circle red-soft ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Generate Playoff Matches') ?></span></button>
+			<button type="button" onClick="sendScheduleZones();" id="send-shedule-zones" class="btn btn-circle green ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Save Matches') ?></span></button>
 		</div>
 	</div>
 	<div class="portlet-body" id="schedule_zones">
@@ -209,6 +211,68 @@
 			//console.log(saveString);
 			return saveString;
 
+		}
+
+		function generateZonesMatches(){
+
+			var targeturl = '<?= $this->Html->url(array("action" => "generate_zone_matches", $id) ); ?>';
+
+			swal({
+				title: '\'Tas seguro Gera?',
+				text: 'Mirá que se van a borrar TODOS LOS PARTIDOS de grupo que creaste antes en este torneo!',
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonText: "Si",
+			},
+			function(){
+
+				console.log('si')
+
+				var button = $( '#generate-zone-matches' ).ladda();
+				button.ladda( 'start' ); //Show loader in button
+
+				$.ajax({
+				type: 'post',
+				cache: false,
+				url: targeturl,
+
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+				},
+				success: function(response) {
+					console.log(response)
+					if (response.content) {
+						//Show sweetalert
+						swal({
+							title: 'OK',
+							text: response.content,
+							type: "success",
+							confirmButtonText: "<?= __('Ok') ?>"
+						});
+					}
+					if (response.error) {
+						swal({
+							title: 'ERROR',
+							text: response.error,
+							type: "error",
+							confirmButtonText: "<?= __('Ok') ?>"
+						});
+					}
+				},
+				error: function(e) {
+					swal({
+						title: 'ERROR',
+						text: e.responseText.message,
+						type: "error",
+						confirmButtonText: "<?= __('Ok') ?>"
+					});
+				},
+				complete: function(){
+					button.ladda( 'stop' ); //Hide loader in button
+				}
+			});
+			})
 		}
 
 		function sendScheduleZones() {

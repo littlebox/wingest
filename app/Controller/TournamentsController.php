@@ -153,8 +153,8 @@ class TournamentsController extends AppController {
 			//debug($this->request->data);die();
 
 			//Bring count of existing zones to compare if user change it
-			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) ,'contain' => array('Zone', 'Playoff'));
-			$savedNumberOfZones = $this->Tournament->Zone->find('count', $options);
+			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) ,'contain' => array('Zone', 'Playoff', 'Tournament'));
+			$savedNumberOfZones = $this->Tournament->Zone->find('count', array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) ,'contain' => array('Tournament')));
 			$savedNumberOfPlayoffs = $this->Tournament->Playoff->find('count', $options);
 
 			//Set tournament ID to save groups asociated to it.
@@ -240,6 +240,7 @@ class TournamentsController extends AppController {
 			//Si la consulta no es AJAZ, devuelve los TOrneos, equipos y zonas para msotrar en la vista
 			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id), 'contain' => array('Team.id','Team.name','Team.main_shirt_color','Team.secondary_shirt_color','Zone.id','Zone.name','Zone.Team' => array('fields' => array('id', 'name','main_shirt_color','secondary_shirt_color'))));
 			$this->set('tournament', $this->Tournament->find('first', $options));
+			$this->set('id', $id);
 		}
 
 	}
@@ -333,33 +334,41 @@ class TournamentsController extends AppController {
 	//create new matches
 	public function generate_zone_matches($id = null){
 
-		$matches = [];
+		// if ($this->request->is(array('ajax'))) {
 
-		$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) ,'contain' => array('Tournament.id','Team.id','Team.name'));
-		$zones = $this->Tournament->Zone->find('all',$options);
-		foreach($zones as $zone){
-			foreach($zone['Team'] as $k=>$team){
-				for($i = $k+1; $i <= (count($zone['Team']) - 1 ); $i++ ){
+			$this->autoRender = false;
 
-					array_push($matches, array(
-						'team1_id' => $zone['Team'][$k]['id'],
-						'team2_id' => $zone['Team'][$i]['id'],
-						'zone_id' => $zone['Zone']['id'],
-						'match_type_id' => 1,
-						)
-					);
+			$matches = [];
 
+			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) ,'contain' => array('Tournament.id','Team.id','Team.name'));
+
+			$matches = $this->Tournament->Zone->Match->find('all', array('conditions' => array('Tournament.id' => $id)));
+
+			debug($matches);die();
+
+			$zones = $this->Tournament->Zone->find('all',$options);
+			foreach($zones as $zone){
+				foreach($zone['Team'] as $k=>$team){
+					for($i = $k+1; $i <= (count($zone['Team']) - 1 ); $i++ ){
+
+						array_push($matches, array(
+							'team1_id' => $zone['Team'][$k]['id'],
+							'team2_id' => $zone['Team'][$i]['id'],
+							'zone_id' => $zone['Zone']['id'],
+							'match_type_id' => 1,
+							)
+						);
+
+					}
 				}
 			}
-		}
-		// debug($matches);die();
+			// debug($matches);die();
 
-		$m = $this->Tournament->Zone->Match->create($matches);
+			$c = $this->Tournament->Zone->Match->saveMany($matches);
 
-		$this->Tournament->Zone->Match->saveMany($matches);
+			echo $c;
 
-		debug($m['Match']);die();
-
+		// }
 	}
 
 	public function beforeFilter() {
