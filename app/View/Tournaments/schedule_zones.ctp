@@ -23,9 +23,9 @@
 			</span>
 		</div>
 		<div class="actions">
-			<button type="button" onClick="generateZonesMatches();" id="generate-zones-matches" class="btn btn-circle green-haze ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Generate Zone Matches') ?></span></button>
+			<button type="button" onClick="generateZoneMatches();" id="generate-zone-matches" class="btn btn-circle green-haze ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Generate Zone Matches') ?></span></button>
 			<button type="button" onClick="generatePlayoffMatches();" id="generate-playoff-matches" class="btn btn-circle red-soft ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Generate Playoff Matches') ?></span></button>
-			<button type="button" onClick="sendScheduleZones();" id="send-shedule-zones" class="btn btn-circle green ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Save Matches') ?></span></button>
+			<button type="button" onClick="sendScheduleZones();" id="send-shedule-zones" class="btn btn-circle green ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Save Zones') ?></span></button>
 		</div>
 	</div>
 	<div class="portlet-body" id="schedule_zones">
@@ -213,7 +213,7 @@
 
 		}
 
-		function generateZonesMatches(){
+		function generateZoneMatches(){
 
 			var targeturl = '<?= $this->Html->url(array("action" => "generate_zone_matches", $id) ); ?>';
 
@@ -225,8 +225,6 @@
 				confirmButtonText: "Si",
 			},
 			function(){
-
-				console.log('si')
 
 				var button = $( '#generate-zone-matches' ).ladda();
 				button.ladda( 'start' ); //Show loader in button
@@ -241,12 +239,12 @@
 					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
 				},
 				success: function(response) {
-					console.log(response)
-					if (response.content) {
+					response = JSON.parse(response);
+					if (response.success) {
 						//Show sweetalert
 						swal({
 							title: 'OK',
-							text: response.content,
+							text: response.success,
 							type: "success",
 							confirmButtonText: "<?= __('Ok') ?>"
 						});
@@ -304,6 +302,9 @@
 							type: "success",
 							confirmButtonText: "<?= __('Ok') ?>"
 						});
+
+						TournamentScheduleZones.enableMatchButtons();
+
 					}
 					if (response.error) {
 						swal({

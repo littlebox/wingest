@@ -237,7 +237,7 @@ class TournamentsController extends AppController {
 				throw new BadRequestException(__('Invalid request type (has to be post or put)'));
 			}
 		} else {
-			//Si la consulta no es AJAZ, devuelve los TOrneos, equipos y zonas para msotrar en la vista
+			//Si la consulta no es AJAX, devuelve los Torneos, equipos y zonas para mostrar en la vista
 			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id), 'contain' => array('Team.id','Team.name','Team.main_shirt_color','Team.secondary_shirt_color','Zone.id','Zone.name','Zone.Team' => array('fields' => array('id', 'name','main_shirt_color','secondary_shirt_color'))));
 			$this->set('tournament', $this->Tournament->find('first', $options));
 			$this->set('id', $id);
@@ -334,18 +334,16 @@ class TournamentsController extends AppController {
 	//create new matches
 	public function generate_zone_matches($id = null){
 
-		// if ($this->request->is(array('ajax'))) {
+		if ($this->request->is(array('ajax'))) {
 
 			$this->autoRender = false;
 
 			$matches = [];
 
+			//Delete all matches of tournament
+			$this->Tournament->Zone->Match->deleteAll(array('Zone.tournament_id' => $id));
+
 			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) ,'contain' => array('Tournament.id','Team.id','Team.name'));
-
-			$matches = $this->Tournament->Zone->Match->find('all', array('conditions' => array('Tournament.id' => $id)));
-
-			debug($matches);die();
-
 			$zones = $this->Tournament->Zone->find('all',$options);
 			foreach($zones as $zone){
 				foreach($zone['Team'] as $k=>$team){
@@ -362,13 +360,18 @@ class TournamentsController extends AppController {
 					}
 				}
 			}
-			// debug($matches);die();
 
-			$c = $this->Tournament->Zone->Match->saveMany($matches);
+			//Save new matches
+			$response = [];
+			if($this->Tournament->Zone->Match->saveMany($matches)){
+				$response['success'] = __('The matches have been generated succesfully!');
+			}else{
+				$response['error'] = __('There was some error');
+			}
 
-			echo $c;
+			echo json_encode($response);
 
-		// }
+		}
 	}
 
 	public function beforeFilter() {

@@ -22,6 +22,7 @@ var TournamentScheduleZones = {
 					$(ui.sender).sortable('cancel');
 				}else{
 					TournamentScheduleZones.count(ui.sender,this);
+					TournamentScheduleZones.disableMatchButtons();
 				}
 
 			}
@@ -32,6 +33,14 @@ var TournamentScheduleZones = {
 	count: function(from,to){
 		$(from).parent().parent().parent().find('.qty_teams').html($(from).get(0).childElementCount);
 		$(to).parent().parent().parent().find('.qty_teams').html($(to).get(0).childElementCount)
+	},
+
+	disableMatchButtons: function(){
+		$('#generate-zone-matches,#generate-playoff-matches').attr('disabled','disabled');
+	},
+
+	enableMatchButtons: function(){
+		$('#generate-zone-matches,#generate-playoff-matches').removeAttr('disabled');
 	},
 
 	init: function (){

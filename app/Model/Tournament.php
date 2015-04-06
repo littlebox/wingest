@@ -64,7 +64,7 @@ class Tournament extends AppModel {
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
-			'order' => '',
+			'order' => 'Team.name',
 			'limit' => '',
 			'offset' => '',
 			'exclusive' => '',

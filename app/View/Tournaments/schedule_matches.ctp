@@ -119,16 +119,6 @@
 					</div>
 					<div class="portlet-body">
 						<div class="flex-table">
-							<div class="flex-row flex-thead">
-								<div class="flex-td"></div>
-								<div class="flex-td"><?= __('Local Team') ?></div>
-								<div class="flex-td"><?= __('Visitor Team') ?></div>
-								<div class="flex-td"><?= __('Date') ?></div>
-								<div class="flex-td"><?= __('Time') ?></div>
-								<div class="flex-td"><?= __('Field') ?></div>
-								<div class="flex-td"><?= __('Type of match') ?></div>
-								<div class="flex-td"><?= __('Actions') ?></div>
-							</div>
 							<?php
 								$i = 0;
 								foreach ($playoff['Match'] as $match):
@@ -155,7 +145,18 @@
 									}else{
 										$visitor_sec_color = '#FFDA00';
 									}
-							?>
+									if($i == 0):
+									?>
+										<div class="flex-row flex-thead">
+											<div class="flex-td small"></div>
+											<div class="flex-td"><?= __('Local Team') ?></div>
+											<div class="flex-td"><?= __('Visitor Team') ?></div>
+											<div class="flex-td"><?= __('Date') ?></div>
+											<div class="flex-td"><?= __('Time') ?></div>
+											<div class="flex-td"><?= __('Field') ?></div>
+											<div class="flex-td"><?= __('Actions') ?></div>
+										</div>
+									<?php endif;?>
 								<div class="team-data flex-row" id="<?= $match['id'];?>">
 									<div class="flex-td"><?= $i?></div>
 									<div class="flex-td">
