@@ -200,7 +200,7 @@ class TeamsController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
-		return $this->redirect(array('action' => 'admin_edit'));
+		return $this->redirect(array('action' => 'edit', 'admin' => true, $id));
 	}
 
 /**
