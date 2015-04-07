@@ -49,4 +49,26 @@
     color: #FFF;
     border: 1px solid #44B6AE; }
 
-/*# sourceMappingURL=schedule-matches.css.map */
+.spreadsheet {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center; }
+  .spreadsheet .header {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex; }
+    .spreadsheet .header .head-center {
+      flex: 5 1;
+      text-align: center; }
+    .spreadsheet .header .head-left, .spreadsheet .header .head-right {
+      flex: 1 5 1em; }
+
+/*# sourceMappingURL=matches-view.css.map */

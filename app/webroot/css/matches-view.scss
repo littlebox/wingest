@@ -72,3 +72,27 @@ $row-color-2:darken(#fff,1);
 	}
 
 }
+
+.spreadsheet{
+
+	@include flexbox();
+	flex-direction:column;
+
+	justify-content: center;
+	align-items: center;
+	text-align:center;
+
+	.header{
+
+		@include flexbox();
+
+		.head-center{
+			flex: 5 1;
+			text-align:center;
+		}
+
+		.head-left,.head-right{
+			flex:1 5 1em;
+		}
+	}
+}
