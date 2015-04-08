@@ -211,17 +211,41 @@ class TeamsController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
-		$this->Team->id = $id;
-		if (!$this->Team->exists()) {
-			throw new NotFoundException(__('Invalid team'));
+		$this->request->allowMethod('post');
+
+		if($this->request->is('ajax')){
+			$data = array(
+				'content' => '',
+				'error' => '',
+			);
+
+			$this->Team->id = $id;
+			if (!$this->Team->exists()) {
+				$data['error'] = __('Invalid Team');
+			} else {
+				if ($this->Team->delete()) {
+					$data['content'] = __('Team deleted');
+				} else {
+					$data['error'] = __('Team was not deleted');
+				}
+			}
+
+			$this->set(compact('data')); // Pass $data to the view
+			$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+
+		}else{
+
+			$this->Team->id = $id;
+			if (!$this->Team->exists()) {
+				throw new NotFoundException(__('Invalid Team'));
+			}
+			if ($this->Team->delete()) {
+				$this->Session->setFlash(__('Team deleted'), 'metrobox/flash_success');
+				return $this->redirect(array('action' => 'index'));
+			}
+			$this->Session->setFlash(__('Team was not deleted'), 'metrobox/flash_danger');
+			return $this->redirect(array('action' => 'index'));
 		}
-		$this->request->allowMethod('post', 'delete');
-		if ($this->Team->delete()) {
-			$this->Session->setFlash(__('The team has been deleted.'));
-		} else {
-			$this->Session->setFlash(__('The team could not be deleted. Please, try again.'));
-		}
-		return $this->redirect(array('action' => 'index'));
 	}
 
 /**
