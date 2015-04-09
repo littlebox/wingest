@@ -38,12 +38,31 @@ class MatchesController extends AppController {
 		}
 		$options = array('conditions' => array('Match.' . $this->Match->primaryKey => $id), 'contain' => array(
 			'Zone.name',
-			'TeamLocal.name',
-			'TeamVisitor.name',
-			'TeamLocal.Player.name',
-			'TeamLocal.Player.last_name',
-			'TeamVisitor.Player.name',
-			'TeamVisitor.Player.last_name',
+			'TeamLocal' => array(
+				'fields' => array(
+					'name',
+					'main_shirt_color',
+				)
+			),
+			'TeamVisitor' => array(
+				'fields' => array(
+					'name',
+					'main_shirt_color',
+				)
+			),
+			'TeamLocal.Player' => array(
+				'fields' => array(
+					'name',
+					'last_name'
+				)
+			),
+			'TeamVisitor.Player' =>
+				array('fields' => array(
+					'name',
+					'last_name'
+					)
+				),
+			'Zone.Tournament.players_per_team',
 			'Goal',
 			'Booking',
 		));

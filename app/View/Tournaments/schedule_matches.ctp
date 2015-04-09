@@ -102,7 +102,7 @@
 									<div class="flex-td"><input type="text" class="timepicker timepicker-24 team-form-time" placeholder="--:--" value="<?= $match['time'];?>"></div>
 									<div class="flex-td"><input type="text" placeholder="Ej: Cancha 4" class="team-form-field" value="<?= $match['field'];?>"></div>
 									<div class="flex-td" style="text-align:center;">
-										<a class="btn btn-sm blue"><i class="fa fa-futbol-o"></i> <?= __('Planilla') ?></a>
+										<a href="<?php echo $this->Html->url(array('controller' => 'Matches', 'action'=>'view', $match['id']))?>" class="btn btn-sm blue"><i class="fa fa-futbol-o"></i> <?= __('Planilla') ?></a>
 									</div>
 								</div>
 						<?php $i++;endforeach; ?>
