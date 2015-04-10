@@ -119,17 +119,40 @@ $row-color-2:darken(#fff,1);
 	.header{
 
 		@include flexbox();
+		align-items:center;
 
 		.head-center{
 			flex: 5 1;
 			text-align:center;
+			align-self: flex-start;
 		}
 
 		.head-left,.head-right{
 			flex:1 5 1em;
+			color: #A9A9A9;
+			align-self: flex-start;
 		}
 
-		align-items:center;
+		.date-name,.field{
+			background:black;
+			color:white;
+			font-size: 1.3em;
+			text-transform: uppercase;
+		}
+
+		.time,.date,.date-name,.field{
+			font-weight: bold;
+		}
+
+		.time-label{
+			text-decoration: underline
+		}
+
+		.time-details{
+			font-size: 0.7em;
+			justify-content: flex-end;
+			align-items: flex-end;
+		}
 
 	}
 
@@ -317,6 +340,13 @@ $row-color-2:darken(#fff,1);
 		width:100%;
 	}
 
+	.logo{
+		background-image: url('/img/logotw-black.svg');
+		width:30px;
+		height:30px;
+		background-size: 30px 30px;
+	}
+
 }
 
 @media print{
@@ -351,6 +381,16 @@ $row-color-2:darken(#fff,1);
 		// width: 18cm;
 		// position: absolute;
 		// left: 0;
+
+		.players-list{
+			top: -3em;
+			position: relative;
+		}
+
+		.time-label{
+			opacity: 0.2;
+			font-size: 1em;
+		}
 
 		.team-color-input input{
 			font-size: 1.2em;
@@ -392,7 +432,7 @@ $row-color-2:darken(#fff,1);
 	}
 
 }
-@page {
-  size: A4;
-  margin: 1cm 1cm 1cm 0.5cm;
-}
+// @page {
+//   size: A4;
+//   margin: 0.3cm 0.3cm 0.3cm 0.2cm;
+// }

@@ -95,9 +95,25 @@
     align-items: center; }
     .spreadsheet .header .head-center {
       flex: 5 1;
-      text-align: center; }
+      text-align: center;
+      align-self: flex-start; }
     .spreadsheet .header .head-left, .spreadsheet .header .head-right {
-      flex: 1 5 1em; }
+      flex: 1 5 1em;
+      color: #A9A9A9;
+      align-self: flex-start; }
+    .spreadsheet .header .date-name, .spreadsheet .header .field {
+      background: black;
+      color: white;
+      font-size: 1.3em;
+      text-transform: uppercase; }
+    .spreadsheet .header .time, .spreadsheet .header .date, .spreadsheet .header .date-name, .spreadsheet .header .field {
+      font-weight: bold; }
+    .spreadsheet .header .time-label {
+      text-decoration: underline; }
+    .spreadsheet .header .time-details {
+      font-size: 0.7em;
+      justify-content: flex-end;
+      align-items: flex-end; }
   .spreadsheet .team-name, .spreadsheet .teams-goals, .spreadsheet .zone-name {
     font-size: 2rem;
     font-weight: bold;
@@ -218,6 +234,11 @@
     font-size: 2em; }
   .spreadsheet .hundredp {
     width: 100%; }
+  .spreadsheet .logo {
+    background-image: url("/img/logotw-black.svg");
+    width: 30px;
+    height: 30px;
+    background-size: 30px 30px; }
 
 @media print {
   ::-webkit-input-placeholder {
@@ -242,6 +263,12 @@
     border: none;
     padding: 0 !important; }
 
+  .spreadsheet .players-list {
+    top: -3em;
+    position: relative; }
+  .spreadsheet .time-label {
+    opacity: 0.2;
+    font-size: 1em; }
   .spreadsheet .team-color-input input {
     font-size: 1.2em; }
   .spreadsheet .player .player-number input {
@@ -262,8 +289,5 @@
     background-image: url("/img/futbol.svg") !important;
     background-size: 100%;
     background-repeat: no-repeat; } }
-@page {
-  size: A4;
-  margin: 1cm 1cm 1cm 0.5cm; }
 
 /*# sourceMappingURL=matches-view.css.map */

@@ -3,17 +3,38 @@
 
 	<div class="header">
 		<div class="head-left">
-			<div>Fecha</div>
-			<div><?= $match['Match']['date'];?></div>
+			<div class="date-name">Fecha</div>
+			<?php if(!empty($match['Match']['time'])):?>
+			<div class="date"><?= date('j/n/Y',strtotime($match['Match']['date']))?></div>
+			<?php else:?>
+			<div class="date">Fecha no asignada!</div>
+			<?php endif;?>
 		</div>
 		<div class="head-center zone-name"><?= __('GRUPO ').$match['Zone']['name']; ?></div>
 		<div class="head-right">
-			<div><?= $match['Match']['field'];?></div>
-			<div><?= $match['Match']['time'];?></div>
+			<div class="field"><?php echo(!empty($match['Match']['field'])? 'Cancha '.$match['Match']['field'] : 'Cancha no asignada!');?></div>
+
+			<?php if(!empty($match['Match']['time'])):?>
+			<div class="time"><?php echo(date('H:i',strtotime($match['Match']['time'])));?></div>
+			<div class="time-label">hora real de comienzo</div>
+			<div class="time-details flex">
+				<div class="flex fcolumn" style="flex: 1">
+					<div class="time"><?php echo(date('H:i',strtotime($match['Match']['time'].' +10 minutes')))?></div>
+					<div class="time"><?php echo(date('H:i',strtotime($match['Match']['time'].' +55 minutes')))?></div>
+				</div>
+				<div class="flex fcolumn fend" style="flex: 3">
+					<div>inicio máximo</div>
+					<div>fin máximo</div>
+				</div>
+			</div>
+			<?php else:?>
+			<div class="time">Hora no asignada!</div>
+			<?php endif;?>
+
 		</div>
 	</div>
 
-	<div class="flex fcenter" style="width:80%;">
+	<div class="players-list flex fcenter" style="width:80%;">
 
 		<div class="flex fcolumn fend">
 			<div class="flex">
@@ -269,7 +290,7 @@
 				<div>observaciones:</div>
 			</div>
 			<div class="frow flex fend">
-				<div>logo</div>
+				<div class="logo"></div>
 			</div>
 		</div>
 
