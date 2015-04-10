@@ -1,5 +1,6 @@
 $header-color:#44B6AE;
 $row-color-1:#f2f2f2;
+$row-color-2:darken(#fff,1);
 
 @mixin flexbox() {
 	display: -webkit-box;
@@ -17,18 +18,22 @@ $row-color-1:#f2f2f2;
 	.flex-row{
 		@include flexbox();
 		flex:1 1 3em;
-		border-left: 1px solid $header-color;
-		border-right: 1px solid $header-color;
+		/*border-left: 1px solid $header-color;
+		border-right: 1px solid $header-color;*/
 		padding: 3px 25px;
 		align-items: center;
 		flex-direction: row;
 
-		&:nth-child(2n+0){
+		&:nth-child(2n+1){
 			background: $row-color-1;
 		}
 
+		&:nth-child(2n+0){
+			background: $row-color-2;
+		}
+
 		&:last-child{
-			border-bottom: 1px solid $header-color;
+			/*border-bottom: 1px solid $header-color;*/
 		}
 
 		&:hover{
@@ -44,7 +49,7 @@ $row-color-1:#f2f2f2;
 			flex: 1 1;
 		}
 
-		input{
+		input, select{
 			text-align: center;
 			font-size: 1.2em;
 			width:90%;
@@ -58,7 +63,7 @@ $row-color-1:#f2f2f2;
 	}
 
 	.flex-thead{
-		background: $header-color;
+		background: $header-color !important;
 		flex-basis: 3.5em;
 		font-size: 1.8rem;
 		text-align: center;

@@ -36,8 +36,40 @@ class MatchesController extends AppController {
 		if (!$this->Match->exists($id)) {
 			throw new NotFoundException(__('Invalid match'));
 		}
-		$options = array('conditions' => array('Match.' . $this->Match->primaryKey => $id));
+		$options = array('conditions' => array('Match.' . $this->Match->primaryKey => $id), 'contain' => array(
+			'Zone.name',
+			'TeamLocal' => array(
+				'fields' => array(
+					'name',
+					'main_shirt_color',
+				)
+			),
+			'TeamVisitor' => array(
+				'fields' => array(
+					'name',
+					'main_shirt_color',
+				)
+			),
+			'TeamLocal.Player' => array(
+				'fields' => array(
+					'name',
+					'last_name'
+				)
+			),
+			'TeamVisitor.Player' =>
+				array('fields' => array(
+					'name',
+					'last_name'
+					)
+				),
+			'Zone.Tournament.players_per_team',
+			'Goal',
+			'Booking',
+		));
 		$this->set('match', $this->Match->find('first', $options));
+
+		$this->layout = 'metrobox';
+
 	}
 
 /**
