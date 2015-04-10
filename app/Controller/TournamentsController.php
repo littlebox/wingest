@@ -150,7 +150,7 @@ class TournamentsController extends AppController {
 
 		if ($this->request->is(array('post', 'put'))) {
 
-			//debug($this->request->data);die();
+			// debug($this->request->data);die();
 
 			//Bring count of existing zones to compare if user change it
 			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) ,'contain' => array('Zone', 'Playoff', 'Tournament'));

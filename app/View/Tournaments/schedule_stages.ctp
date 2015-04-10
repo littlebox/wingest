@@ -58,9 +58,10 @@
 											</div>
 										</div>
 										<div class="portlet-body form">
+
 											<div class="playoffField">
 												<div class="form-group">
-													<label class="control-label col-md-6">Equipos que clasifican</label>
+													<label class="control-label col-md-6"><?= __('Equipos que clasifican') ?></label>
 													<div class="col-md-6">
 														<?php
 															printf('<input type="hidden" name="data[Playoff][%u][id]" value="%u">',$k,$playoff['id']);
@@ -78,6 +79,20 @@
 
 												</div>
 											</div>
+
+											<div class="form-group">
+												<label for="" class="control-label col-md-6">Home and away matches</label>
+												<div class="col-md-6">
+													<?php printf('<input name="data[Playoff][%u][home_and_away_matches]" value="0" type="hidden">',$k);?>
+													<?php if(!$playoff['home_and_away_matches']){
+														printf('<input name="data[Playoff][%u][home_and_away_matches]" type="checkbox">',$k);
+													}else{
+														printf('<input checked="checked" name="data[Playoff][%u][home_and_away_matches]" type="checkbox">',$k);
+													}
+													?>
+												</div>
+											</div>
+
 										</div>
 									</div>
 

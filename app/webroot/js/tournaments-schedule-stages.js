@@ -213,7 +213,7 @@ var TournamentScheduleStages = {
 
 				select = numberTeamsPlayoffsSlider(i);
 
-				playoffContainer.querySelector('#cup'+i+' .portlet-body').innerHTML = '<div class="playoffField"><div class="form-group"><label class="control-label col-md-6">Equipos que clasifican</label><div class="col-md-6">'+select+'</div></div></div>'
+				playoffContainer.querySelector('#cup'+i+' .portlet-body').innerHTML = '<div class="playoffField"><div class="form-group"><label class="control-label col-md-6">Equipos que clasifican</label><div class="col-md-6">'+select+'</div></div></div><div class="form-group"><label for="" class="control-label col-md-6">Home and away matches</label><div class="col-md-6"><input name="data[Playoff]['+i+'][home_and_away_matches]" value=0 type="hidden"><input name="data[Playoff]['+i+'][home_and_away_matches]" type="checkbox"></div></div>'
 
 			}
 
