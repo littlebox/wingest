@@ -343,20 +343,47 @@ class TournamentsController extends AppController {
 			//Delete all matches of tournament
 			$this->Tournament->Zone->Match->deleteAll(array('Zone.tournament_id' => $id));
 
-			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) ,'contain' => array('Tournament.id','Team.id','Team.name'));
+			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) ,'contain' => array('Tournament.id','Tournament.zone_home_and_away_matches','Team.id','Team.name'));
 			$zones = $this->Tournament->Zone->find('all',$options);
+
+			// debug($zones);die();
+
 			foreach($zones as $zone){
-				foreach($zone['Team'] as $k=>$team){
-					for($i = $k+1; $i <= (count($zone['Team']) - 1 ); $i++ ){
+				if(!$zone['Tournament']['zone_home_and_away_matches']){
+					foreach($zone['Team'] as $k=>$team){
+						for($i = $k+1; $i <= (count($zone['Team']) - 1 ); $i++ ){
 
-						array_push($matches, array(
-							'team1_id' => $zone['Team'][$k]['id'],
-							'team2_id' => $zone['Team'][$i]['id'],
-							'zone_id' => $zone['Zone']['id'],
-							'match_type_id' => 1,
-							)
-						);
+							array_push($matches, array(
+								'team1_id' => $zone['Team'][$k]['id'],
+								'team2_id' => $zone['Team'][$i]['id'],
+								'zone_id' => $zone['Zone']['id'],
+								'match_type_id' => 1,
+								)
+							);
 
+						}
+					}
+				}else{
+					foreach($zone['Team'] as $k=>$team){
+						for($i = $k+1; $i <= (count($zone['Team']) - 1 ); $i++ ){
+
+							array_push($matches, array(
+								'team1_id' => $zone['Team'][$k]['id'],
+								'team2_id' => $zone['Team'][$i]['id'],
+								'zone_id' => $zone['Zone']['id'],
+								'match_type_id' => 1,
+								)
+							);
+
+							array_push($matches, array(
+								'team2_id' => $zone['Team'][$k]['id'],
+								'team1_id' => $zone['Team'][$i]['id'],
+								'zone_id' => $zone['Zone']['id'],
+								'match_type_id' => 1,
+								)
+							);
+
+						}
 					}
 				}
 			}

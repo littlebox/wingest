@@ -36,6 +36,7 @@
 					echo $this->Form->input('name',array('readonly' => 'readonly', 'disabled' => 'disabled', 'label' => array('class' => 'control-label col-md-3', 'text' => __('Tournament Name'))));
 					echo $this->Form->input('number_of_teams',array('type'=> 'number'));
 					echo $this->Form->input('number_of_zones',array('type'=> 'select'));
+					echo $this->Form->input('zone_home_and_away_matches',array('type'=> 'checkbox'));
 					echo $this->Form->input('number_of_playoffs',array('disabled' => 'disabled','type'=> 'select','options' => array('Seleccionar...', 1, 2, 3, 4, 5)));
 					//echo $this->Form->input('qualifying_teams_per_group',array('type'=> 'select'));
 					echo $this->Form->input('actual_number_of_zones', array('type' => 'hidden'));
@@ -65,23 +66,16 @@
 															printf('<input type="hidden" name="data[Playoff][%u][id]" value="%u">',$k,$playoff['id']);
 															printf('<select name="data[Playoff][%u][number_of_teams]" class="form-control form-playoff-number-of-teams">',$k);
 															for($i=2;$i<$this->request->data['Tournament']['number_of_teams'];$i = $i*2){
-																printf('<option value="%u">%u</option>',$i,$i);
+																if($i != $playoff['number_of_teams']){
+																	printf('<option value="%u">%u</option>',$i,$i);
+																}else{
+																	printf('<option selected="selected" value="%u">%u</option>',$i,$i);
+																}
 															}
 															echo '</select>';
 														?>
 													</div>
-													<script type="text/javascript">
-														(function(){
-															opts = document.querySelectorAll('select[name="data[Playoff][<?= $k?>][number_of_teams]"] option');
-															sel = document.querySelector('select[name="data[Playoff][<?= $k?>][number_of_teams]"]');
-															for(i=0; i<opts.length; i++){
-																if(opts[i].value == <?= $playoff['number_of_teams'] ?>){
-																	sel.selectedIndex = i;
-																	break;
-																}
-															}
-														})()
-													</script>
+
 												</div>
 											</div>
 										</div>
