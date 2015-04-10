@@ -3,13 +3,13 @@
 
 	<div class="header">
 		<div class="head-left">
-			<div>Fecha 1</div>
-			<div>22/02/15</div>
+			<div>Fecha</div>
+			<div><?= $match['Match']['date'];?></div>
 		</div>
 		<div class="head-center zone-name"><?= __('GRUPO ').$match['Zone']['name']; ?></div>
 		<div class="head-right">
-			<div>Cancha 2</div>
-			<div>13:30</div>
+			<div><?= $match['Match']['field'];?></div>
+			<div><?= $match['Match']['time'];?></div>
 		</div>
 	</div>
 
@@ -21,7 +21,7 @@
 				<div class="team-goals"><span>4</span></div>
 			</div>
 
-			<div class="flex">
+			<div class="flex fcenter">
 				<div class="team-shirt">
 					<div>
 						<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -44,7 +44,8 @@
 					<?php for($i=0,$n=$match['Zone']['Tournament']['players_per_team'];$i<$n;$i++):?>
 						<div class="flex-row player right" style="width:100%">
 							<?php if(isset($match['TeamLocal']['Player'][$i]) && $match['TeamLocal']['Player'][$i]['last_name'] != ''):?>
-								<div class="last-name"><span><?= $match['TeamLocal']['Player'][$i]['last_name'];?></span>,&nbsp;<span class="first-name"><?= $match['TeamLocal']['Player'][$i]['name'];?></span></div>
+								<div class="names">
+									<span class="last-name"><?= $match['TeamLocal']['Player'][$i]['last_name'];?></span>,&nbsp;<span class="first-name"><?= $match['TeamLocal']['Player'][$i]['name'];?></span></div>
 								<div class="player-number"><input type="text" placeholder="NRO"></div>
 							<?php endif;?>
 						</div>
@@ -60,7 +61,7 @@
 				<div class="team-name"><?= $match['TeamVisitor']['name']?></div>
 			</div>
 
-			<div class="flex">
+			<div class="flex fcenter">
 				<div class="team-color-input"><input type="text" name="color" placeholder="color"></div>
 				<div class="team-shirt">
 					<div>
@@ -83,7 +84,9 @@
 						<div class="flex-row player left" style="width:100%">
 							<?php if(isset($match['TeamVisitor']['Player'][$i]) && $match['TeamVisitor']['Player'][$i]['last_name'] != ''):?>
 								<div class="player-number"><input type="text" placeholder="NRO"></div>
-								<div class="last-name"><span><?= $match['TeamVisitor']['Player'][$i]['last_name'];?></span>,&nbsp;<span class="first-name"><?= $match['TeamVisitor']['Player'][$i]['name'];?></span></div>
+								<div class="names">
+									<span class="last-name"><?= $match['TeamVisitor']['Player'][$i]['last_name'];?></span>,&nbsp;<span class="first-name"><?= $match['TeamVisitor']['Player'][$i]['name'];?></span>
+								</div>
 							<?php endif;?>
 						</div>
 					<?php endfor;?>
@@ -95,11 +98,11 @@
 	</div>
 
 	<div>
-		<div class="flex fcenter">
+		<div class="flex fstart">
 
-			<div class="flex fcolumn fend" style="width:100%">
-				<div class="flex-table" style="width:100%">
-					<div class="flex-row flex " style="justify-content:space-around">
+			<div class="flex fcolumn fend hundredp">
+				<div class="flex-table hundredp">
+					<div class="dt-fields flex-row flex " style="justify-content:space-around">
 						<div>
 							<label>DT:</label>
 							<input type="text">
@@ -107,10 +110,13 @@
 						<div>
 							<label>DNI:</label>
 							<input type="text">
+						</div>
+						<div>
+							<input class="signature" type="text" placeholder="firma">
 						</div>
 					</div>
 
-					<div class="flex-row flex " style="justify-content:space-around">
+					<div class="dt-fields flex-row flex " style="justify-content:space-around">
 						<div>
 							<label>DT:</label>
 							<input type="text">
@@ -119,15 +125,43 @@
 							<label>DNI:</label>
 							<input type="text">
 						</div>
+						<div>
+							<input class="signature" type="text" placeholder="firma">
+						</div>
+					</div>
+				</div>
+
+				<div class="flex fcenter hundredp">
+
+					<div class="goals-bookings flex fcolumn fcenter">
+						<?php for($i=0;$i<5;$i++):?>
+						<div>
+							<input class="nro" type="text" placeholder="NRO">
+							<input class="goal" type="text">
+							<input class="red" type="text">
+							<input class="yellow" type="text">
+						</div>
+						<?php endfor;?>
+					</div>
+
+					<div class="goals-bookings flex fcolumn fcenter">
+						<?php for($i=0;$i<5;$i++):?>
+						<div>
+							<input class="nro" type="text" placeholder="NRO">
+							<input class="goal" type="text">
+							<input class="red" type="text">
+							<input class="yellow" type="text">
+						</div>
+						<?php endfor;?>
 					</div>
 
 				</div>
+
 			</div>
 
-			<div class="flex fcolumn fstart" style="width:100%">
-				<div class="flex-table" style="width:100%">
-
-					<div class="flex-row flex" style="justify-content:space-around">
+			<div class="flex fcolumn fstart hundredp">
+				<div class="flex-table hundredp">
+					<div class="dt-fields flex-row flex " style="justify-content:space-around">
 						<div>
 							<label>DT:</label>
 							<input type="text">
@@ -135,10 +169,13 @@
 						<div>
 							<label>DNI:</label>
 							<input type="text">
+						</div>
+						<div>
+							<input class="signature" type="text" placeholder="firma">
 						</div>
 					</div>
 
-					<div class="flex-row flex" style="justify-content:space-around">
+					<div class="dt-fields flex-row flex " style="justify-content:space-around">
 						<div>
 							<label>DT:</label>
 							<input type="text">
@@ -147,12 +184,95 @@
 							<label>DNI:</label>
 							<input type="text">
 						</div>
+						<div>
+							<input class="signature" type="text" placeholder="firma">
+						</div>
+					</div>
+				</div>
+
+				<div class="flex fcenter hundredp">
+
+					<div class="goals-bookings flex fcolumn fcenter">
+						<?php for($i=0;$i<5;$i++):?>
+						<div>
+							<input class="nro" type="text" placeholder="NRO">
+							<input class="goal" type="text">
+							<input class="red" type="text">
+							<input class="yellow" type="text">
+						</div>
+						<?php endfor;?>
+					</div>
+
+					<div class="goals-bookings flex fcolumn fcenter">
+						<?php for($i=0;$i<5;$i++):?>
+						<div>
+							<input class="nro" type="text" placeholder="NRO">
+							<input class="goal" type="text">
+							<input class="red" type="text">
+							<input class="yellow" type="text">
+						</div>
+						<?php endfor;?>
 					</div>
 
 				</div>
+
 			</div>
 
 		</div>
+
+		<div class="referee flex fcolumn fcenter">
+			<div class="referee-name">árbitro</div>
+			<div><input type="text"></div>
+		</div>
+
+		<div class="flex fstart">
+			<div class="referee-score flex fcenter hundredp">
+				<div class="flex fcenter"><div>01</div></div>
+				<div class="flex fcenter"><div>02</div></div>
+				<div class="flex fcenter"><div>03</div></div>
+				<div class="flex fcenter"><div>04</div></div>
+				<div class="flex fcenter"><div>05</div></div>
+			</div>
+			<div class="referee-score flex fcenter hundredp">
+				<div class="flex fcenter"><div>01</div></div>
+				<div class="flex fcenter"><div>02</div></div>
+				<div class="flex fcenter"><div>03</div></div>
+				<div class="flex fcenter"><div>04</div></div>
+				<div class="flex fcenter"><div>05</div></div>
+			</div>
+		</div>
+
+		<div class="flex fcenter hundredp">
+			<div class="signatures flex fcolumn">
+				<input type="text" class="signature">
+				<div class="signature-label">firma capitán</div>
+			</div>
+
+			<div class="signatures flex fcolumn">
+				<input type="text" class="signature">
+				<div class="signature-label">firma planillero</div>
+			</div>
+
+			<div class="signatures flex fcolumn">
+				<input type="text" class="signature">
+				<div class="signature-label">firma árbitro</div>
+			</div>
+
+			<div class="signatures flex fcolumn">
+				<input type="text" class="signature">
+				<div class="signature-label">firma capitán</div>
+			</div>
+		</div>
+
+		<div class="flex fspacearound">
+			<div class="frow flex fstart">
+				<div>observaciones:</div>
+			</div>
+			<div class="frow flex fend">
+				<div>logo</div>
+			</div>
+		</div>
+
 	</div>
 </div>
 <?php

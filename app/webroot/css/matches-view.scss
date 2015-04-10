@@ -73,10 +73,6 @@ $row-color-2:darken(#fff,1);
 
 }
 
-.spreadsheet *{
-	// border:1px solid black;
-}
-
 .flex{
   @include flexbox();
   &.fcenter{
@@ -85,11 +81,16 @@ $row-color-2:darken(#fff,1);
   }
   &.fend{
   	align-items:flex-end;
+  	justify-content:flex-end;
   	margin-right:4px;
   }
   &.fstart{
   	align-items: flex-start;
+  	justify-content: flex-start;
   	margin-left:4px;
+  }
+  &.fspacearound{
+  	justify-content: space-around;
   }
 
   &.fcolumn{
@@ -142,24 +143,24 @@ $row-color-2:darken(#fff,1);
 		font-size: 1.3rem;
 		font-weight: bold;
 
-		.last-name span{
+		.names span.last-name{
 			text-transform: uppercase;
 		}
 
-		.first-name span{
+		.names span.first-name{
 			text-transform:capitalize;
 		}
 
 		&.right{
 			justify-content: flex-end;
-			.last-name{
+			.names{
 				margin-right:1em;
 			}
 		}
 
 		&.left{
 			justify-content: flex-start;
-			.last-name{
+			.names{
 				margin-left:1em;
 			}
 		}
@@ -174,12 +175,129 @@ $row-color-2:darken(#fff,1);
 
 	}
 
+	.dt-fields{
+		input{
+			background:none;
+			border:none;
+			width:3em;
+		}
+		label{
+			font-weight: bold;
+			font-size: 1.3em;
+		}
+		.signature{
+			text-align: center;
+		}
+	}
+
+	.goals-bookings{
+		margin: 5px;
+
+		div{
+			margin:5px;
+		}
+
+		input{
+			width: 30px;
+			height: 30px;
+			font-size: 1rem;
+			text-align: center;
+			border: 1px solid #808080;
+			margin: 0 2px;
+			font-size: 1.5em;
+			font-weight: bold;
+
+			&::-webkit-input-placeholder {
+				font-size: 0.5em !important;
+			}
+
+			&:-moz-placeholder { /* Firefox 18- */
+				font-size: 0.5em !important;
+			}
+
+			&::-moz-placeholder {  /* Firefox 19+ */
+				font-size: 0.5em !important;
+			}
+
+			&:-ms-input-placeholder {
+				font-size: 0.5em !important;
+			}
+
+		}
+
+		.nro{
+			border: 2px solid black;
+		}
+
+		.goal{
+			border: 1px solid #808080;
+			background-image: url("/img/futbol-transparent.svg") !important;
+			background-size: 100%;
+			background-repeat: no-repeat;
+		}
+
+		.yellow{
+			border-radius:15px !important;
+			background-color: #f9ce1e;
+			border: none;
+			width: 26px;
+			height: 26px;
+		}
+		.red{
+			border-radius:15px !important;
+			background-color: #DB3126;
+			border: none;
+			width: 26px;
+			height: 26px;
+		}
+
+	}
+
 	.team-goals{
 		border:2px solid black;
 		border-radius:1.5rem !important;
 		width: 3rem;
 		height: 3rem;
 		margin: 0 10px;
+	}
+
+	.referee{
+		margin:10px;
+		.referee-name{
+			font-size: 1.2em;
+			font-weight: bold;
+			text-transform: uppercase;
+		}
+		input{
+			border:none;
+			border-bottom: 1px solid #f2f2f2;
+			margin: 20px 0 0;
+		}
+	}
+
+	.referee-score>div{
+		width:2.8em;
+		height: 2.8em;
+		border-radius: 1.4em !important;
+		border: 2px solid black;
+		margin: 10px;
+		font-size: 1.2em;
+		font-weight: bold;
+	}
+
+	.signatures{
+		margin: 1em;
+
+		.signature{
+			border:none;
+			border-bottom: 1px solid #f2f2f2;
+		}
+
+		.signature-label{
+			font-size: 1em;
+			font-weight: bold;
+			text-transform: uppercase;
+		}
 	}
 
 	.zone-name{
@@ -195,16 +313,86 @@ $row-color-2:darken(#fff,1);
 		font-size: 2em;
 	}
 
+	.hundredp{
+		width:100%;
+	}
+
 }
 
 @media print{
+
+	::-webkit-input-placeholder {
+		opacity: 0.2;
+	}
+
+	:-moz-placeholder { /* Firefox 18- */
+		opacity: 0.2;
+	}
+
+	::-moz-placeholder {  /* Firefox 19+ */
+		opacity: 0.2;
+	}
+
+	:-ms-input-placeholder {
+		opacity: 0.2;
+	}
+
+	.page-top,.page-header.navbar{
+		display:none;
+	}
+
+	.page-container-bg-solid .page-content, body{
+		background:rgba(0,0,0,0);
+		border: none;
+		padding: 0 !important;
+	}
+
 	.spreadsheet{
 		// width: 18cm;
 		// position: absolute;
 		// left: 0;
+
+		.team-color-input input{
+			font-size: 1.2em;
+		}
+
+		.player .player-number input {
+			width: 25px;
+			height: 25px;
+			font-size: 0.8rem;
+		}
+
+		.flex-table .flex-row{
+			flex:1 1 2.3em;
+		}
+
+		.dt-fields label, .referee-name{
+			font-size: 1em !important;
+		}
+
+		.referee{
+			input{
+				margin: 0 10px;
+			}
+		}
+
+		.signatures {
+			margin: 0.3em 1em;
+		}
+
 	}
+
+	.goals-bookings{
+		.goal{
+			border: 1px solid #808080;
+			background-image: url("/img/futbol.svg") !important;
+			background-size: 100%;
+			background-repeat: no-repeat;
+		}
+	}
+
 }
 @page {
   size: A4;
-  margin: 0;
+  margin: 1cm 1cm 1cm 0.5cm;
 }

@@ -60,10 +60,14 @@
     justify-content: center; }
   .flex.fend {
     align-items: flex-end;
+    justify-content: flex-end;
     margin-right: 4px; }
   .flex.fstart {
     align-items: flex-start;
+    justify-content: flex-start;
     margin-left: 4px; }
+  .flex.fspacearound {
+    justify-content: space-around; }
   .flex.fcolumn {
     flex-direction: column; }
   .flex .frow {
@@ -101,17 +105,17 @@
   .spreadsheet .player {
     font-size: 1.3rem;
     font-weight: bold; }
-    .spreadsheet .player .last-name span {
+    .spreadsheet .player .names span.last-name {
       text-transform: uppercase; }
-    .spreadsheet .player .first-name span {
+    .spreadsheet .player .names span.first-name {
       text-transform: capitalize; }
     .spreadsheet .player.right {
       justify-content: flex-end; }
-      .spreadsheet .player.right .last-name {
+      .spreadsheet .player.right .names {
         margin-right: 1em; }
     .spreadsheet .player.left {
       justify-content: flex-start; }
-      .spreadsheet .player.left .last-name {
+      .spreadsheet .player.left .names {
         margin-left: 1em; }
     .spreadsheet .player .player-number input {
       width: 30px;
@@ -119,12 +123,90 @@
       font-size: 1rem;
       text-align: center;
       border: 1px solid #808080; }
+  .spreadsheet .dt-fields input {
+    background: none;
+    border: none;
+    width: 3em; }
+  .spreadsheet .dt-fields label {
+    font-weight: bold;
+    font-size: 1.3em; }
+  .spreadsheet .dt-fields .signature {
+    text-align: center; }
+  .spreadsheet .goals-bookings {
+    margin: 5px; }
+    .spreadsheet .goals-bookings div {
+      margin: 5px; }
+    .spreadsheet .goals-bookings input {
+      width: 30px;
+      height: 30px;
+      font-size: 1rem;
+      text-align: center;
+      border: 1px solid #808080;
+      margin: 0 2px;
+      font-size: 1.5em;
+      font-weight: bold; }
+      .spreadsheet .goals-bookings input::-webkit-input-placeholder {
+        font-size: 0.5em !important; }
+      .spreadsheet .goals-bookings input:-moz-placeholder {
+        /* Firefox 18- */
+        font-size: 0.5em !important; }
+      .spreadsheet .goals-bookings input::-moz-placeholder {
+        /* Firefox 19+ */
+        font-size: 0.5em !important; }
+      .spreadsheet .goals-bookings input:-ms-input-placeholder {
+        font-size: 0.5em !important; }
+    .spreadsheet .goals-bookings .nro {
+      border: 2px solid black; }
+    .spreadsheet .goals-bookings .goal {
+      border: 1px solid #808080;
+      background-image: url("/img/futbol-transparent.svg") !important;
+      background-size: 100%;
+      background-repeat: no-repeat; }
+    .spreadsheet .goals-bookings .yellow {
+      border-radius: 15px !important;
+      background-color: #f9ce1e;
+      border: none;
+      width: 26px;
+      height: 26px; }
+    .spreadsheet .goals-bookings .red {
+      border-radius: 15px !important;
+      background-color: #DB3126;
+      border: none;
+      width: 26px;
+      height: 26px; }
   .spreadsheet .team-goals {
     border: 2px solid black;
     border-radius: 1.5rem !important;
     width: 3rem;
     height: 3rem;
     margin: 0 10px; }
+  .spreadsheet .referee {
+    margin: 10px; }
+    .spreadsheet .referee .referee-name {
+      font-size: 1.2em;
+      font-weight: bold;
+      text-transform: uppercase; }
+    .spreadsheet .referee input {
+      border: none;
+      border-bottom: 1px solid #f2f2f2;
+      margin: 20px 0 0; }
+  .spreadsheet .referee-score > div {
+    width: 2.8em;
+    height: 2.8em;
+    border-radius: 1.4em !important;
+    border: 2px solid black;
+    margin: 10px;
+    font-size: 1.2em;
+    font-weight: bold; }
+  .spreadsheet .signatures {
+    margin: 1em; }
+    .spreadsheet .signatures .signature {
+      border: none;
+      border-bottom: 1px solid #f2f2f2; }
+    .spreadsheet .signatures .signature-label {
+      font-size: 1em;
+      font-weight: bold;
+      text-transform: uppercase; }
   .spreadsheet .zone-name {
     font-size: 4rem; }
   .spreadsheet .team-color-input input {
@@ -134,9 +216,54 @@
     text-align: center;
     text-transform: uppercase;
     font-size: 2em; }
+  .spreadsheet .hundredp {
+    width: 100%; }
 
+@media print {
+  ::-webkit-input-placeholder {
+    opacity: 0.2; }
+
+  :-moz-placeholder {
+    /* Firefox 18- */
+    opacity: 0.2; }
+
+  ::-moz-placeholder {
+    /* Firefox 19+ */
+    opacity: 0.2; }
+
+  :-ms-input-placeholder {
+    opacity: 0.2; }
+
+  .page-top, .page-header.navbar {
+    display: none; }
+
+  .page-container-bg-solid .page-content, body {
+    background: transparent;
+    border: none;
+    padding: 0 !important; }
+
+  .spreadsheet .team-color-input input {
+    font-size: 1.2em; }
+  .spreadsheet .player .player-number input {
+    width: 25px;
+    height: 25px;
+    font-size: 0.8rem; }
+  .spreadsheet .flex-table .flex-row {
+    flex: 1 1 2.3em; }
+  .spreadsheet .dt-fields label, .spreadsheet .referee-name {
+    font-size: 1em !important; }
+  .spreadsheet .referee input {
+    margin: 0 10px; }
+  .spreadsheet .signatures {
+    margin: 0.3em 1em; }
+
+  .goals-bookings .goal {
+    border: 1px solid #808080;
+    background-image: url("/img/futbol.svg") !important;
+    background-size: 100%;
+    background-repeat: no-repeat; } }
 @page {
   size: A4;
-  margin: 0; }
+  margin: 1cm 1cm 1cm 0.5cm; }
 
 /*# sourceMappingURL=matches-view.css.map */
