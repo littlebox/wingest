@@ -21,6 +21,10 @@ class PagesController extends AppController {
 		$this->layout = 'thanks';
 	}
 
+	public function index(){
+		$this->layout = 'placa';
+	}
+
 	public function home(){
 		$this->layout = 'metrobox';
 		$Team = ClassRegistry::init('Team');
@@ -36,7 +40,7 @@ class PagesController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow(array('thanks'));
+		$this->Auth->allow(array('thanks','index'));
 	}
 }
 

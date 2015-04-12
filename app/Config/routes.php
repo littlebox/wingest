@@ -28,7 +28,7 @@
 /**
  * General routes
  */
-	Router::connect('/', array('controller' => 'teams', 'action' => 'add'));
+	Router::connect('/', array('controller' => 'pages', 'action' => 'index'));
 	Router::connect('/admin', array('controller' => 'users', 'action' => 'login'));
 	Router::connect('/home', array('controller' => 'pages', 'action' => 'home'));
 	//~ Router::connect('/test', array('controller' => 'pages', 'action' => 'test'));
