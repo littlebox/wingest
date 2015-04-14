@@ -10,10 +10,10 @@
 			</span>
 		</div>
 		<div class="actions">
-			<button type="button" onClick="sendScheduleZones();" id="send-shedule-zones" class="btn btn-circle green-haze ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Save') ?></span></button>
+			<button type="button" onClick="sendScheduleMatches();" id="send-schedule-matches" class="btn btn-circle green-haze ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Save') ?></span></button>
 		</div>
 	</div>
-	<div class="portlet-body" id="schedule_zones">
+	<div class="portlet-body" id="schedule_matches">
 		<div class="col-md-12 column">
 			<?php foreach ($tournament['Zone'] as $zone): ?>
 				<div class="portlet box yellow">
@@ -57,6 +57,7 @@
 									<div class="flex-td small"></div>
 									<div class="flex-td"><?= __('Local Team') ?></div>
 									<div class="flex-td"><?= __('Visitor Team') ?></div>
+									<div class="flex-td"><?= __('Round') ?></div>
 									<div class="flex-td"><?= __('Date') ?></div>
 									<div class="flex-td"><?= __('Time') ?></div>
 									<div class="flex-td"><?= __('Field') ?></div>
@@ -88,6 +89,16 @@
 										</span>
 										<?= $match['TeamVisitor']['name'];?>
 									</div>
+
+									<div class="flex-td">
+										<select name="" id="">
+											<option value="">Round...
+											<?php foreach($tournament['Round'] as $round):?>
+												<option <?php echo(($match['round_id'] == $round['id'])? 'selected="selected"' : '')?> value="<?= $round['id'] ?>"><?= $round['name'] ?>
+											<?php endforeach;?>
+										</select>
+									</div>
+
 									<div class="flex-td"><?php
 										if(isset($match['date']) && $match['date'] != '0000-00-00'){
 											$dbDateTime = DateTime::createFromFormat('Y-m-d', $match['date']);
@@ -220,7 +231,7 @@
 		echo $this->Form->create('Tournament', array(
 			'enctype' => 'multipart/form-data',
 			'style' => 'display:none;',
-			'id' => 'schedule-zones-form',
+			'id' => 'schedule-matches-form',
 		));
 		?>
 		<?php
@@ -231,7 +242,7 @@
 		<div class="form-actions">
 			<div class="row">
 				<div class="col-md-offset-10 col-md-2">
-					<!-- <button type="button" onClick="sendScheduleZones();" id="send-shedule-zones" class="btn green-haze ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Save') ?></span></button> -->
+					<!-- <button type="button" onClick="sendScheduleMatches();" id="send-shedule-matches" class="btn green-haze ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Save') ?></span></button> -->
 				</div>
 			</div>
 		</div>
@@ -300,15 +311,15 @@
 
 		}
 
-		function sendScheduleZones() {
-			var button = $( '#send-shedule-zones' ).ladda();
+		function sendScheduleMatches() {
+			var button = $( '#send-schedule-matches' ).ladda();
 			button.ladda( 'start' ); //Show loader in button
 
 			var targeturl = '<?= $this->Html->url(); ?>'+'.json';
 			sheduleZonesJson = outputJsonZones();
 			$('#hidden-json').val(sheduleZonesJson);
 
-			var formData = $('#schedule-zones-form').serializeArray();
+			var formData = $('#schedule-matches-form').serializeArray();
 
 			$.ajax({
 				type: 'put',

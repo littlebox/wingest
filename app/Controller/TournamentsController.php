@@ -152,8 +152,11 @@ class TournamentsController extends AppController {
 
 			// debug($this->request->data);die();
 
+			$number_of_teams = $this->request->data['Tournament']['number_of_teams'];
+			$number_of_zones = $this->request->data['Tournament']['number_of_zones'];
+
 			//Bring count of existing zones to compare if user change it
-			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) ,'contain' => array('Zone', 'Playoff', 'Tournament'));
+			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) ,'contain' => array('Zone', 'Playoff', 'Round', 'Tournament'));
 			$savedNumberOfZones = $this->Tournament->Zone->find('count', array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) ,'contain' => array('Tournament')));
 			$savedNumberOfPlayoffs = $this->Tournament->Playoff->find('count', $options);
 
@@ -163,6 +166,7 @@ class TournamentsController extends AppController {
 			//If user changed zones, we delete all existing zones and create newones
 			if($savedNumberOfZones != $this->request->data['Tournament']['number_of_zones']){
 				$this->Tournament->Zone->deleteAll(array('Tournament.' . $this->Tournament->primaryKey => $id));
+				$this->Tournament->Round->deleteAll(array('Tournament.' . $this->Tournament->primaryKey => $id, 'is_playoff' => false));
 
 				$this->request->data['Zone'] = [];
 
@@ -173,6 +177,22 @@ class TournamentsController extends AppController {
 					$this->request->data['Zone'][$i]['name'] = $groupName;
 					$groupName++; //Next letter in the abc
 				}
+
+				//Crear Rounds
+				//If the number of teams is odd, we add one team, the ghost team
+				$teams_per_zone = (($number_of_teams/$number_of_zones)%2)?$number_of_teams/$number_of_zones+1:$number_of_teams/$number_of_zones;
+				$number_of_rounds = $teams_per_zone - 1;
+
+				if($this->request->data['Tournament']['zone_home_and_away_matches']){
+					$number_of_rounds *= 2;
+				}
+
+				for($i=1; $i <= $number_of_rounds; $i++){
+					$this->request->data['Round'][$i]['name'] = 'Round '.$i;
+					$this->request->data['Round'][$i]['is_playoff'] = false;
+				}
+
+				// debug($number_of_rounds);die();
 
 			}
 
@@ -287,7 +307,20 @@ class TournamentsController extends AppController {
 				'contain' => array(
 					'Zone.id',
 					'Zone.name',
-					'Zone.Match',
+					'Zone.Match' => array(
+						'fields' => array(
+							'id',
+							'zone_id',
+							'playoff_id',
+							'round_id',
+							'match_type_id',
+							'team1_id',
+							'team2_id',
+							'date',
+							'time',
+							'field',
+						)
+					),
 					'Zone.Match.TeamLocal' => array(
 						'fields' => array(
 							'id',
@@ -321,6 +354,14 @@ class TournamentsController extends AppController {
 							'name',
 							'main_shirt_color',
 							'secondary_shirt_color'
+						)
+					),
+					'Round'=> array(
+						'fields' => array(
+							'id',
+							'name',
+							'start_date',
+							'end_date',
 						)
 					)
 				),
@@ -399,6 +440,52 @@ class TournamentsController extends AppController {
 			echo json_encode($response);
 
 		}
+	}
+
+	public function schedule_rounds($id = null){
+		//Check if Tournament exist
+		if (!$this->Tournament->exists($id)) {
+			throw new NotFoundException(__('Invalid tournament'));
+		}
+
+		$this->layout = 'metrobox';
+
+		$rounds = [];
+
+		$rounds['not_playoff'] = $this->Tournament->Round->find('all', array(
+			'conditions' => array(
+				'Round.tournament_id' => $id,
+				'Round.is_playoff' => false,
+			),
+			'fields' => array(
+				'id',
+				'name',
+				'start_date',
+				'end_date',
+				'is_playoff',
+				'tournament_id',
+			),
+			'contain' => false,
+		));
+
+		$rounds['playoff'] = $this->Tournament->Round->find('all', array(
+			'conditions' => array(
+				'Round.tournament_id' => $id,
+				'Round.is_playoff' => true,
+			),
+			'fields' => array(
+				'id',
+				'name',
+				'start_date',
+				'end_date',
+				'is_playoff',
+				'tournament_id',
+			),
+			'contain' => false,
+		));
+
+		$this->set('rounds', $rounds);
+
 	}
 
 	public function beforeFilter() {

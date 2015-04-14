@@ -58,6 +58,13 @@ class Match extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		),
+		'Round' => array(
+			'className' => 'Round',
+			'foreignKey' => 'round_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
 		)
 	);
 
