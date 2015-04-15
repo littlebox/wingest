@@ -42,6 +42,7 @@
 					echo $this->Form->input('actual_number_of_zones', array('type' => 'hidden'));
 					echo $this->Form->input('actual_number_of_playoffs', array('type' => 'hidden'));
 					echo $this->Form->input('playoffs_number_changed', array('type' => 'hidden'));
+					echo $this->Form->input('zone_home_and_away_matches_changed', array('type' => 'hidden'));
 				?>
 
 				<div class="form-group">
@@ -85,9 +86,9 @@
 												<div class="col-md-6">
 													<?php printf('<input name="data[Playoff][%u][home_and_away_matches]" value="0" type="hidden">',$k);?>
 													<?php if(!$playoff['home_and_away_matches']){
-														printf('<input name="data[Playoff][%u][home_and_away_matches]" type="checkbox">',$k);
+														printf('<input class="form-playoff-home-and-away-matches" name="data[Playoff][%u][home_and_away_matches]" type="checkbox">',$k);
 													}else{
-														printf('<input checked="checked" name="data[Playoff][%u][home_and_away_matches]" type="checkbox">',$k);
+														printf('<input class="form-playoff-home-and-away-matches" checked="checked" name="data[Playoff][%u][home_and_away_matches]" type="checkbox">',$k);
 													}
 													?>
 												</div>
@@ -112,7 +113,8 @@
 							echo $this->Form->Button(__('Cancel'),array(
 								'div' => false,
 								'class' => 'btn default',
-								'type' => 'button'
+								'type' => 'button',
+								'onclick' => 'javascript:history.go(-1);'
 							));
 							echo $this->Form->Button(__('Save'),array(
 								'div' => false,
@@ -148,6 +150,7 @@
 	<script>
 		Localvar = {}
 		Localvar.playoffNumberChanged = false;
+		Localvar.zoneHomeAndAwayMatchesChanged = false;
 		jQuery(document).ready(function() {
 			TournamentScheduleStages.init();
 		});

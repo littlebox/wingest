@@ -155,6 +155,8 @@ class TournamentsController extends AppController {
 			$number_of_teams = $this->request->data['Tournament']['number_of_teams'];
 			$number_of_zones = $this->request->data['Tournament']['number_of_zones'];
 
+			$this->request->data['Round'] = [];
+
 			//Bring count of existing zones to compare if user change it
 			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) ,'contain' => array('Zone', 'Playoff', 'Round', 'Tournament'));
 			$savedNumberOfZones = $this->Tournament->Zone->find('count', array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) ,'contain' => array('Tournament')));
@@ -164,7 +166,7 @@ class TournamentsController extends AppController {
 			$this->request->data['Tournament']['id'] = $id;
 
 			//If user changed zones, we delete all existing zones and create newones
-			if($savedNumberOfZones != $this->request->data['Tournament']['number_of_zones']){
+			if($savedNumberOfZones != $this->request->data['Tournament']['number_of_zones'] || $this->request->data['Tournament']['zone_home_and_away_matches'] != $this->request->data['Tournament']['zone_home_and_away_matches_changed']){
 				$this->Tournament->Zone->deleteAll(array('Tournament.' . $this->Tournament->primaryKey => $id));
 				$this->Tournament->Round->deleteAll(array('Tournament.' . $this->Tournament->primaryKey => $id, 'is_playoff' => false));
 
@@ -196,10 +198,68 @@ class TournamentsController extends AppController {
 
 			}
 
-			//If user changed playoffs, we delete all existing playoffs and create new ones
+			//If user changed playoffs
 			if($this->request->data['Tournament']['playoffs_number_changed'] === 'true'){
+				//delete existing playoffs and rounds
 				$this->Tournament->Playoff->deleteAll(array('Tournament.' . $this->Tournament->primaryKey => $id));
+				$this->Tournament->Round->deleteAll(array('Tournament.' . $this->Tournament->primaryKey => $id, 'is_playoff' => true));
+
+				$round_names = array(2 => 'Final', 4 => 'Semifinal', 8 => 'Cuartos', 16 => 'Octavos');
+
+				foreach($this->request->data['Playoff'] as $playoff){
+
+					if(!$playoff['home_and_away_matches']){
+
+						for($i = $playoff['number_of_teams']; $i >= 2; $i /= 2){
+
+							if(isset($round_names[$i])){
+								array_push($this->request->data['Round'], array(
+									'name' => $round_names[$i].' - '.$playoff['name'],
+									'is_playoff' => true,
+								));
+							}else{
+								array_push($this->request->data['Round'], array(
+									'name' => ($i/2).'-avos - '.$playoff['name'],
+									'is_playoff' => true,
+								));
+							}
+
+						}
+
+
+					}else{
+
+						for($i = $playoff['number_of_teams']; $i >= 2; $i /= 2){
+
+							if(isset($round_names[$i])){
+								array_push($this->request->data['Round'], array(
+									'name' => $round_names[$i].' Ida - '.$playoff['name'],
+									'is_playoff' => true,
+								));
+								array_push($this->request->data['Round'], array(
+									'name' => $round_names[$i].' Vuelta - '.$playoff['name'],
+									'is_playoff' => true,
+								));
+							}else{
+								array_push($this->request->data['Round'], array(
+									'name' => ($i/2).'-avos Ida - '.$playoff['name'],
+									'is_playoff' => true,
+								));
+								array_push($this->request->data['Round'], array(
+									'name' => ($i/2).'-avos Vuelta - '.$playoff['name'],
+									'is_playoff' => true,
+								));
+							}
+
+						}
+
+					}
+
+				}
+
 			}
+
+			// debug($this->request->data);die();
 
 			//Guardamos los datos
 			if ( $this->Tournament->saveAssociated($this->request->data) ) {
