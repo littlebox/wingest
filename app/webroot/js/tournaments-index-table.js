@@ -30,7 +30,8 @@ var TournamentsIndexTable = function () {
 				htmlContent += '<a class="btn btn-sm blue" href="'+LocalVar.tournamentEditUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-pencil"></i> '+LocalVar.tournamentEditText+'</a> ';
 				htmlContent += '<a class="btn btn-sm green" href="'+LocalVar.tournamentViewrUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-file"></i> '+LocalVar.tournamentViewText+'</a> ';
 				htmlContent += '<a class="btn btn-sm yellow" href="'+LocalVar.tournamentScheduleStagesUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-futbol-o"></i> '+LocalVar.tournamentScheduleStagesText+'</a> ';
-				htmlContent += '<a class="btn btn-sm purple" href="'+LocalVar.tournamentScheduleZonesUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-futbol-o"></i> '+LocalVar.tournamentScheduleZonesText+'</a> ';
+				htmlContent += '<a class="btn btn-sm blue-hoki" href="'+LocalVar.tournamentScheduleRoundsUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-calendar"></i> '+LocalVar.tournamentScheduleRoundsText+'</a> ';
+				htmlContent += '<a class="btn btn-sm purple" href="'+LocalVar.tournamentScheduleZonesUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-server"></i> '+LocalVar.tournamentScheduleZonesText+'</a> ';
 				htmlContent += '<a class="btn btn-sm green-haze" href="'+LocalVar.tournamentMatchesUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-futbol-o"></i> '+LocalVar.tournamentMatchesText+'</a> ';
 				//Set to column 3
 				$('td:eq(2)', nRow).html(htmlContent);

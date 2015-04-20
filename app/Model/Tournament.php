@@ -84,6 +84,32 @@ class Tournament extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
+		'RoundZone' => array(
+			'className' => 'Round',
+			'foreignKey' => 'tournament_id',
+			'dependent' => false,
+			'conditions' => array('is_playoff' => false),
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'RoundPlayoff' => array(
+			'className' => 'Round',
+			'foreignKey' => 'tournament_id',
+			'dependent' => false,
+			'conditions' => array('is_playoff' => true),
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
 		'Round' => array(
 			'className' => 'Round',
 			'foreignKey' => 'tournament_id',

@@ -416,13 +416,21 @@ class TournamentsController extends AppController {
 							'secondary_shirt_color'
 						)
 					),
-					'Round'=> array(
+					'RoundZone'=> array(
 						'fields' => array(
 							'id',
 							'name',
 							'start_date',
 							'end_date',
 						)
+					),
+					'RoundPlayoff'=> array(
+						'fields' => array(
+							'id',
+							'name',
+							'start_date',
+							'end_date',
+						),
 					)
 				),
 				// 'order' => array('Zone.Match.date DESC'),
@@ -447,7 +455,14 @@ class TournamentsController extends AppController {
 			$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id) ,'contain' => array('Tournament.id','Tournament.zone_home_and_away_matches','Team.id','Team.name'));
 			$zones = $this->Tournament->Zone->find('all',$options);
 
-			// debug($zones);die();
+			$rounds = $this->Tournament->Round->find('all', array(
+				'conditions' => array( 'tournament_id' => $id ) ,
+				'contain' => 'Tournament.id',
+				'fields' => array('tournament_id')
+				)
+			);
+
+			// debug($rounds);die();
 
 			foreach($zones as $zone){
 				if(!$zone['Tournament']['zone_home_and_away_matches']){
@@ -503,48 +518,82 @@ class TournamentsController extends AppController {
 	}
 
 	public function schedule_rounds($id = null){
+
 		//Check if Tournament exist
 		if (!$this->Tournament->exists($id)) {
 			throw new NotFoundException(__('Invalid tournament'));
 		}
 
-		$this->layout = 'metrobox';
+		if ($this->request->is(array('ajax'))) {
 
-		$rounds = [];
+			$this->loadModel('Round');
 
-		$rounds['not_playoff'] = $this->Tournament->Round->find('all', array(
-			'conditions' => array(
-				'Round.tournament_id' => $id,
-				'Round.is_playoff' => false,
-			),
-			'fields' => array(
-				'id',
-				'name',
-				'start_date',
-				'end_date',
-				'is_playoff',
-				'tournament_id',
-			),
-			'contain' => false,
-		));
+			if ($this->request->is('post') || $this->request->is('put')) {
 
-		$rounds['playoff'] = $this->Tournament->Round->find('all', array(
-			'conditions' => array(
-				'Round.tournament_id' => $id,
-				'Round.is_playoff' => true,
-			),
-			'fields' => array(
-				'id',
-				'name',
-				'start_date',
-				'end_date',
-				'is_playoff',
-				'tournament_id',
-			),
-			'contain' => false,
-		));
+				//set date format for database
+				foreach($this->request->data as &$round){ //pass variable by reference
+					if(!empty($round['Round']['start_date'])){
+						$round['Round']['start_date'] = str_replace('/','-',$round['Round']['start_date']);
+						$round['Round']['start_date'] = date('Y-m-d',strtotime($round['Round']['start_date']));
+					}
+					if(!empty($round['Round']['end_date'])){
+						$round['Round']['end_date'] = str_replace('/','-',$round['Round']['end_date']);
+						$round['Round']['end_date'] = date('Y-m-d',strtotime($round['Round']['end_date']));
+					}
+				}
 
-		$this->set('rounds', $rounds);
+				if( $this->Round->saveMany($this->request->data) ){
+					$data['content'] = __('The changes has been saved');
+				}else{
+					$data['error'] = __('The changes could not be saved. Please, try again.');
+				}
+
+				$this->set(compact('data'));
+				$this->set('_serialize', 'data');
+
+			}
+
+		}else{
+
+			$this->layout = 'metrobox';
+
+			$rounds = [];
+
+			$rounds['playoff'] = $this->Tournament->RoundPlayoff->find('all', array(
+				'conditions' => array(
+					'tournament_id' => $id,
+					'is_playoff' => true,
+				),
+				'fields' => array(
+					'id',
+					'name',
+					'start_date',
+					'end_date',
+					'is_playoff',
+					'tournament_id',
+				),
+				'contain' => false,
+			));
+
+			$rounds['not_playoff'] = $this->Tournament->RoundZone->find('all', array(
+				'conditions' => array(
+					'tournament_id' => $id,
+					'is_playoff' => false,
+				),
+				'fields' => array(
+					'id',
+					'name',
+					'start_date',
+					'end_date',
+					'is_playoff',
+					'tournament_id',
+				),
+				'contain' => false,
+			));
+
+			$this->set('rounds', $rounds);
+
+		}
 
 	}
 

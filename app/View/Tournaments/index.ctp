@@ -79,12 +79,14 @@
 		LocalVar.tournamentDeleterUrl = ('<?= $this->Html->url(array('controller'=>'tournaments', 'action' => 'delete')) ?>');
 		LocalVar.tournamentViewrUrl = ('<?= $this->Html->url(array('controller'=>'tournaments', 'action' => 'view')) ?>');
 		LocalVar.tournamentScheduleStagesUrl = ('<?= $this->Html->url(array('controller'=>'tournaments', 'action' => 'schedule_stages')) ?>');
+		LocalVar.tournamentScheduleRoundsUrl = ('<?= $this->Html->url(array('controller'=>'tournaments', 'action' => 'schedule_rounds')) ?>');
 		LocalVar.tournamentScheduleZonesUrl = ('<?= $this->Html->url(array('controller'=>'tournaments', 'action' => 'schedule_zones')) ?>');
 		LocalVar.tournamentMatchesUrl = ('<?= $this->Html->url(array('controller'=>'tournaments', 'action' => 'schedule_matches')) ?>');
 		LocalVar.tournamentEditText = ('<?= __("Edit") ?>');
 		LocalVar.tournamentDeleteText = ('<?= __("Delete") ?>');
 		LocalVar.tournamentViewText = ('<?= __("Details") ?>');
 		LocalVar.tournamentScheduleStagesText = ('<?= __("Stages") ?>');
+		LocalVar.tournamentScheduleRoundsText = ('<?= __("Rounds") ?>');
 		LocalVar.tournamentScheduleZonesText = ('<?= __("Zones") ?>');
 		LocalVar.tournamentMatchesText = ('<?= __("Matches") ?>');
 
