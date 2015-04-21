@@ -26,7 +26,7 @@
 						<div class="flex-table">
 							<?php
 								$i = 0;
-								foreach ($zone['Match'] as $match):
+								foreach ($zone['Match'] as $k => $match):
 									//Set team colors for the badge. This is pure aesthetics.
 									//By the way, the badge is awful. We gotta make one prettier.
 									if(!empty($match['TeamLocal']['main_shirt_color'])){
@@ -66,7 +66,7 @@
 							<?php endif;?>
 								<div class="team-data flex-row" id="<?= $match['id'];?>">
 
-									<div class="flex-td small"><?= $i?></div>
+									<div class="flex-td small"><?= $k+1?></div>
 									<div class="flex-td">
 										<span class="team-badge">
 											<svg width="1em" height="1em" viewbox="0 0 100 100">
