@@ -376,7 +376,10 @@ class TeamsController extends AppController {
 	}
 
 	public function login(){
-		$this->layout = 'metrobox_login_players';
+		// $this->layout = 'metrobox_login_players';
+
+		$this->layout = 'placa';
+		return;
 
 		if($this->request->is('post')){
 

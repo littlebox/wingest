@@ -102,19 +102,27 @@ class PlayersController extends AppController {
  * @param string $id
  * @return void
  */
-	public function edit($dni = null) {
-		if (!$this->Player->exists($dni)) {
+	public function edit($id = null) {
+		if (!$this->Player->exists($id)) {
 			throw new NotFoundException(__('Invalid player'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
+
 			if ($this->Player->save($this->request->data)) {
-				$this->Session->setFlash(__('The player has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				$this->Session->setFlash(__('The player has been saved.'),'metrobox/flash_success');
+
+				//redirect to players view if we come from there
+				if(strrpos($this->request->data['Referer'],'players')){
+					return $this->redirect($this->request->data['Referer']);
+				}else{
+					return $this->redirect(array('controller' => 'players', 'action' => 'index'));
+				}
+
 			} else {
-				$this->Session->setFlash(__('The player could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('The player could not be saved. Please, try again.'),'metrobox/flash_danger');
 			}
 		} else {
-			$options = array('conditions' => array('Player.dni' => $dni));
+			$options = array('conditions' => array('Player.' . $this->Player->primaryKey => $id));
 			$this->request->data = $this->Player->find('first', $options);
 		}
 		$teams = $this->Player->Team->find('list');

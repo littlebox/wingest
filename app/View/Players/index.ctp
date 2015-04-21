@@ -75,7 +75,7 @@
 		LocalVar.dataTable = '';
 		LocalVar.deleting = false;
 		LocalVar.ajaxSource = ("<?= $this->Html->url(array('controller'=>'players', 'action' => 'index', 'ext' => 'json', $teamId)) ?>");
-		LocalVar.teamEditUrl = ('<?= $this->Html->url(array('controller'=>'players', 'action' => 'edit', 'admin' => true)) ?>');
+		LocalVar.teamEditUrl = ('<?= $this->Html->url(array('controller'=>'players', 'action' => 'edit', 'admin' => false)) ?>');
 		LocalVar.teamDeleterUrl = ('<?= $this->Html->url(array('controller'=>'players', 'action' => 'delete', 'admin' => true)) ?>');
 		LocalVar.teamViewrUrl = ('<?= $this->Html->url(array('controller'=>'players', 'action' => 'view')) ?>');
 		LocalVar.teamEditText = ('<?= __("Edit") ?>');
