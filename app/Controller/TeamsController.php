@@ -29,17 +29,27 @@ class TeamsController extends AppController {
  *
  * @return void
  */
-	public function index() {
+	public function index($tournamentId = null) {
 		$this->layout = 'metrobox';
-		$this->Team->recursive = 0;
+		$this->Team->recursive = 1;
 
-		$this->paginate = array(
-			// 'fields' => array(),
-			'recursive' => true //lee el de arriba, creo.
-		);
+		if(isset($tournamentId) ){
+			$this->paginate = array(
+				'recursive' => true,
+				'conditions' => array('tournament_id' => $tournamentId)
+			);
+
+		}else{
+			$this->paginate = array(
+				'recursive' => true,
+			);
+		}
+
+		// debug($this->DataTable->getResponse());die();
 
 		$this->DataTable->mDataProp = true;
 		$this->set('response', $this->DataTable->getResponse());
+		$this->set('tournamentId', $tournamentId);
 		$this->set('_serialize','response');
 	}
 

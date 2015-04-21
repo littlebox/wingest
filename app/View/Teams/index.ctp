@@ -73,7 +73,10 @@
 	<?= $this->Html->script('/plugins/datatables/media/js/jquery.dataTables.min');?>
 	<?= $this->Html->script('/plugins/datatables/plugins/bootstrap/dataTables.bootstrap');?>
 	<?= $this->Html->script('/plugins/sweetalert/lib/sweet-alert.min');?>
-<?php $this->end(); ?>
+<?php
+	$this->end();
+	$ajaxSource = (isset($tournamentId))? "/teams/index/$tournamentId.json" : ('/teams.json')
+?>
 
 <?php $this->append('pageScripts'); ?>
 	<?= $this->Html->script('teams-index-table');?>
@@ -82,7 +85,7 @@
 		LocalVar.langFile = '<?= substr(Configure::read('Config.language'), 0, 2) ?>';
 		LocalVar.dataTable = '';
 		LocalVar.deleting = false;
-		LocalVar.ajaxSource = ('<?= $this->Html->url(array('controller'=>'teams', 'action' => 'index', 'ext' => 'json')) ?>');
+		LocalVar.ajaxSource = ('<?= $ajaxSource ?>');
 		LocalVar.teamEditUrl = ('<?= $this->Html->url(array('controller'=>'teams', 'action' => 'edit')) ?>');
 		LocalVar.teamDeleteUrl = ('<?= $this->Html->url(array('controller'=>'teams', 'action' => 'delete')) ?>');
 		LocalVar.teamViewUrl = ('<?= $this->Html->url(array('controller'=>'teams', 'action' => 'view')) ?>');

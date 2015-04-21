@@ -29,7 +29,7 @@ class PlayersController extends AppController {
 		if(isset($teamId) ){
 			$this->paginate = array(
 				'recursive' => true,
-				'conditions' => array('Team.id' => $teamId, 'Player.name !=' => '')
+				'conditions' => array('Team.id' => $teamId)
 			);
 		}else{
 			$this->paginate = array(
@@ -38,7 +38,7 @@ class PlayersController extends AppController {
 			);
 		}
 
-		$this->set('players', $this->Paginator->paginate());
+		// $this->set('players', $this->Paginator->paginate());
 
 		$this->DataTable->mDataProp = true;
 		$this->set('response', $this->DataTable->getResponse());
