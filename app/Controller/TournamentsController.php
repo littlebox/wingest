@@ -436,7 +436,44 @@ class TournamentsController extends AppController {
 				// 'order' => array('Zone.Match.date DESC'),
 			);
 			// debug($this->Tournament->find('first', $options));die();
-			$this->set('tournament', $this->Tournament->find('first', $options));
+
+			$data = $this->Tournament->find('first', $options);
+
+			foreach($data['RoundZone'] as $round){
+				$data['RoundDates'][$round['id']] = [];
+				$data['RoundDates'][$round['id']]['dates'] = [];
+
+				if( $round['start_date'] != '0000-00-00' && $round['end_date'] != '0000-00-00'){
+					$diff = date_diff(date_create($round['start_date']),date_create($round['end_date']));
+
+					if($diff->days > -1){
+						for($i = 0; $i <= $diff->days; $i++){
+							array_push($data['RoundDates'][$round['id']]['dates'], date('d/m/Y',strtotime($round['start_date'].'+'.$i.' days')));
+						}
+					}
+				}else{
+					array_push($data['RoundDates'][$round['id']]['dates'], __('Dates not set in round'));
+				}
+			}
+
+			foreach($data['RoundPlayoff'] as $round){
+				$data['RoundDates'][$round['id']] = [];
+				$data['RoundDates'][$round['id']]['dates'] = [];
+
+				if($round['start_date'] != '0000-00-00' && $round['end_date'] != '0000-00-00'){
+					$diff = date_diff(date_create($round['start_date']),date_create($round['end_date']));
+
+					if($diff->days > -1){
+						for($i = 0; $i <= $diff->days; $i++){
+							array_push($data['RoundDates'][$round['id']]['dates'], date('d/m/Y',strtotime($round['start_date'].'+'.$i.' days')));
+						}
+					}
+				}else{
+					array_push($data['RoundDates'][$round['id']]['dates'], __('Dates not set in round'));
+				}
+			}
+
+			$this->set('tournament', $data);
 		}
 	}
 

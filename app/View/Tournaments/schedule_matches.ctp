@@ -91,24 +91,25 @@
 									</div>
 
 									<div class="flex-td">
-										<select name="" id="">
+										<select id="team-form-round-selector-<?= $match['id']?>" class="team-form-round-selector" data-id="<?= $match['id'];?>">
 											<option value="">Round...
-											<?php foreach($tournament['Round'] as $round):?>
+											<?php foreach($tournament['RoundZone'] as $round):?>
 												<option <?php echo(($match['round_id'] == $round['id'])? 'selected="selected"' : '')?> value="<?= $round['id'] ?>"><?= $round['name'] ?>
 											<?php endforeach;?>
 										</select>
 									</div>
 
-									<div class="flex-td"><?php
-										if(isset($match['date']) && $match['date'] != '0000-00-00'){
-											$dbDateTime = DateTime::createFromFormat('Y-m-d', $match['date']);
-											$espDateString = $dbDateTime->format('d/m/Y');
-											// debug($match['date']);die();
-										}else{
-											$espDateString = '';
-										}
-									?>
-										<input class="date-picker team-form-date" size="8" type="text" placeholder="--/--/----" value="<?= $espDateString;?>">
+									<div class="flex-td">
+										<div id="round-dates-selector-<?= $match['id']?>" class="round-dates-selector">
+											<select>
+												<?php if($match['round_id'] != 0):
+													foreach($tournament['RoundDates'][$match['round_id']]['dates'] as $k => $date):?>
+													<option><?= $date ?>
+												<?php
+													endforeach;endif;
+												?>
+											</select>
+										</div>
 									</div>
 									<div class="flex-td"><input type="text" class="timepicker timepicker-24 team-form-time" placeholder="--:--" value="<?= $match['time'];?>"></div>
 									<div class="flex-td">
@@ -280,9 +281,10 @@
 		jQuery(document).ready(function() {
 			TournamentScheduleMatches.init();
 		});
-	</script>
 
-	<script>
+		LocalVar = {};
+		LocalVar.RoundDates = <?= json_encode($tournament['RoundDates'])?>
+
 		function outputJsonZones(){
 			teamForms = document.getElementsByClassName('team-data');
 			var saveString = "";
@@ -291,7 +293,10 @@
 			for(var i=0; i<teamForms.length; i++){	// Looping through all <ul> except the one who contain all items
 				id = teamForms[i].id;
 
-				dateArray = teamForms[i].getElementsByClassName('team-form-date')[0].value.split('/')
+				// dateArray = teamForms[i].getElementsByClassName('team-form-date')[0].value.split('/')
+
+				dateArray = ($('#round-dates-selector-'+id+' select').val() != null) ? $('#round-dates-selector-'+id+' select').val().split('/') : '';
+
 				//verify if is a valid date, or set 0
 				if(!isNaN(Date.parse(dateArray[1]+'/'+dateArray[0]+'/'+dateArray[2]))){
 					date = dateArray[2]+'-'+dateArray[1]+'-'+dateArray[0]
@@ -299,9 +304,11 @@
 					date = '0000-00-00';
 				}
 
+				round = ($('#team-form-round-selector-'+id).val() != null) ? $('#team-form-round-selector-'+id).val().split('/') : '';
+
 				time = teamForms[i].getElementsByClassName('team-form-time')[0].value;
 				field = teamForms[i].getElementsByClassName('team-form-field')[0].value;
-				saveString += '{"Match":{"id":' + id + ', "date":"' + date + '", "time":"' + time + '", "field":"' + field + '"}}';
+				saveString += '{"Match":{"id":' + id + ', "date":"' + date + '", "time":"' + time + '", "field":"' + field + '", "round_id":"'+ round +'"}}';
 				if(i<(teamForms.length-1)) saveString += ',';
 			}
 			saveString += ']';

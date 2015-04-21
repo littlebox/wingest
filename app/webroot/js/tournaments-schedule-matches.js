@@ -36,11 +36,30 @@ var TournamentScheduleMatches = {
 		}
 	},
 
+	setSelectsOnRoundChange: function(){
+		$('.team-form-round-selector').on('change',function(ev){
+			val = $(this).val();
+			id = $(this).data('id');
 
+			if(LocalVar.RoundDates[val].select == undefined){
+				var select = document.createElement('select')
+				for(var i = 0, n = LocalVar.RoundDates[val].dates.length; i < n; i++ ){
+					var opt = document.createElement('option');
+					select.appendChild(opt)
+					opt.setAttribute('value',LocalVar.RoundDates[val].dates[i]);
+					opt.textContent = LocalVar.RoundDates[val].dates[i];
+					LocalVar.RoundDates[val].select = select;
+				}
+			}
+
+			$('#round-dates-selector-'+id).html(LocalVar.RoundDates[val].select);
+		})
+	},
 
 	init: function (){
 		TournamentScheduleMatches.handleDatePickers();
 		TournamentScheduleMatches.handleTimePickers();
+		TournamentScheduleMatches.setSelectsOnRoundChange();
 	}
 
 }
