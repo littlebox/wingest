@@ -1,10 +1,12 @@
-<?php //debug($match)?>
+<?php
+	// debug($match);
+?>
 <div class="spreadsheet">
 
 	<div class="header">
 		<div class="head-left">
 			<div class="date-name">Fecha</div>
-			<?php if(!empty($match['Match']['time'])):?>
+			<?php if(!empty($match['Match']['date'])):?>
 			<div class="date"><?= date('j/n/Y',strtotime($match['Match']['date']))?></div>
 			<?php else:?>
 			<div class="date">Fecha no asignada!</div>
