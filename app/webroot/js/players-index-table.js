@@ -32,7 +32,9 @@ var PlayersIndexTable = function () {
 					{
 						mData:"Player.id",
 						mRender: function ( data, type, full ) {
-							return '<a class="btn btn-sm blue" href="'+LocalVar.teamEditUrl+"/"+data+'" ><i class="fa fa-pencil"></i> '+LocalVar.teamEditText+'</a>';
+							r = '<a class="btn btn-sm blue" href="'+LocalVar.playerEditUrl+"/"+data+'" ><i class="fa fa-pencil"></i> '+LocalVar.playerEditText+'</a>';
+							r += '<button class="btn btn-sm red" onclick="confirmAlert(\''+LocalVar.playerDeleteUrl+"/"+data+'\');" ><i class="fa fa-times"></i> '+LocalVar.playerDeleteText+'</button>';
+							return r;
 						},
 						orderable: false
 					},

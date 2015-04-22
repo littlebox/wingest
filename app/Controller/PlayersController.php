@@ -108,6 +108,8 @@ class PlayersController extends AppController {
 		}
 		if ($this->request->is(array('post', 'put'))) {
 
+			debug($this->request->data);die();
+
 			if ($this->Player->save($this->request->data)) {
 				$this->Session->setFlash(__('The player has been saved.'),'metrobox/flash_success');
 
@@ -138,16 +140,52 @@ class PlayersController extends AppController {
  */
 	public function delete($id = null) {
 		$this->Player->id = $id;
-		if (!$this->Player->exists()) {
-			throw new NotFoundException(__('Invalid player'));
+
+		if($this->request->is('ajax')){
+
+			$data = array(
+				'content' => '',
+				'error' => '',
+			);
+
+			if (!$this->Player->exists()) {
+				$data['error'] = __('Invalid Team');
+				return;
+			}else{
+
+				$player = $this->Player->find('first', array(
+					'fields' => array('Player.id'),
+					'conditions' => array('Player.id' => $id),
+					'contain' => false,
+				));
+
+
+				$cleanPlayer = array(
+					'Player' => array(
+						'dni' => '',
+						'name' => '',
+						'last_name' => '',
+						'nickname' => '',
+						'position' => '',
+						'shirt_number' => '',
+						'email' => '',
+						'birthday' => '',
+						'phone' => '',
+						'facebook' => '')
+					);
+
+				$player = array_merge_recursive($player, $cleanPlayer);
+
+				if ($this->Player->save($player)) {
+					$data['content'] = __('Player deleted');
+				} else {
+					$data['error'] = __('Player was not deleted');
+				}
+
+				$this->set(compact('data')); // Pass $data to the view
+				$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+			}
 		}
-		$this->request->allowMethod('post', 'delete');
-		if ($this->Player->delete()) {
-			$this->Session->setFlash(__('The player has been deleted.'));
-		} else {
-			$this->Session->setFlash(__('The player could not be deleted. Please, try again.'));
-		}
-		return $this->redirect(array('action' => 'index'));
 	}
 
 /**
