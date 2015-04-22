@@ -108,8 +108,6 @@ class PlayersController extends AppController {
 		}
 		if ($this->request->is(array('post', 'put'))) {
 
-			debug($this->request->data);die();
-
 			if ($this->Player->save($this->request->data)) {
 				$this->Session->setFlash(__('The player has been saved.'),'metrobox/flash_success');
 
