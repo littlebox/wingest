@@ -71,7 +71,7 @@
 									<span class="last-name"><?= $match['TeamLocal']['Player'][$i]['last_name'];?></span>,&nbsp;<span class="first-name"><?= $match['TeamLocal']['Player'][$i]['name'];?></span>
 								</div>
 							<?php endif;?>
-							<div class="player-number"><input type="text" placeholder=""></div>
+							<div class="local-team player-number"><input id="player-<?=$i?>-number" type="text" placeholder=""></div>
 						</div>
 					<?php endfor;?>
 				</div>
@@ -301,4 +301,8 @@
 </div>
 <?php
 	echo $this->Html->css('matches-view');
+	echo $this->Html->script('matches-view');
 ?>
+<script type="text/javascript">
+	MatchesView.init();
+</script>
