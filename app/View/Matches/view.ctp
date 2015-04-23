@@ -65,7 +65,7 @@
 			<div class="flex fcolumn" style="width:100%">
 				<div class="flex-table">
 					<?php for($i=0,$n=$match['Zone']['Tournament']['players_per_team'];$i<$n;$i++):?>
-						<div class="flex-row player right" style="width:100%">
+						<div class="flex-row player right" style="width:100%" data-id="<?= $match['TeamLocal']['Player'][$i]['id'] ?>">
 							<?php if(isset($match['TeamLocal']['Player'][$i]) && $match['TeamLocal']['Player'][$i]['last_name'] != ''):?>
 								<div class="names">
 									<span class="last-name"><?= $match['TeamLocal']['Player'][$i]['last_name'];?></span>,&nbsp;<span class="first-name"><?= $match['TeamLocal']['Player'][$i]['name'];?></span>
