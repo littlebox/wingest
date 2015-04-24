@@ -101,6 +101,10 @@ $row-color-2:darken(#fff,1);
   }
 }
 
+.portlet.light{
+	margin-bottom:0;
+}
+
 .spreadsheet{
 
 	background:white;
@@ -375,6 +379,10 @@ $row-color-2:darken(#fff,1);
 		background:rgba(0,0,0,0);
 		border: none;
 		padding: 0 !important;
+	}
+
+	.portlet.light{
+		display:none;
 	}
 
 	.spreadsheet{

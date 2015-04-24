@@ -73,6 +73,9 @@
   .flex .frow {
     flex: 1 1 2em; }
 
+.portlet.light {
+  margin-bottom: 0; }
+
 .spreadsheet {
   background: white;
   display: -webkit-box;
@@ -262,6 +265,9 @@
     background: transparent;
     border: none;
     padding: 0 !important; }
+
+  .portlet.light {
+    display: none; }
 
   .spreadsheet .players-list {
     top: -3em;
