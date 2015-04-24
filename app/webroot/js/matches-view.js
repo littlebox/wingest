@@ -7,27 +7,41 @@ MatchesView = {
 
 	handleNumberListeners: function(){
 
+		//List player input
 		[].forEach.call(document.querySelectorAll('.local-team.player-number input'),function(inp,key){
-			inp.addEventListener('input',MatchesView.setPlayer.bind(inp,inp.parentNode.parentNode.getAttribute('data-id')))
+			inp.addEventListener('input',MatchesView.setPlayer.bind(inp,inp.parentNode.parentNode.getAttribute('data-id'),'Local'))
+		});
+		[].forEach.call(document.querySelectorAll('.visitor-team.player-number input'),function(inp,key){
+			inp.addEventListener('input',MatchesView.setPlayer.bind(inp,inp.parentNode.parentNode.getAttribute('data-id'),'Visitor'))
+		});
+
+		//Goals and Bookings listeners
+		[].forEach.call(document.querySelectorAll('.local-team .goals-bookings input.nro'), function(inp){
+			inp.addEventListener('click', MatchesView.showSelect.bind(inp,'Local'))
+		});
+
+		[].forEach.call(document.querySelectorAll('.visitor-team .goals-bookings input.nro'), function(inp){
+			inp.addEventListener('click', MatchesView.showSelect.bind(inp,'Visitor'))
 		})
 	},
 
-	setPlayer: function(k,ev){
+	setPlayer: function(k,team,ev){
 
 		//Create select if it doesn't exists
-		if(typeof(MatchesView.Players.Local.select) === "undefined"){
-			MatchesView.Players.Local.select = document.createElement('select');
-			var opt = document.createElement('option');
-			opt.textContent = 'Seleccione jugador...';
-			MatchesView.Players.Local.select.appendChild(opt);
+		if(typeof(MatchesView.Players[team].select) === "undefined"){
+			MatchesView.Players[team].select = document.createElement('select');
 		}
 
-		var select = MatchesView.Players.Local.select;
+		if(typeof(MatchesView.Players[team].opts) === "undefined"){
+			MatchesView.Players[team].opts = [];
+		}
+
+		var select = MatchesView.Players[team].select;
 
 		//Create player if it doesn't exists
-		if(typeof(MatchesView.Players.Local[k]) === "undefined"){ MatchesView.Players.Local[k] = {}}
-		MatchesView.Players.Local[k].number = ev.target.value;
-		MatchesView.Players.Local[k].name = ev.target.parentNode.parentNode.querySelector('.names').textContent.trim();
+		if(typeof(MatchesView.Players[team][k]) === "undefined"){ MatchesView.Players[team][k] = {}}
+		MatchesView.Players[team][k].number = ev.target.value;
+		MatchesView.Players[team][k].name = ev.target.parentNode.parentNode.querySelector('.names').textContent.trim();
 
 		var currrentOption = select.querySelector('.player-select-'+k);
 		if(currrentOption != null ){
@@ -35,64 +49,70 @@ MatchesView = {
 		}
 
 		//Order players by shirt number and create opts in opts
-		var opts = [];
-		for (val in MatchesView.Players.Local){
+		for (val in MatchesView.Players[team]){
 			//If it's a player, not the select
-			if( MatchesView.Players.Local.hasOwnProperty(val) && typeof(MatchesView.Players.Local[val].number) != "undefined" ){
+			if( MatchesView.Players[team].hasOwnProperty(val) && typeof(MatchesView.Players[team][val].number) != "undefined" ){
 				opt = document.createElement('option')
-				opt.value = MatchesView.Players.Local[val].number;
-				opt.textContent = MatchesView.Players.Local[val].number+' - '+MatchesView.Players.Local[val].name;
+				opt.value = MatchesView.Players[team][val].number;
+				opt.textContent = MatchesView.Players[team][val].number+' - '+MatchesView.Players[team][val].name;
 				opt.setAttribute('class','player-select-'+val);
-				opts[MatchesView.Players.Local[val].number] = opt
+				MatchesView.Players[team].opts[MatchesView.Players[team][val].number] = opt
 			}
 		}
-		console.log(opts)
+		console.log(MatchesView.Players[team].opts)
 
+		//clear the select, and append option childs
 		select.innerHTML = '';
-		opts.forEach(function(opt){
-			select.appendChild(opt)
+		optFirst = document.createElement('option');
+		optFirst.textContent = "Seleccionar jugador";
+		select.appendChild(optFirst);
+
+		MatchesView.Players[team].opts.forEach(function(opt){
+			select.appendChild(opt);
 		})
 
 
 
 	},
 
-	showSelect: function(){
+	showSelect: function(team,ev){
 
-		[].forEach.call(document.querySelectorAll('.goals-bookings input.nro'),(function(inp){
+		if(typeof(MatchesView.Players[team].select) != "undefined"){
 
-			inp.addEventListener('click',(function(){
+			var select = MatchesView.Players[team].select.cloneNode(true);
 
-				var select = MatchesView.Players.Local.select.cloneNode(true);
+			//TODO: add eventlistener, then remove!!
+			select.addEventListener('change',(function(ev){
+				this.value = select.options[select.selectedIndex].value;
+				select.removeEventListener('click', arguments.callee);
+				if(typeof(select.parentNode) != "undefined"){
+					select.dispatchEvent(eventRemove);
+				}
+			}).bind(this))
 
-				//TODO: add eventlistener, then remove!!
-				select.addEventListener('change',(function(ev){
-					inp.value = select.options[select.selectedIndex].value;
-					select.removeEventListener('click', arguments.callee);
-					if(typeof(select.parentNode) != "undefined"){
-						select.parentNode.removeChild(select)
-					}
-				}))
+			select.addEventListener('blur', function blur(){
+				select.dispatchEvent(eventRemove)
+			})
 
-				select.addEventListener('blur', function(){
-					if(typeof(select.parentNode) != "undefined"){
-						select.parentNode.removeChild(select)
-					}
-				})
+			var eventRemove = new Event('remove')
 
-				inp.offsetParent.appendChild(select);
-				select.style.position = "absolute";
-				select.style.top = inp.offsetTop+inp.offsetHeight+'px';
-				select.style.left = inp.offsetLeft+'px';
+			select.addEventListener('remove', function(ev){
+				if(typeof(this.parentNode) != "undefined"){
+					this.parentNode.removeChild(this)
+				}
+			})
 
-			}).bind(inp))
+			this.offsetParent.appendChild(select);
+			select.style.position = "absolute";
+			select.style.top = this.offsetTop+this.offsetHeight+'px';
+			select.style.left = this.offsetLeft+'px';
 
-		}))
+		}
 
 	},
 
 	init: function(){
 		MatchesView.handleNumberListeners();
-		MatchesView.showSelect();
+		// MatchesView.showSelect();
 	},
 }

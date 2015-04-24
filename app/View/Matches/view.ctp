@@ -1,6 +1,21 @@
 <?php
 	// debug($match);
 ?>
+
+<div class="portlet light">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-futbol-o"></i>
+			<span class="caption-subject bold uppercase">
+				<?= __('Spreadsheet') ?>
+			</span>
+		</div>
+		<div class="actions">
+			<button type="button" onClick="sendViewMatches();" id="send-view-matches" class="btn btn-circle green-haze ladda-button" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Save') ?></span></button>
+		</div>
+	</div>
+</div>
+
 <div class="spreadsheet">
 
 	<div class="header">
@@ -105,8 +120,8 @@
 			<div class="flex fcolumn" style="width:100%">
 				<div class="flex-table">
 					<?php for($i=0,$n=$match['Zone']['Tournament']['players_per_team'];$i<$n;$i++):?>
-						<div class="flex-row player left" style="width:100%">
-							<div class="player-number"><input type="text" placeholder=""></div>
+						<div class="flex-row player left" style="width:100%" data-id="<?= $match['TeamVisitor']['Player'][$i]['id'] ?>">
+							<div class="visitor-team player-number"><input id="player-<?=$i?>-number" type="text" placeholder=""></div>
 							<?php if(isset($match['TeamVisitor']['Player'][$i]) && $match['TeamVisitor']['Player'][$i]['last_name'] != ''):?>
 								<div class="names">
 									<span class="last-name"><?= $match['TeamVisitor']['Player'][$i]['last_name'];?></span>,&nbsp;<span class="first-name"><?= $match['TeamVisitor']['Player'][$i]['name'];?></span>
@@ -155,7 +170,7 @@
 					</div>
 				</div>
 
-				<div class="flex fcenter hundredp">
+				<div class="flex local-team fcenter hundredp">
 
 					<div class="goals-bookings flex fcolumn fcenter">
 						<?php for($i=0;$i<5;$i++):?>
@@ -214,7 +229,7 @@
 					</div>
 				</div>
 
-				<div class="flex fcenter hundredp">
+				<div class="flex visitor-team fcenter hundredp">
 
 					<div class="goals-bookings flex fcolumn fcenter">
 						<?php for($i=0;$i<5;$i++):?>
@@ -299,10 +314,65 @@
 
 	</div>
 </div>
+
 <?php
 	echo $this->Html->css('matches-view');
 	echo $this->Html->script('matches-view');
 ?>
 <script type="text/javascript">
 	MatchesView.init();
+
+	function sendViewMatches() {
+		var button = $( '#send-view-matches' ).ladda();
+		button.ladda( 'start' ); //Show loader in button
+
+		var targeturl = '<?= $this->Html->url(); ?>'+'.json';
+		sheduleZonesJson = outputJsonZones();
+		$('#hidden-json').val(sheduleZonesJson);
+
+		// var formData = $('#schedule-matches-form').serializeArray();
+
+		$.ajax({
+			type: 'put',
+			cache: false,
+			url: targeturl,
+			data: 'formData',
+			dataType: 'json',
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+				xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+			},
+			success: function(response) {
+				if (response.content) {
+					//Show sweetalert
+					swal({
+						title: 'OK',
+						text: response.content,
+						type: "success",
+						confirmButtonText: "<?= __('Ok') ?>"
+					});
+				}
+				if (response.error) {
+					swal({
+						title: 'ERROR',
+						text: response.error,
+						type: "error",
+						confirmButtonText: "<?= __('Ok') ?>"
+					});
+				}
+			},
+			error: function(e) {
+				swal({
+					title: 'ERROR',
+					text: e.responseText.message,
+					type: "error",
+					confirmButtonText: "<?= __('Ok') ?>"
+				});
+			},
+			complete: function(){
+				button.ladda( 'stop' ); //Hide loader in button
+			}
+		});
+	};
+
 </script>
