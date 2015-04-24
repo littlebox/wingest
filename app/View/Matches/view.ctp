@@ -86,7 +86,7 @@
 									<span class="last-name"><?= $match['TeamLocal']['Player'][$i]['last_name'];?></span>,&nbsp;<span class="first-name"><?= $match['TeamLocal']['Player'][$i]['name'];?></span>
 								</div>
 							<?php endif;?>
-							<div class="local-team player-number"><input id="player-<?=$i?>-number" type="text" placeholder=""></div>
+							<div class="local-team player-number"><input id="player-<?=$i?>-number" class="player-number-<?= $match['TeamLocal']['Player'][$i]['id'] ?>" type="text" placeholder=""></div>
 						</div>
 					<?php endfor;?>
 				</div>
@@ -121,7 +121,7 @@
 				<div class="flex-table">
 					<?php for($i=0,$n=$match['Zone']['Tournament']['players_per_team'];$i<$n;$i++):?>
 						<div class="flex-row player left" style="width:100%" data-id="<?= $match['TeamVisitor']['Player'][$i]['id'] ?>">
-							<div class="visitor-team player-number"><input id="player-<?=$i?>-number" type="text" placeholder=""></div>
+							<div class="visitor-team player-number"><input id="player-<?=$i?>-number" class="player-number-<?= $match['TeamVisitor']['Player'][$i]['id'] ?>" type="text" placeholder=""></div>
 							<?php if(isset($match['TeamVisitor']['Player'][$i]) && $match['TeamVisitor']['Player'][$i]['last_name'] != ''):?>
 								<div class="names">
 									<span class="last-name"><?= $match['TeamVisitor']['Player'][$i]['last_name'];?></span>,&nbsp;<span class="first-name"><?= $match['TeamVisitor']['Player'][$i]['name'];?></span>

@@ -198,6 +198,12 @@ $row-color-2:darken(#fff,1);
 			font-size: 1rem;
 			text-align: center;
 			border: 1px solid #808080;
+
+			&.duplicate{
+				background:#F44336;
+				color:white;
+			}
+
 		}
 
 	}

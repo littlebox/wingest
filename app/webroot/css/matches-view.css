@@ -142,6 +142,9 @@
       font-size: 1rem;
       text-align: center;
       border: 1px solid #808080; }
+      .spreadsheet .player .player-number input.duplicate {
+        background: #F44336;
+        color: white; }
   .spreadsheet .dt-fields input {
     background: none;
     border: none;
