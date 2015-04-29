@@ -124,23 +124,27 @@ MatchesView = {
 		if(typeof(MatchesView.Players[team].select) != "undefined"){
 
 			var select = MatchesView.Players[team].select.cloneNode(true);
-
+			var removed = false;
 			//TODO: add eventlistener, then remove!!
-			select.addEventListener('change',(function(ev){
+			select.addEventListener('change',(function change(ev){
 				this.value = select.options[select.selectedIndex].value;
 				select.removeEventListener('click', arguments.callee);
-				if(typeof(select.parentNode) != "undefined"){
+				if(typeof(select.parentNode) != "undefined" && !removed){
+					removed = true;
 					select.dispatchEvent(eventRemove);
 				}
 			}).bind(this))
 
 			select.addEventListener('blur', function blur(){
-				select.dispatchEvent(eventRemove)
+				if(!removed){
+					removed = true;
+					select.dispatchEvent(eventRemove);
+				}
 			})
 
 			var eventRemove = new Event('remove')
 
-			select.addEventListener('remove', function(ev){
+			select.addEventListener('remove', function remove(ev){
 				if(typeof(this.parentNode) != "undefined"){
 					this.parentNode.removeChild(this)
 				}
@@ -156,6 +160,7 @@ MatchesView = {
 	},
 
 	initialize: function(){
+		//set players with values saved before
 		[].forEach.call(document.querySelectorAll('.local-team.player-number input'),function(inp,key){
 			MatchesView.setPlayer.call(inp,inp.parentNode.parentNode.getAttribute('data-id'),'Local',inp.parentNode.parentNode.getAttribute('data-playerShirtNumber-id'),{target:{value:inp.value}})
 		});
