@@ -103,7 +103,7 @@ MatchesView = {
 
 		var dupl = [];
 
-		[].forEach.call(document.querySelectorAll('div.local-team input'),function(inp,k){
+		[].forEach.call(document.querySelectorAll('div.player div.local-team input'),function(inp,k){
 			if(inp.value != ""){
 				if(typeof(dupl[inp.value]) == "undefined") dupl[inp.value] = []
 				dupl[inp.value].push(inp);
@@ -113,6 +113,21 @@ MatchesView = {
 					})
 				}else{
 					dupl[inp.value][0].classList.remove('duplicate');
+				}
+			}
+		})
+
+		dupv = [];
+		[].forEach.call(document.querySelectorAll('div.player div.visitor-team input'),function(inp,k){
+			if(inp.value != ""){
+				if(typeof(dupv[inp.value]) == "undefined") dupv[inp.value] = []
+				dupv[inp.value].push(inp);
+				if(dupv[inp.value].length > 1){
+					dupv[inp.value].forEach(function(inp){
+						inp.classList.add('duplicate')
+					})
+				}else{
+					dupv[inp.value][0].classList.remove('duplicate');
 				}
 			}
 		})
