@@ -8,6 +8,7 @@ App::uses('AppModel', 'Model');
  */
 class MatchesPlayer extends AppModel {
 
+	public $actsAs = array('Containable');
 /**
  * Validation rules
  *

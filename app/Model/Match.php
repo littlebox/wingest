@@ -105,13 +105,17 @@ class Match extends AppModel {
 			'foreignKey' => 'match_id',
 			'dependent' => false,
 			'conditions' => '',
-			'fields' => '',
+			'fields' => array(
+				'id',
+				'player_id',
+				'shirt_number',
+			),
 			'order' => '',
 			'limit' => '',
 			'offset' => '',
 			'exclusive' => '',
 			'finderQuery' => '',
-			'counterQuery' => ''
+			'counterQuery' => '',
 		),
 	);
 

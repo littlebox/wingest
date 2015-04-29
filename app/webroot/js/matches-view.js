@@ -9,10 +9,10 @@ MatchesView = {
 
 		//List player input
 		[].forEach.call(document.querySelectorAll('.local-team.player-number input'),function(inp,key){
-			inp.addEventListener('input',MatchesView.setPlayer.bind(inp,inp.parentNode.parentNode.getAttribute('data-id'),'Local'))
+			inp.addEventListener('input',MatchesView.setPlayer.bind(inp,inp.parentNode.parentNode.getAttribute('data-id'),'Local',inp.parentNode.parentNode.getAttribute('data-playerShirtNumber-id')))
 		});
 		[].forEach.call(document.querySelectorAll('.visitor-team.player-number input'),function(inp,key){
-			inp.addEventListener('input',MatchesView.setPlayer.bind(inp,inp.parentNode.parentNode.getAttribute('data-id'),'Visitor'))
+			inp.addEventListener('input',MatchesView.setPlayer.bind(inp,inp.parentNode.parentNode.getAttribute('data-id'),'Visitor',inp.parentNode.parentNode.getAttribute('data-playerShirtNumber-id')))
 		});
 
 		//Goals and Bookings listeners
@@ -25,7 +25,7 @@ MatchesView = {
 		})
 	},
 
-	setPlayer: function(k,team,ev){
+	setPlayer: function(k,team,playerShirtNumberId,ev){
 
 		if(!isNaN(ev.target.value) && ev.target.value > 0){
 
@@ -43,7 +43,7 @@ MatchesView = {
 			var opts = MatchesView.Players[team].opts;
 
 			//Create player if it doesn't exists
-			if(typeof(MatchesView.Players[team][k]) === "undefined"){ 
+			if(typeof(MatchesView.Players[team][k]) === "undefined"){
 				MatchesView.Players[team][k] = {}
 			}else{
 				//Player exists, remove old option from select and array
@@ -59,12 +59,15 @@ MatchesView = {
 			}
 
 			MatchesView.Players[team][k].number = ev.target.value;
+			MatchesView.Players[team][k].playerShirtNumberId = playerShirtNumberId;
 			var shirtNumber = MatchesView.Players[team][k].number
 
-			if(ev.target.parentNode.parentNode.querySelector('.names').textContent.trim() != ''){
-				var name = ev.target.parentNode.parentNode.querySelector('.names').textContent.trim()
+			if(this.parentNode.parentNode.querySelector('.names') != null && this.parentNode.parentNode.querySelector('.names').textContent.trim() != ''){
+				var name = this.parentNode.parentNode.querySelector('.names').textContent.trim()
 				name = name.replace(/\w+/,function(l){return l.toUpperCase()}) //All last name, before coma
 				name = name.replace(/,\s+\w/,function(l){return l.toUpperCase()}) //First letter of name, after coma and space
+			}else{
+				name = '';
 			}
 			MatchesView.Players[team][k].name = name;
 
@@ -73,17 +76,12 @@ MatchesView = {
 			opt.textContent = shirtNumber+' - '+name;
 			opt.setAttribute('class','player-select-'+k);
 
-			//verify there isn't a duplicate number opts[shirtnumber]
-			if(typeof(opts[shirtNumber]) != "undefined"){
-				//defined before, add duplicate
-				MatchesView.handleDuplicates(this,document.querySelector('input.player-number-'+opts[shirtNumber].className.split('-')[2]))
-			}else{
-				//not duplicate
-				MatchesView.handleDuplicates(this);
-				opts[shirtNumber] = opt
-			}
+			MatchesView.handleDuplicates()
 
-			//add to options
+			//if doesn't exists, add to array
+			if(typeof(opts[shirtNumber])== "undefined" ){
+				opts[shirtNumber] = opt;
+			}
 
 			//clear the select, and append option childs
 			select.innerHTML = '';
@@ -101,58 +99,24 @@ MatchesView = {
 
 	},
 
-	handleDuplicates: function(inp1,inp2){
-		var val1 = inp1.value;
-		if(typeof(this.duplicates) == "undefined"){this.duplicates = {}}
+	handleDuplicates: function(){
 
-		if(arguments.length > 1){
-			var val2 = inp2.value;
-			if(val1 == val2){
+		var dupl = [];
 
-				inp1.classList.add('duplicate');
-				inp2.classList.add('duplicate');
-
-				if(typeof(this.duplicates[inp1.id]) == "undefined"){this.duplicates[inp1.id] = {id: inp1.id}}
-				if(typeof(this.duplicates[inp2.id]) == "undefined"){this.duplicates[inp2.id] = {id: inp2.id}}
-				if(typeof(this.duplicates[inp1.id].avec) == "undefined"){this.duplicates[inp1.id].avec = []}
-				if(typeof(this.duplicates[inp2.id].avec) == "undefined"){this.duplicates[inp2.id].avec = []}
-
-				if(this.duplicates[inp1.id].avec.indexOf(this.duplicates[inp2.id]) == -1){
-					this.duplicates[inp1.id].avec.push(this.duplicates[inp2.id]);
+		[].forEach.call(document.querySelectorAll('div.local-team input'),function(inp,k){
+			if(inp.value != ""){
+				if(typeof(dupl[inp.value]) == "undefined") dupl[inp.value] = []
+				dupl[inp.value].push(inp);
+				if(dupl[inp.value].length > 1){
+					dupl[inp.value].forEach(function(inp){
+						inp.classList.add('duplicate')
+					})
+				}else{
+					dupl[inp.value][0].classList.remove('duplicate');
 				}
-				if(this.duplicates[inp2.id].avec.indexOf(this.duplicates[inp1.id]) == -1){
-					this.duplicates[inp2.id].avec.push(this.duplicates[inp1.id]);
-				}
-
-				add.bind(this,inp1,inp2)
-
-				function add(i1,i2){
-					if(this.duplicates[i1].avec.indexOf(this.duplicates[i2]) == -1){
-						this.duplicates[i1].avec.push(this.duplicates[i2]);
-						if(this.duplicates[i2].avec.length > 1){
-							this.duplicates[i2].avec.forEach(function(i){
-								add(i1,i);
-							})
-						}
-					}
-					if(this.duplicates[i2].avec.indexOf(this.duplicates[i1]) == -1){
-						this.duplicates[i2].avec.push(this.duplicates[i1]);
-						if(this.duplicates[i1].avec.length > 1){
-							this.duplicates[i1].avec.forEach(function(i){
-								add(i,i);
-							})
-						}
-					}
-				}
-
 			}
-		}else{
-			if(typeof(this.duplicates[inp1.id]) != "undefined"){
-				inp1.classList.remove('duplicate');
-				console.log(this.duplicates[inp1.id].avec.length)
-				this.duplicates[inp1.id] = undefined;
-			}
-		}
+		})
+
 	},
 
 	showSelect: function(team,ev){
@@ -191,8 +155,18 @@ MatchesView = {
 
 	},
 
+	initialize: function(){
+		[].forEach.call(document.querySelectorAll('.local-team.player-number input'),function(inp,key){
+			MatchesView.setPlayer.call(inp,inp.parentNode.parentNode.getAttribute('data-id'),'Local',inp.parentNode.parentNode.getAttribute('data-playerShirtNumber-id'),{target:{value:inp.value}})
+		});
+		[].forEach.call(document.querySelectorAll('.visitor-team.player-number input'),function(inp,key){
+			MatchesView.setPlayer.call(inp,inp.parentNode.parentNode.getAttribute('data-id'),'Visitor',inp.parentNode.parentNode.getAttribute('data-playerShirtNumber-id'),{target:{value:inp.value}})
+		});
+	},
+
 	init: function(){
 		MatchesView.handleNumberListeners();
+		MatchesView.initialize();
 		// MatchesView.showSelect();
 	},
 }

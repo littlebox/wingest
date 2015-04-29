@@ -1,5 +1,5 @@
 <?php
-	// debug($match);
+	debug($match);
 ?>
 
 <div class="portlet light">
@@ -79,14 +79,20 @@
 
 			<div class="flex fcolumn" style="width:100%">
 				<div class="flex-table">
-					<?php for($i=0,$n=$match['Zone']['Tournament']['players_per_team'];$i<$n;$i++):?>
-						<div class="flex-row player right" style="width:100%" data-id="<?= $match['TeamLocal']['Player'][$i]['id'] ?>">
+					<?php for($i=0,$n=$match['Zone']['Tournament']['players_per_team'];$i<$n;$i++):
+						$playerId = $match['TeamLocal']['Player'][$i]['id'];
+						$shirtNumber = isset($match['PlayersShirtNumber'][$playerId])? $match['PlayersShirtNumber'][$playerId]['shirt_number'] : '';
+						$playerShirtNumberId = isset($match['PlayersShirtNumber'][$playerId])? $match['PlayersShirtNumber'][$playerId]['id'] : '';
+					?>
+						<div class="flex-row player right" style="width:100%" data-id="<?= $playerId ?>" data-playerShirtNumber-id="<?= $playerShirtNumberId ?>">
 							<?php if(isset($match['TeamLocal']['Player'][$i]) && $match['TeamLocal']['Player'][$i]['last_name'] != ''):?>
 								<div class="names">
 									<span class="last-name"><?= $match['TeamLocal']['Player'][$i]['last_name'];?></span>,&nbsp;<span class="first-name"><?= $match['TeamLocal']['Player'][$i]['name'];?></span>
 								</div>
 							<?php endif;?>
-							<div class="local-team player-number"><input id="player-<?=$i?>-number" class="player-number-<?= $match['TeamLocal']['Player'][$i]['id'] ?>" type="text" placeholder=""></div>
+							<div class="local-team player-number">
+								<input value="<?= $shirtNumber ?>" id="player-<?=$i?>-number" class="player-number-<?= $match['TeamLocal']['Player'][$i]['id'] ?>" type="text" placeholder="">
+							</div>
 						</div>
 					<?php endfor;?>
 				</div>
@@ -119,9 +125,13 @@
 
 			<div class="flex fcolumn" style="width:100%">
 				<div class="flex-table">
-					<?php for($i=0,$n=$match['Zone']['Tournament']['players_per_team'];$i<$n;$i++):?>
-						<div class="flex-row player left" style="width:100%" data-id="<?= $match['TeamVisitor']['Player'][$i]['id'] ?>">
-							<div class="visitor-team player-number"><input id="player-<?=$i?>-number" class="player-number-<?= $match['TeamVisitor']['Player'][$i]['id'] ?>" type="text" placeholder=""></div>
+					<?php for($i=0,$n=$match['Zone']['Tournament']['players_per_team'];$i<$n;$i++):
+						$playerId = $match['TeamVisitor']['Player'][$i]['id'];
+						$shirtNumber = isset($match['PlayersShirtNumber'][$playerId])? $match['PlayersShirtNumber'][$playerId]['shirt_number'] : '';
+						$playerShirtNumberId = isset($match['PlayersShirtNumber'][$playerId])? $match['PlayersShirtNumber'][$playerId]['id'] : '';
+					?>
+						<div class="flex-row player left" style="width:100%" data-id="<?= $playerId ?>" data-playerShirtNumber-id="<?= $playerShirtNumberId ?>">
+							<div class="visitor-team player-number"><input id="player-<?=$i?>-number" value="<?= $shirtNumber ?>" class="player-number-<?= $match['TeamVisitor']['Player'][$i]['id'] ?>" type="text" placeholder=""></div>
 							<?php if(isset($match['TeamVisitor']['Player'][$i]) && $match['TeamVisitor']['Player'][$i]['last_name'] != ''):?>
 								<div class="names">
 									<span class="last-name"><?= $match['TeamVisitor']['Player'][$i]['last_name'];?></span>,&nbsp;<span class="first-name"><?= $match['TeamVisitor']['Player'][$i]['name'];?></span>
@@ -313,31 +323,67 @@
 		</div>
 
 	</div>
+
+	<form id="formSendMatch">
+		<input type="hidden" name="jsonData">
+	</form>
+
 </div>
 
 <?php
-	echo $this->Html->css('matches-view');
-	echo $this->Html->script('matches-view');
+	$this->append('pageStyles');
+		echo $this->Html->css('matches-view');
+		echo $this->Html->css('/plugins/bootstrap-buttons-loader/dist/ladda-themeless.min');
+		echo $this->Html->css('/plugins/sweetalert/lib/sweet-alert');
+	$this->end();
+
+	$this->append('pagePlugins');
+		echo $this->Html->script('/plugins/bootstrap-buttons-loader/dist/spin.min');
+		echo $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.min');
+		echo $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.jquery.min');
+		echo $this->Html->script('/plugins/sweetalert/lib/sweet-alert.min');
+		echo $this->Html->script('matches-view');
+	$this->end();
 ?>
+
+<?php $this->append('pageScripts'); ?>
 <script type="text/javascript">
-	MatchesView.init();
+
+
+
+	jQuery(document).ready(function() {
+		MatchesView.init();
+	});
 
 	function sendViewMatches() {
 		var button = $( '#send-view-matches' ).ladda();
 		button.ladda( 'start' ); //Show loader in button
 
 		var targeturl = '<?= $this->Html->url(); ?>'+'.json';
-		sheduleZonesJson = outputJsonZones();
-		$('#hidden-json').val(sheduleZonesJson);
+		var matchId = '<?= $match["Match"]["id"]?>';
 
-		// var formData = $('#schedule-matches-form').serializeArray();
+		playersNumber = [];
+		for(k in MatchesView.Players.Local){
+			var player = MatchesView.Players.Local[k]
+			if(MatchesView.Players.Local.hasOwnProperty(k) && typeof(player.number) != "undefined"){
+				playersNumber.push({'player_id':k,'shirt_number':player.number,'match_id':matchId, 'id': player.playerShirtNumberId})
+			}
+		}
+		for(k in MatchesView.Players.Visitor){
+			var player = MatchesView.Players.Visitor[k]
+			if(MatchesView.Players.Visitor.hasOwnProperty(k) && typeof(player.number) != "undefined"){
+				playersNumber.push({'player_id':k,'shirt_number':player.number,'match_id':matchId, 'id': player.playerShirtNumberId})
+			}
+		}
+
+		document.querySelector('input[name="jsonData"]').value = JSON.stringify({'Match':{'id': matchId}, 'PlayersShirtNumber': playersNumber});
 
 		$.ajax({
 			type: 'put',
 			cache: false,
 			url: targeturl,
-			data: 'formData',
-			dataType: 'json',
+			data: $('form#formSendMatch').serializeArray(),
+			dataType: 'json' ,
 			beforeSend: function(xhr) {
 				xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
 				xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
@@ -376,3 +422,4 @@
 	};
 
 </script>
+<?php $this->end();?>

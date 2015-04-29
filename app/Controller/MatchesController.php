@@ -36,40 +36,86 @@ class MatchesController extends AppController {
 		if (!$this->Match->exists($id)) {
 			throw new NotFoundException(__('Invalid match'));
 		}
-		$options = array('conditions' => array('Match.' . $this->Match->primaryKey => $id), 'contain' => array(
-			'Zone.name',
-			'TeamLocal' => array(
-				'fields' => array(
-					'name',
-					'main_shirt_color',
-				)
-			),
-			'TeamVisitor' => array(
-				'fields' => array(
-					'name',
-					'main_shirt_color',
-				)
-			),
-			'TeamLocal.Player' => array(
-				'fields' => array(
-					'name',
-					'last_name'
-				)
-			),
-			'TeamVisitor.Player' =>
-				array('fields' => array(
-					'name',
-					'last_name'
+
+		if ($this->request->is(array('ajax'))) {
+			//Check if request is post or put
+			if ($this->request->is('post') || $this->request->is('put')) {
+
+				// debug(json_decode($this->request->data['jsonData'],true));die();
+
+				//Return array
+				$data = array(
+					'content' => '',
+					'error' => '',
+				);
+
+				if ( $this->Match->saveAssociated( json_decode($this->request->data['jsonData'],true) ) ) {
+					$data['content'] = __('The changes has been saved');
+				}else{
+					$data['error'] = __('The changes could not be saved. Please, try again.');
+				}
+
+				$this->set(compact('data')); // Pass $data to the view
+				$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+
+
+			} else {
+				throw new BadRequestException(__('Invalid request type (has to be post or put)'));
+			}
+		} else {
+
+			$this->layout = 'metrobox';
+
+			$options = array('conditions' => array('Match.' . $this->Match->primaryKey => $id), 'contain' => array(
+				'Zone.name',
+				'TeamLocal' => array(
+					'fields' => array(
+						'name',
+						'main_shirt_color',
 					)
 				),
-			'Zone.Tournament.players_per_team',
-			'Goal',
-			'Booking',
-		));
-		$this->set('match', $this->Match->find('first', $options));
+				'TeamVisitor' => array(
+					'fields' => array(
+						'name',
+						'main_shirt_color',
+					)
+				),
+				'TeamLocal.Player' => array(
+					'fields' => array(
+						'name',
+						'last_name'
+					)
+				),
+				'TeamVisitor.Player' =>
+					array('fields' => array(
+						'name',
+						'last_name'
+						)
+					),
+				'Zone.Tournament.players_per_team',
+				'PlayersShirtNumber' =>
+					array('fields' => array(
+						'id',
+						'player_id',
+						'shirt_number',
+						)
+					),
+				'Goal',
+				'Booking',
+			));
 
-		$this->layout = 'metrobox';
+			$result = $this->Match->find('first', $options);
 
+			/* Order PlayerShirtNumber by player_id */
+			$res = [];
+			foreach ($result['PlayersShirtNumber'] as $key => $val) {
+				$res[$val['player_id']] = $val;
+			}
+			$result['PlayersShirtNumber'] = $res;
+
+			$this->set('match', $result);
+
+		}
 	}
 
 /**
