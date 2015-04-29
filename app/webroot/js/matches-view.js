@@ -138,9 +138,13 @@ MatchesView = {
 
 		if(typeof(MatchesView.Players[team].select) != "undefined"){
 
+			[].forEach.call(this.offsetParent.querySelectorAll('select'),function(sel){
+				sel.parentNode.removeChild(sel)
+			});
+
 			var select = MatchesView.Players[team].select.cloneNode(true);
 			var removed = false;
-			//TODO: add eventlistener, then remove!!
+
 			select.addEventListener('change',(function change(ev){
 				this.value = select.options[select.selectedIndex].value;
 				select.removeEventListener('click', arguments.callee);
@@ -161,7 +165,11 @@ MatchesView = {
 
 			select.addEventListener('remove', function remove(ev){
 				if(typeof(this.parentNode) != "undefined"){
-					this.parentNode.removeChild(this)
+
+					[].forEach.call(this.offsetParent.querySelectorAll('select'),function(sel){
+						sel.parentNode.removeChild(sel)
+					});
+
 				}
 			})
 
