@@ -159,12 +159,11 @@ MatchesView = {
 			select.addEventListener('change',(function change(ev){
 				var opt = select.options[select.selectedIndex]
 
-
 				this.value = opt.value;
 
 				this.parentNode.setAttribute('data-player-id',opt.getAttribute('data-player-id'))
 
-				setGoalClass(this,isOwnGoal);
+				MatchesView.setGoalClass(this,isOwnGoal);
 
 				if(typeof(select.parentNode) != "undefined" && !removed){
 					removed = true;
@@ -178,23 +177,6 @@ MatchesView = {
 					select.dispatchEvent(eventRemove);
 				}
 			})
-
-			setGoalClass = function(inp,isOwnGoal){
-				if(isOwnGoal){
-					inp.parentNode.classList.add('own-goal');
-					inp.parentNode.classList.remove('normal-goal');
-					[].forEach.call(inp.parentNode.querySelectorAll('.red,.yellow'), function(el){
-						el.setAttribute('disabled','disabled');
-						el.value = '';
-					})
-				}else{
-					inp.parentNode.classList.add('normal-goal');
-					inp.parentNode.classList.remove('own-goal');
-					[].forEach.call(inp.parentNode.querySelectorAll('.red,.yellow'), function(el){
-						el.removeAttribute('disabled');
-					})
-				}
-			}
 
 			var eventRemove = new Event('remove')
 
@@ -217,12 +199,6 @@ MatchesView = {
 
 	},
 
-	handleGoalListeners: function(){
-		[].forEach.call(document.querySelectorAll('.goals-bookings div input.goal'),function(inp,key){
-			// inp.addEventListener('input',MatchesView.addGoal.bind(inp));
-		});
-	},
-
 	setGoals: function(){
 
 		/* reset goals and bookings in players */
@@ -243,10 +219,10 @@ MatchesView = {
 
 		[].forEach.call(document.querySelectorAll('.goals-bookings div'),function(div,key){
 			if(div.getAttribute('data-player-id') != null){
-				addGoal(div,div.classList.contains('normal-goal'))
+				addGoalinObject(div,div.classList.contains('normal-goal'))
 			}
 
-			function addGoal(div,isNormalGoal){
+			function addGoalinObject(div,isNormalGoal){
 				var playerId = div.getAttribute('data-player-id');
 				/*XOR for isLocal and isNormalGoal
 				divIsLocal | isNormalGoal | Team
@@ -257,12 +233,31 @@ MatchesView = {
 				*/
 				var team = !( div.parentNode.parentNode.classList.contains('local-team') ^ isNormalGoal ) ? 'Local' : 'Visitor';
 
-				MatchesView.Players[team][playerId]['goals'][ (isNormalGoal) ? 'normalGoals' : 'ownGoals' ] += Math.ceil(div.querySelector('input.goal').value);
+				if(!isNaN(Math.floor(playerId))){
+					MatchesView.Players[team][playerId]['goals'][ (isNormalGoal) ? 'normalGoals' : 'ownGoals' ] += Math.ceil(div.querySelector('input.goal').value);
 
-				MatchesView.Players[team][playerId]['bookings']['yellow'] += Math.ceil(div.querySelector('input.yellow').value);
-				MatchesView.Players[team][playerId]['bookings']['red'] += Math.ceil(div.querySelector('input.red').value);
+					MatchesView.Players[team][playerId]['bookings']['yellow'] += Math.ceil(div.querySelector('input.yellow').value);
+					MatchesView.Players[team][playerId]['bookings']['red'] += Math.ceil(div.querySelector('input.red').value);
+				}
 			}
 		});
+	},
+
+	setGoalClass: function(inp,isOwnGoal){
+		if(isOwnGoal){
+			inp.parentNode.classList.add('own-goal');
+			inp.parentNode.classList.remove('normal-goal');
+			[].forEach.call(inp.parentNode.querySelectorAll('.red,.yellow'), function(el){
+				el.setAttribute('disabled','disabled');
+				el.value = '';
+			})
+		}else{
+			inp.parentNode.classList.add('normal-goal');
+			inp.parentNode.classList.remove('own-goal');
+			[].forEach.call(inp.parentNode.querySelectorAll('.red,.yellow'), function(el){
+				el.removeAttribute('disabled');
+			})
+		}
 	},
 
 	handleBookingListeners: function(){
@@ -308,16 +303,75 @@ MatchesView = {
 		});
 
 		//set goals and bookings
+		divs = {
+			Local: document.querySelectorAll('div.local-team div.goals-bookings div'),
+			Visitor: document.querySelectorAll('div.visitor-team div.goals-bookings div'),
+		}
+
+		count = {
+			Local: 0,
+			Visitor: 0,
+		}
+
 		for(i in MatchesView.data.goalsByPlayer){
 			if(MatchesView.data.goalsByPlayer.hasOwnProperty(i)){
-				console.log(MatchesView.data.goalsByPlayer[i])
+				MatchesView.data.goalsByPlayer[i].forEach(function(goalCount){
+
+					var playerTeam = (MatchesView.Players.Local.hasOwnProperty(goalCount['player_id']))? 'Local' : 'Visitor'
+					var divTeam = !(goalCount['own_goal'] ^ playerTeam == 'Local') ? 'Visitor' : 'Local'
+					var player = MatchesView.Players[playerTeam][goalCount['player_id']];
+					var inputGoal = divs[divTeam][count[divTeam]].querySelector('input.goal');
+
+					//add goal
+					inputGoal.value = goalCount['TotalGoals'];
+					divs[divTeam][count[divTeam]].querySelector('input.nro').value = player.number;
+					divs[divTeam][count[divTeam]].setAttribute('data-player-id', goalCount['player_id']);
+					MatchesView.setGoalClass(inputGoal, goalCount['own_goal']);
+
+					count[divTeam]++;
+
+				})
+
+			}
+		}
+
+		//now, we set the remaining bookings (this players only has bookings, not goals)
+		for(i in MatchesView.data.bookingsByPlayer){
+			if(MatchesView.data.bookingsByPlayer.hasOwnProperty(i)){
+				MatchesView.data.bookingsByPlayer[i].forEach(function(booking, k){
+					if(booking != null){
+
+						var team = (MatchesView.Players.Local.hasOwnProperty(booking['player_id']))? 'Local' : 'Visitor'
+						var player = MatchesView.Players[team][booking['player_id']];
+
+						//if player was set before, we use that div, else we use the next one
+						if(document.querySelector('div.normal-goal[data-player-id="'+booking["player_id"]+'"]') != null ){
+							var div = document.querySelector('div.normal-goal[data-player-id="'+booking["player_id"]+'"]');
+						}else{
+							var div = divs[team][count[team]];
+							count[team]++;
+						}
+
+						if(booking['booking_type_id'] == 1 ){
+							div.querySelector('input.yellow').value = booking.TotalBookings;
+						}else{
+							div.querySelector('input.red').value = booking.TotalBookings;
+						}
+
+						div.querySelector('input.nro').value = player.number;
+						div.setAttribute('data-player-id', booking['player_id']);
+						MatchesView.setGoalClass(div.querySelector('input.nro'), false);
+
+						MatchesView.data.bookingsByPlayer[booking['player_id']][k] = null;
+
+					}
+				})
 			}
 		}
 	},
 
 	addListeners: function(){
 		MatchesView.handleNumberListeners();
-		MatchesView.handleGoalListeners();
 		MatchesView.handleBookingListeners();
 		MatchesView.handleOwnGoalListeners();
 	},

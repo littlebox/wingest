@@ -110,7 +110,10 @@ class MatchesController extends AppController {
 				'BookingsByPlayer.Type'
 			));
 
+
+
 			$result = $this->Match->find('first', $options);
+
 
 			/* Order PlayerShirtNumber by player_id */
 			$res = [];
@@ -122,10 +125,14 @@ class MatchesController extends AppController {
 			/*Order Goals by player_id*/
 			$res = [];
 			foreach ($result['GoalsByPlayer'] as $key => $val) {
-				$res[$val['player_id']] = $val;
+				if(!isset($res[$val['player_id']])){
+					$res[$val['player_id']] = [];
+				}
+				array_push($res[$val['player_id']], $val);
 			}
 			$result['GoalsByPlayer'] = $res;
 
+			// debug($result);die();
 			/*Order Bookings by player_id*/
 			$res = [];
 			foreach ($result['BookingsByPlayer'] as $key => $val) {

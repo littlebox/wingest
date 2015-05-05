@@ -150,10 +150,11 @@ class Match extends AppModel {
 			'finderQuery' => 'SELECT
 				COUNT(*) as `GoalsByPlayer__TotalGoals`,
 				`GoalsByPlayer`.`match_id`,
-				`GoalsByPlayer`.`player_id`
+				`GoalsByPlayer`.`player_id`,
+				`GoalsByPlayer`.`own_goal`
 				FROM `wingest`.`goals` AS `GoalsByPlayer`
 				WHERE `GoalsByPlayer`.`match_id` = {$__cakeID__$}
-				GROUP BY `GoalsByPlayer`.`player_id`',
+				GROUP BY `GoalsByPlayer`.`player_id`,`GoalsByPlayer`.`own_goal`',
 			'counterQuery' => ''
 		)
 	);
