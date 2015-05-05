@@ -8,6 +8,10 @@ App::uses('AppModel', 'Model');
  */
 class Goal extends AppModel {
 
+	public $virtualFields = array(
+		'TotalGoals' => 'COUNT(*)'
+	);
+
 /**
  * Validation rules
  *

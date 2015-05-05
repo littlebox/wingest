@@ -75,6 +75,7 @@ MatchesView = {
 			opt.value = shirtNumber;
 			opt.textContent = shirtNumber+' - '+name;
 			opt.setAttribute('class','player-select-'+k);
+			opt.setAttribute('data-player-id',k);
 
 			MatchesView.handleDuplicates()
 
@@ -85,9 +86,13 @@ MatchesView = {
 
 			//clear the select, and append option childs
 			select.innerHTML = '';
-			optFirst = document.createElement('option');
-			optFirst.textContent = "Seleccionar jugador";
-			select.appendChild(optFirst);
+			optFirsts = document.createElement('option');
+			optFirsts.textContent = "Seleccionar jugador";
+			select.appendChild(optFirsts);
+			optFirsts = document.createElement('option');
+			optFirsts.textContent = "Borrar";
+			optFirsts.value = '';
+			select.appendChild(optFirsts);
 
 			opts.forEach(function(opt){
 				select.appendChild(opt);
@@ -142,12 +147,25 @@ MatchesView = {
 				sel.parentNode.removeChild(sel)
 			});
 
+			var isOwnGoal = MatchesView.isOwnGoal;
+
+			if(isOwnGoal){
+				team = (team == 'Local') ? 'Visitor' : 'Local';
+			}
+
 			var select = MatchesView.Players[team].select.cloneNode(true);
 			var removed = false;
 
 			select.addEventListener('change',(function change(ev){
-				this.value = select.options[select.selectedIndex].value;
-				select.removeEventListener('click', arguments.callee);
+				var opt = select.options[select.selectedIndex]
+
+
+				this.value = opt.value;
+
+				this.parentNode.setAttribute('data-player-id',opt.getAttribute('data-player-id'))
+
+				setGoalClass(this,isOwnGoal);
+
 				if(typeof(select.parentNode) != "undefined" && !removed){
 					removed = true;
 					select.dispatchEvent(eventRemove);
@@ -160,6 +178,23 @@ MatchesView = {
 					select.dispatchEvent(eventRemove);
 				}
 			})
+
+			setGoalClass = function(inp,isOwnGoal){
+				if(isOwnGoal){
+					inp.parentNode.classList.add('own-goal');
+					inp.parentNode.classList.remove('normal-goal');
+					[].forEach.call(inp.parentNode.querySelectorAll('.red,.yellow'), function(el){
+						el.setAttribute('disabled','disabled');
+						el.value = '';
+					})
+				}else{
+					inp.parentNode.classList.add('normal-goal');
+					inp.parentNode.classList.remove('own-goal');
+					[].forEach.call(inp.parentNode.querySelectorAll('.red,.yellow'), function(el){
+						el.removeAttribute('disabled');
+					})
+				}
+			}
 
 			var eventRemove = new Event('remove')
 
@@ -182,6 +217,87 @@ MatchesView = {
 
 	},
 
+	handleGoalListeners: function(){
+		[].forEach.call(document.querySelectorAll('.goals-bookings div input.goal'),function(inp,key){
+			// inp.addEventListener('input',MatchesView.addGoal.bind(inp));
+		});
+	},
+
+	setGoals: function(){
+
+		/* reset goals and bookings in players */
+		for(k in MatchesView.Players.Local){
+			if(MatchesView.Players.Local.hasOwnProperty(k)){
+				var player = MatchesView.Players.Local[k];
+				player.goals = {normalGoals: 0, ownGoals:0};
+				player.bookings = {yellow: 0, red:0};
+			}
+		}
+		for(k in MatchesView.Players.Visitor){
+			if(MatchesView.Players.Visitor.hasOwnProperty(k)){
+				var player = MatchesView.Players.Visitor[k];
+				player.goals = {normalGoals: 0, ownGoals:0};
+				player.bookings = {yellow: 0, red:0};
+			}
+		}
+
+		[].forEach.call(document.querySelectorAll('.goals-bookings div'),function(div,key){
+			if(div.getAttribute('data-player-id') != null){
+				addGoal(div,div.classList.contains('normal-goal'))
+			}
+
+			function addGoal(div,isNormalGoal){
+				var playerId = div.getAttribute('data-player-id');
+				/*XOR for isLocal and isNormalGoal
+				divIsLocal | isNormalGoal | Team
+				     0     |      0       |   L
+				     0     |      1       |   V
+				     1     |      0       |   V
+				     1     |      1       |   L
+				*/
+				var team = !( div.parentNode.parentNode.classList.contains('local-team') ^ isNormalGoal ) ? 'Local' : 'Visitor';
+
+				MatchesView.Players[team][playerId]['goals'][ (isNormalGoal) ? 'normalGoals' : 'ownGoals' ] += Math.ceil(div.querySelector('input.goal').value);
+
+				MatchesView.Players[team][playerId]['bookings']['yellow'] += Math.ceil(div.querySelector('input.yellow').value);
+				MatchesView.Players[team][playerId]['bookings']['red'] += Math.ceil(div.querySelector('input.red').value);
+			}
+		});
+	},
+
+	handleBookingListeners: function(){
+		[].forEach.call(document.querySelectorAll('.goals-bookings input.red'),function(inp,key){
+			inp.addEventListener('click',MatchesView.cicleBooking.bind(inp,1))
+		});
+		[].forEach.call(document.querySelectorAll('.goals-bookings input.yellow'),function(inp,key){
+			inp.addEventListener('click',MatchesView.cicleBooking.bind(inp,2))
+		});
+	},
+
+	cicleBooking: function(maxVal){
+		if(this.value == '' ){
+			this.value = 1;
+		}else if(this.value == maxVal){
+			this.value = '';
+		}else{
+			this.value = 1 + parseInt(this.value);
+		}
+	},
+
+	handleOwnGoalListeners: function(){
+		document.querySelector('.own-goal-button').addEventListener('click', MatchesView.ownGoalMode)
+	},
+
+	ownGoalMode: function(ev){
+		MatchesView.isOwnGoal = ev.target.classList.toggle('pressed');
+	},
+
+	isOwnGoal: false,
+
+	save: function(){
+		this.setGoals();
+	},
+
 	initialize: function(){
 		//set players with values saved before
 		[].forEach.call(document.querySelectorAll('.local-team.player-number input'),function(inp,key){
@@ -190,11 +306,24 @@ MatchesView = {
 		[].forEach.call(document.querySelectorAll('.visitor-team.player-number input'),function(inp,key){
 			MatchesView.setPlayer.call(inp,inp.parentNode.parentNode.getAttribute('data-id'),'Visitor',inp.parentNode.parentNode.getAttribute('data-playerShirtNumber-id'),{target:{value:inp.value}})
 		});
+
+		//set goals and bookings
+		for(i in MatchesView.data.goalsByPlayer){
+			if(MatchesView.data.goalsByPlayer.hasOwnProperty(i)){
+				console.log(MatchesView.data.goalsByPlayer[i])
+			}
+		}
+	},
+
+	addListeners: function(){
+		MatchesView.handleNumberListeners();
+		MatchesView.handleGoalListeners();
+		MatchesView.handleBookingListeners();
+		MatchesView.handleOwnGoalListeners();
 	},
 
 	init: function(){
-		MatchesView.handleNumberListeners();
+		MatchesView.addListeners()
 		MatchesView.initialize();
-		// MatchesView.showSelect();
 	},
 }

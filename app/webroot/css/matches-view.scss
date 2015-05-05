@@ -233,11 +233,10 @@ $row-color-2:darken(#fff,1);
 		input{
 			width: 30px;
 			height: 30px;
-			font-size: 1rem;
 			text-align: center;
 			border: 1px solid #808080;
 			margin: 0 2px;
-			font-size: 1.5em;
+			font-size: 1.6rem;
 			font-weight: bold;
 
 			&::-webkit-input-placeholder {
@@ -270,18 +269,41 @@ $row-color-2:darken(#fff,1);
 		}
 
 		.yellow{
-			border-radius:15px !important;
 			background-color: #f9ce1e;
-			border: none;
-			width: 26px;
-			height: 26px;
 		}
 		.red{
-			border-radius:15px !important;
 			background-color: #DB3126;
+		}
+
+		.yellow,.red{
+			border-radius:15px !important;
 			border: none;
 			width: 26px;
 			height: 26px;
+
+			-webkit-user-select: none;  /* Chrome all / Safari all */
+			-moz-user-select: none;     /* Firefox all */
+			-ms-user-select: none;      /* IE 10+ */
+
+			/* No support for these yet, use at own risk */
+			-o-user-select: none;
+			user-select: none;
+		}
+
+		.own-goal{
+
+			.nro{
+				background-color: #DB3126;
+				color:white;
+				border: 1px solid #F2F2F2;
+			}
+
+			.yellow{
+				background-color: #ccc;
+			}
+			.red{
+				background-color: #ccc;
+			}
 		}
 
 	}
@@ -305,6 +327,27 @@ $row-color-2:darken(#fff,1);
 			border:none;
 			border-bottom: 1px solid #f2f2f2;
 			margin: 20px 0 0;
+		}
+	}
+
+	.own-goal-button-container{
+		position: relative;
+		width: 100px;
+		height: 0px;
+		bottom: 12rem;
+		.own-goal-button{
+			padding: 0;
+			margin: 0;
+			background: #F2F2F2;
+			border: none;
+			font-size: 1.3rem;
+			font-weight: bold;
+			color: #333;
+			text-transform: uppercase;
+			&.pressed{
+				background:black;
+				color:white;
+			}
 		}
 	}
 
@@ -432,6 +475,10 @@ $row-color-2:darken(#fff,1);
 
 		.signatures {
 			margin: 0.3em 1em;
+		}
+
+		.own-goal-button-container{
+			display:none;
 		}
 
 	}

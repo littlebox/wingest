@@ -161,11 +161,10 @@
     .spreadsheet .goals-bookings input {
       width: 30px;
       height: 30px;
-      font-size: 1rem;
       text-align: center;
       border: 1px solid #808080;
       margin: 0 2px;
-      font-size: 1.5em;
+      font-size: 1.6rem;
       font-weight: bold; }
       .spreadsheet .goals-bookings input::-webkit-input-placeholder {
         font-size: 0.5em !important; }
@@ -185,17 +184,31 @@
       background-size: 100%;
       background-repeat: no-repeat; }
     .spreadsheet .goals-bookings .yellow {
-      border-radius: 15px !important;
-      background-color: #f9ce1e;
-      border: none;
-      width: 26px;
-      height: 26px; }
+      background-color: #f9ce1e; }
     .spreadsheet .goals-bookings .red {
+      background-color: #DB3126; }
+    .spreadsheet .goals-bookings .yellow, .spreadsheet .goals-bookings .red {
       border-radius: 15px !important;
-      background-color: #DB3126;
       border: none;
       width: 26px;
-      height: 26px; }
+      height: 26px;
+      -webkit-user-select: none;
+      /* Chrome all / Safari all */
+      -moz-user-select: none;
+      /* Firefox all */
+      -ms-user-select: none;
+      /* IE 10+ */
+      /* No support for these yet, use at own risk */
+      -o-user-select: none;
+      user-select: none; }
+    .spreadsheet .goals-bookings .own-goal .nro {
+      background-color: #DB3126;
+      color: white;
+      border: 1px solid #F2F2F2; }
+    .spreadsheet .goals-bookings .own-goal .yellow {
+      background-color: #ccc; }
+    .spreadsheet .goals-bookings .own-goal .red {
+      background-color: #ccc; }
   .spreadsheet .team-goals {
     border: 2px solid black;
     border-radius: 1.5rem !important;
@@ -212,6 +225,23 @@
       border: none;
       border-bottom: 1px solid #f2f2f2;
       margin: 20px 0 0; }
+  .spreadsheet .own-goal-button-container {
+    position: relative;
+    width: 100px;
+    height: 0px;
+    bottom: 12rem; }
+    .spreadsheet .own-goal-button-container .own-goal-button {
+      padding: 0;
+      margin: 0;
+      background: #F2F2F2;
+      border: none;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #333;
+      text-transform: uppercase; }
+      .spreadsheet .own-goal-button-container .own-goal-button.pressed {
+        background: black;
+        color: white; }
   .spreadsheet .referee-score > div {
     width: 2.8em;
     height: 2.8em;
@@ -292,6 +322,8 @@
     margin: 0 10px; }
   .spreadsheet .signatures {
     margin: 0.3em 1em; }
+  .spreadsheet .own-goal-button-container {
+    display: none; }
 
   .goals-bookings .goal {
     border: 1px solid #808080;

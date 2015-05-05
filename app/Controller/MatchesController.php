@@ -49,6 +49,11 @@ class MatchesController extends AppController {
 					'error' => '',
 				);
 
+				//delete goals and bookings associated to match
+				$this->Match->Goal->deleteAll(array('Goal.match_id' => $id));
+				$this->Match->Booking->deleteAll(array('Booking.match_id' => $id));
+
+				//Save new data
 				if ( $this->Match->saveAssociated( json_decode($this->request->data['jsonData'],true) ) ) {
 					$data['content'] = __('The changes has been saved');
 				}else{
@@ -78,13 +83,13 @@ class MatchesController extends AppController {
 					'fields' => array(
 						'name',
 						'main_shirt_color',
-					)
+					),
 				),
 				'TeamLocal.Player' => array(
 					'fields' => array(
 						'name',
 						'last_name'
-					)
+					),
 				),
 				'TeamVisitor.Player' =>
 					array('fields' => array(
@@ -100,8 +105,9 @@ class MatchesController extends AppController {
 						'shirt_number',
 						)
 					),
-				'Goal',
-				'Booking',
+				'GoalsByPlayer',
+				'BookingsByPlayer',
+				'BookingsByPlayer.Type'
 			));
 
 			$result = $this->Match->find('first', $options);
@@ -112,6 +118,23 @@ class MatchesController extends AppController {
 				$res[$val['player_id']] = $val;
 			}
 			$result['PlayersShirtNumber'] = $res;
+
+			/*Order Goals by player_id*/
+			$res = [];
+			foreach ($result['GoalsByPlayer'] as $key => $val) {
+				$res[$val['player_id']] = $val;
+			}
+			$result['GoalsByPlayer'] = $res;
+
+			/*Order Bookings by player_id*/
+			$res = [];
+			foreach ($result['BookingsByPlayer'] as $key => $val) {
+				if(!isset($res[$val['player_id']])){
+					$res[$val['player_id']] = [];
+				}
+				array_push($res[$val['player_id']], $val);
+			}
+			$result['BookingsByPlayer'] = $res;
 
 			$this->set('match', $result);
 

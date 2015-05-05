@@ -117,6 +117,45 @@ class Match extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => '',
 		),
+		'BookingsByPlayer' => array(
+			'className' => 'Booking',
+			'foreignKey' => 'match_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => 'SELECT
+				COUNT(*) as `BookingsByPlayer__TotalBookings`,
+				`BookingsByPlayer`.`match_id`,
+				`BookingsByPlayer`.`player_id`,
+				`BookingsByPlayer`.`booking_type_id`
+				FROM `wingest`.`bookings` AS `BookingsByPlayer`
+				WHERE `BookingsByPlayer`.`match_id` = {$__cakeID__$}
+				GROUP BY `BookingsByPlayer`.`player_id`,`BookingsByPlayer`.`booking_type_id`',
+			'counterQuery' => ''
+		),
+		'GoalsByPlayer' => array(
+			'className' => 'Goal',
+			'foreignKey' => 'match_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => 'SELECT
+				COUNT(*) as `GoalsByPlayer__TotalGoals`,
+				`GoalsByPlayer`.`match_id`,
+				`GoalsByPlayer`.`player_id`
+				FROM `wingest`.`goals` AS `GoalsByPlayer`
+				WHERE `GoalsByPlayer`.`match_id` = {$__cakeID__$}
+				GROUP BY `GoalsByPlayer`.`player_id`',
+			'counterQuery' => ''
+		)
 	);
 
 }

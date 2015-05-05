@@ -1,5 +1,5 @@
 <?php
-	debug($match);
+	// debug($match);
 ?>
 
 <div class="portlet light">
@@ -185,10 +185,10 @@
 					<div class="goals-bookings flex fcolumn fcenter">
 						<?php for($i=0;$i<5;$i++):?>
 						<div>
-							<input class="nro" type="text" placeholder="">
+							<input readonly="readonly" class="nro" type="text" placeholder="">
 							<input class="goal" type="text">
-							<input class="red" type="text">
-							<input class="yellow" type="text">
+							<input readonly="readonly" class="yellow" type="text">
+							<input readonly="readonly" class="red" type="text">
 						</div>
 						<?php endfor;?>
 					</div>
@@ -196,10 +196,10 @@
 					<div class="goals-bookings flex fcolumn fcenter">
 						<?php for($i=0;$i<5;$i++):?>
 						<div>
-							<input class="nro" type="text" placeholder="">
+							<input readonly="readonly" class="nro" type="text" placeholder="">
 							<input class="goal" type="text">
-							<input class="red" type="text">
-							<input class="yellow" type="text">
+							<input readonly="readonly" class="yellow" type="text">
+							<input readonly="readonly" class="red" type="text">
 						</div>
 						<?php endfor;?>
 					</div>
@@ -244,10 +244,10 @@
 					<div class="goals-bookings flex fcolumn fcenter">
 						<?php for($i=0;$i<5;$i++):?>
 						<div>
-							<input class="nro" type="text" placeholder="">
+							<input readonly="readonly" class="nro" type="text" placeholder="">
 							<input class="goal" type="text">
-							<input class="red" type="text">
-							<input class="yellow" type="text">
+							<input readonly="readonly" class="yellow" type="text">
+							<input readonly="readonly" class="red" type="text">
 						</div>
 						<?php endfor;?>
 					</div>
@@ -255,10 +255,10 @@
 					<div class="goals-bookings flex fcolumn fcenter">
 						<?php for($i=0;$i<5;$i++):?>
 						<div>
-							<input class="nro" type="text" placeholder="">
+							<input readonly="readonly" class="nro" type="text" placeholder="">
 							<input class="goal" type="text">
-							<input class="red" type="text">
-							<input class="yellow" type="text">
+							<input readonly="readonly" class="yellow" type="text">
+							<input readonly="readonly" class="red" type="text">
 						</div>
 						<?php endfor;?>
 					</div>
@@ -270,6 +270,9 @@
 		</div>
 
 		<div class="referee flex fcolumn fcenter">
+			<div class="own-goal-button-container">
+				<input type="checkbox" class="own-goal-button"><br>Gol en contra
+			</div>
 			<div class="referee-name">árbitro</div>
 			<div><input type="text"></div>
 		</div>
@@ -349,7 +352,10 @@
 <?php $this->append('pageScripts'); ?>
 <script type="text/javascript">
 
-
+	MatchesView.data = {
+		'goalsByPlayer': <?= json_encode($match['GoalsByPlayer']);?>,
+		'bookingsByPlayer': <?= json_encode($match['BookingsByPlayer']);?>,
+	};
 
 	jQuery(document).ready(function() {
 		MatchesView.init();
@@ -362,21 +368,68 @@
 		var targeturl = '<?= $this->Html->url(); ?>'+'.json';
 		var matchId = '<?= $match["Match"]["id"]?>';
 
-		playersNumber = [];
-		for(k in MatchesView.Players.Local){
-			var player = MatchesView.Players.Local[k]
-			if(MatchesView.Players.Local.hasOwnProperty(k) && typeof(player.number) != "undefined"){
-				playersNumber.push({'player_id':k,'shirt_number':player.number,'match_id':matchId, 'id': player.playerShirtNumberId})
+		MatchesView.save();
+
+		var playersNumber = [];
+		var goal = [];
+		var booking = [];
+
+		setJSONPlayer = function(player){
+			playersNumber.push({
+				'player_id':k,
+				'shirt_number':player.number,
+				'match_id':matchId,
+				'id': player.playerShirtNumberId,
+			})
+			if(player.goals.ownGoals != 0){
+				for(var i = 1, n = player.goals.ownGoals; i <= n; i++){
+					goal.push({
+						'player_id': k,
+						'own_goal': true,
+					})
+				}
 			}
-		}
-		for(k in MatchesView.Players.Visitor){
-			var player = MatchesView.Players.Visitor[k]
-			if(MatchesView.Players.Visitor.hasOwnProperty(k) && typeof(player.number) != "undefined"){
-				playersNumber.push({'player_id':k,'shirt_number':player.number,'match_id':matchId, 'id': player.playerShirtNumberId})
+			if(player.goals.normalGoals != 0){
+				for(var i = 1, n = player.goals.normalGoals; i <= n; i++){
+					goal.push({
+						'player_id': k,
+						'own_goal': false,
+					})
+				}
+			}
+
+			if(player.bookings.yellow != 0){
+				for(var i = 1, n = player.bookings.yellow; i <= n; i++){
+					booking.push({
+						'player_id': k,
+						'booking_type_id': 1, //Booking type yellow
+					})
+				}
+			}
+
+			if(player.bookings.red != 0){
+				for(var i = 1, n = player.bookings.red; i <= n; i++){
+					booking.push({
+						'player_id': k,
+						'booking_type_id': 2, //Booking type red
+					})
+				}
 			}
 		}
 
-		document.querySelector('input[name="jsonData"]').value = JSON.stringify({'Match':{'id': matchId}, 'PlayersShirtNumber': playersNumber});
+		for(k in MatchesView.Players.Local){
+			if(MatchesView.Players.Local.hasOwnProperty(k) && typeof(MatchesView.Players.Local[k].number) != "undefined"){
+				setJSONPlayer(MatchesView.Players.Local[k])
+			}
+		}
+
+		for(k in MatchesView.Players.Visitor){
+			if(MatchesView.Players.Visitor.hasOwnProperty(k) && typeof(MatchesView.Players.Visitor[k].number) != "undefined"){
+				setJSONPlayer(MatchesView.Players.Visitor[k])
+			}
+		}
+
+		document.querySelector('input[name="jsonData"]').value = JSON.stringify({'Match':{'id': matchId}, 'PlayersShirtNumber': playersNumber, 'Goal': goal, 'Booking':booking});
 
 		$.ajax({
 			type: 'put',

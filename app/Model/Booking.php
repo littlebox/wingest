@@ -8,6 +8,11 @@ App::uses('AppModel', 'Model');
  */
 class Booking extends AppModel {
 
+	public $actsAs = array('Containable');
+	public $virtualFields = array(
+		'TotalBookings' => 'COUNT(*)'
+	);
+
 /**
  * Validation rules
  *
@@ -57,6 +62,14 @@ class Booking extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+		'Type' => array(
+			'className' => 'BookingType',
+			'foreignKey' => 'booking_type_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
 	);
+
 }

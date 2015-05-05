@@ -67,7 +67,7 @@ class Player extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'MatchesShirtNumber' => array(
+		'ShirtNumber' => array(
 			'className' => 'MatchesPlayer',
 			'foreignKey' => 'player_id',
 			'dependent' => false,
@@ -78,6 +78,25 @@ class Player extends AppModel {
 			'offset' => '',
 			'exclusive' => '',
 			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'GoalsByPlayer' => array(
+			'className' => 'Goal',
+			'foreignKey' => 'player_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => 'SELECT
+				COUNT(*) as `GoalsByPlayer__TotalGoals`,
+				`GoalsByPlayer`.`match_id`,
+				`GoalsByPlayer`.`player_id`
+				FROM `wingest`.`goals` AS `GoalsByPlayer`
+				WHERE `GoalsByPlayer`.`player_id` = {$__cakeID__$}
+				GROUP BY `GoalsByPlayer`.`player_id`',
 			'counterQuery' => ''
 		)
 	);
