@@ -132,7 +132,7 @@ class Match extends AppModel {
 				`BookingsByPlayer`.`match_id`,
 				`BookingsByPlayer`.`player_id`,
 				`BookingsByPlayer`.`booking_type_id`
-				FROM `wingest`.`bookings` AS `BookingsByPlayer`
+				FROM `bookings` AS `BookingsByPlayer`
 				WHERE `BookingsByPlayer`.`match_id` = {$__cakeID__$}
 				GROUP BY `BookingsByPlayer`.`player_id`,`BookingsByPlayer`.`booking_type_id`',
 			'counterQuery' => ''
@@ -152,7 +152,7 @@ class Match extends AppModel {
 				`GoalsByPlayer`.`match_id`,
 				`GoalsByPlayer`.`player_id`,
 				`GoalsByPlayer`.`own_goal`
-				FROM `wingest`.`goals` AS `GoalsByPlayer`
+				FROM `goals` AS `GoalsByPlayer`
 				WHERE `GoalsByPlayer`.`match_id` = {$__cakeID__$}
 				GROUP BY `GoalsByPlayer`.`player_id`,`GoalsByPlayer`.`own_goal`',
 			'counterQuery' => ''
