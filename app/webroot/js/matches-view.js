@@ -141,17 +141,17 @@ MatchesView = {
 
 	showSelect: function(team,ev){
 
+		var isOwnGoal = MatchesView.isOwnGoal;
+
+		if(isOwnGoal){
+			team = (team == 'Local') ? 'Visitor' : 'Local';
+		}
+
 		if(typeof(MatchesView.Players[team].select) != "undefined"){
 
 			[].forEach.call(this.offsetParent.querySelectorAll('select'),function(sel){
 				sel.parentNode.removeChild(sel)
 			});
-
-			var isOwnGoal = MatchesView.isOwnGoal;
-
-			if(isOwnGoal){
-				team = (team == 'Local') ? 'Visitor' : 'Local';
-			}
 
 			var select = MatchesView.Players[team].select.cloneNode(true);
 			var removed = false;
@@ -195,6 +195,14 @@ MatchesView = {
 			select.style.top = this.offsetTop+this.offsetHeight+'px';
 			select.style.left = this.offsetLeft+'px';
 
+		}else{
+			swal({
+				title: "Faltan datos",
+				text: "Por favor completá los numeros de los jugadores para continuar",
+				type: "warning",
+				confirmButtonColor: "#44B6AE",
+				confirmButtonText: "Ok",
+			});
 		}
 
 	},
@@ -272,7 +280,7 @@ MatchesView = {
 	cicleBooking: function(maxVal){
 		if(this.value == '' ){
 			this.value = 1;
-		}else if(this.value == maxVal){
+		}else if(this.value >= maxVal){
 			this.value = '';
 		}else{
 			this.value = 1 + parseInt(this.value);
@@ -291,6 +299,30 @@ MatchesView = {
 
 	save: function(){
 		this.setGoals();
+	},
+
+	setResult: function setResult(){
+
+		var goals = {};
+		goals.local = 0;
+		goals.visitor = 0;
+
+		console.timeStamp('setGoals')
+
+		// [].forEach.call(document.querySelectorAll('div.local-team div.goals-bookings input.goal'), function(inp){
+		// 	if(!isNaN(Math.floor(inp.value))){
+		// 		goals.local = 1
+		// 	}
+		// })
+
+		// [].forEach.call(document.querySelectorAll('div.visitor-team div.goals-bookings input.goal'), function(inp){
+		// 	if(!isNaN(Math.floor(inp.value))){
+		// 		goals.visitor = 1
+		// 	}
+		// })
+
+		document.querySelector('div.local div.team-goals span').value = goals.local;
+		document.querySelector('div.visitor div.team-goals span').value = goals.visitor;
 	},
 
 	initialize: function(){
@@ -313,6 +345,7 @@ MatchesView = {
 			Visitor: 0,
 		}
 
+		//we set goals
 		for(i in MatchesView.data.goalsByPlayer){
 			if(MatchesView.data.goalsByPlayer.hasOwnProperty(i)){
 				MatchesView.data.goalsByPlayer[i].forEach(function(goalCount){
@@ -335,7 +368,7 @@ MatchesView = {
 			}
 		}
 
-		//now, we set the remaining bookings (this players only has bookings, not goals)
+		//now, we set bookings
 		for(i in MatchesView.data.bookingsByPlayer){
 			if(MatchesView.data.bookingsByPlayer.hasOwnProperty(i)){
 				MatchesView.data.bookingsByPlayer[i].forEach(function(booking, k){
@@ -368,6 +401,8 @@ MatchesView = {
 				})
 			}
 		}
+
+		MatchesView.setResult();
 	},
 
 	addListeners: function(){

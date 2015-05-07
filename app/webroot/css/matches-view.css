@@ -117,7 +117,7 @@
       font-size: 0.7em;
       justify-content: flex-end;
       align-items: flex-end; }
-  .spreadsheet .team-name, .spreadsheet .teams-goals, .spreadsheet .zone-name {
+  .spreadsheet .team-name, .spreadsheet .team-goals, .spreadsheet .zone-name {
     font-size: 2rem;
     font-weight: bold;
     text-transform: uppercase; }
@@ -215,6 +215,10 @@
     width: 3rem;
     height: 3rem;
     margin: 0 10px; }
+    .spreadsheet .team-goals span {
+      position: relative;
+      bottom: 0.3rem;
+      font-weight: bold; }
   .spreadsheet .referee {
     margin: 10px; }
     .spreadsheet .referee .referee-name {

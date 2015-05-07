@@ -53,7 +53,7 @@
 
 	<div class="players-list flex fcenter" style="width:80%;">
 
-		<div class="flex fcolumn fend">
+		<div class="flex fcolumn fend local">
 			<div class="flex">
 				<div class="team-name"><?= $match['TeamLocal']['name']?></div>
 				<div class="team-goals"><span></span></div>
@@ -91,7 +91,7 @@
 								</div>
 							<?php endif;?>
 							<div class="local-team player-number">
-								<input value="<?= $shirtNumber ?>" id="player-<?=$i?>-number" class="player-number-<?= $match['TeamLocal']['Player'][$i]['id'] ?>" type="text" placeholder="">
+								<input title="<?= __('Número de camiseta')?>" value="<?= $shirtNumber ?>" id="player-<?=$i?>-number" class="player-number-<?= $match['TeamLocal']['Player'][$i]['id'] ?>" type="text" placeholder="">
 							</div>
 						</div>
 					<?php endfor;?>
@@ -100,7 +100,7 @@
 
 		</div>
 
-		<div class="flex fcolumn fstart">
+		<div class="flex fcolumn fstart visitor">
 			<div class="flex">
 				<div class="team-goals"><span></span></div>
 				<div class="team-name"><?= $match['TeamVisitor']['name']?></div>
@@ -131,7 +131,7 @@
 						$playerShirtNumberId = isset($match['PlayersShirtNumber'][$playerId])? $match['PlayersShirtNumber'][$playerId]['id'] : '';
 					?>
 						<div class="flex-row player left" style="width:100%" data-id="<?= $playerId ?>" data-playerShirtNumber-id="<?= $playerShirtNumberId ?>">
-							<div class="visitor-team player-number"><input id="player-<?=$i?>-number" value="<?= $shirtNumber ?>" class="player-number-<?= $match['TeamVisitor']['Player'][$i]['id'] ?>" type="text" placeholder=""></div>
+							<div class="visitor-team player-number"><input title="<?= __('Número de camiseta')?>" id="player-<?=$i?>-number" value="<?= $shirtNumber ?>" class="player-number-<?= $match['TeamVisitor']['Player'][$i]['id'] ?>" type="text" placeholder=""></div>
 							<?php if(isset($match['TeamVisitor']['Player'][$i]) && $match['TeamVisitor']['Player'][$i]['last_name'] != ''):?>
 								<div class="names">
 									<span class="last-name"><?= $match['TeamVisitor']['Player'][$i]['last_name'];?></span>,&nbsp;<span class="first-name"><?= $match['TeamVisitor']['Player'][$i]['name'];?></span>
@@ -185,10 +185,10 @@
 					<div class="goals-bookings flex fcolumn fcenter">
 						<?php for($i=0;$i<5;$i++):?>
 						<div>
-							<input readonly="readonly" class="nro" type="text" placeholder="">
-							<input class="goal" type="text">
-							<input readonly="readonly" class="yellow" type="text">
-							<input readonly="readonly" class="red" type="text">
+							<input title="<?= __('Número de camiseta')?>" readonly="readonly" class="nro" type="text" placeholder="">
+							<input title="<?= __('Cantidad de goles')?>" class="goal" type="text">
+							<input title="<?= __('Cantidad de tarjetas amarillas')?>" readonly="readonly" class="yellow" type="text">
+							<input title="<?= __('Cantidad de tarjetas rojas')?>" readonly="readonly" class="red" type="text">
 						</div>
 						<?php endfor;?>
 					</div>
@@ -196,10 +196,10 @@
 					<div class="goals-bookings flex fcolumn fcenter">
 						<?php for($i=0;$i<5;$i++):?>
 						<div>
-							<input readonly="readonly" class="nro" type="text" placeholder="">
-							<input class="goal" type="text">
-							<input readonly="readonly" class="yellow" type="text">
-							<input readonly="readonly" class="red" type="text">
+							<input title="<?= __('Número de camiseta')?>" readonly="readonly" class="nro" type="text" placeholder="">
+							<input title="<?= __('Cantidad de goles')?>" class="goal" type="text">
+							<input title="<?= __('Cantidad de tarjetas amarillas')?>" readonly="readonly" class="yellow" type="text">
+							<input title="<?= __('Cantidad de tarjetas rojas')?>" readonly="readonly" class="red" type="text">
 						</div>
 						<?php endfor;?>
 					</div>
@@ -244,10 +244,10 @@
 					<div class="goals-bookings flex fcolumn fcenter">
 						<?php for($i=0;$i<5;$i++):?>
 						<div>
-							<input readonly="readonly" class="nro" type="text" placeholder="">
-							<input class="goal" type="text">
-							<input readonly="readonly" class="yellow" type="text">
-							<input readonly="readonly" class="red" type="text">
+							<input title="<?= __('Número de camiseta')?>" readonly="readonly" class="nro" type="text" placeholder="">
+							<input title="<?= __('Cantidad de goles')?>" class="goal" type="text">
+							<input title="<?= __('Cantidad de tarjetas amarillas')?>" readonly="readonly" class="yellow" type="text">
+							<input title="<?= __('Cantidad de tarjetas rojas')?>" readonly="readonly" class="red" type="text">
 						</div>
 						<?php endfor;?>
 					</div>
@@ -255,10 +255,10 @@
 					<div class="goals-bookings flex fcolumn fcenter">
 						<?php for($i=0;$i<5;$i++):?>
 						<div>
-							<input readonly="readonly" class="nro" type="text" placeholder="">
-							<input class="goal" type="text">
-							<input readonly="readonly" class="yellow" type="text">
-							<input readonly="readonly" class="red" type="text">
+							<input title="<?= __('Número de camiseta')?>" readonly="readonly" class="nro" type="text" placeholder="">
+							<input title="<?= __('Cantidad de goles')?>" class="goal" type="text">
+							<input title="<?= __('Cantidad de tarjetas amarillas')?>" readonly="readonly" class="yellow" type="text">
+							<input title="<?= __('Cantidad de tarjetas rojas')?>" readonly="readonly" class="red" type="text">
 						</div>
 						<?php endfor;?>
 					</div>
@@ -271,7 +271,7 @@
 
 		<div class="referee flex fcolumn fcenter">
 			<div class="own-goal-button-container">
-				<input type="checkbox" class="own-goal-button"><br>Gol en contra
+				<input title="<?= __('Seleccionar para agregar goles en contra')?>" type="checkbox" class="own-goal-button"><br>Gol en contra
 			</div>
 			<div class="referee-name">árbitro</div>
 			<div><input type="text"></div>
@@ -357,7 +357,11 @@
 		'bookingsByPlayer': <?= json_encode($match['BookingsByPlayer']);?>,
 	};
 
-	jQuery(document).ready(function() {
+	/*jQuery(document).ready(function() {
+		MatchesView.init();
+	});*/
+
+	document.addEventListener('DOMContentLoaded',function() {
 		MatchesView.init();
 	});
 
