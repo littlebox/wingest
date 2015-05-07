@@ -277,6 +277,12 @@ MatchesView = {
 		});
 	},
 
+	handleGoalListeners: function(){
+		Array.prototype.forEach.call(document.querySelectorAll('input.goal'),function(inp){
+			inp.addEventListener('input', MatchesView.setResult);
+		});
+	},
+
 	cicleBooking: function(maxVal){
 		if(this.value == '' ){
 			this.value = 1;
@@ -301,28 +307,30 @@ MatchesView = {
 		this.setGoals();
 	},
 
-	setResult: function setResult(){
+	setResult: function(){
 
 		var goals = {};
 		goals.local = 0;
 		goals.visitor = 0;
 
+
 		console.timeStamp('setGoals')
+		// debugger;
 
-		// [].forEach.call(document.querySelectorAll('div.local-team div.goals-bookings input.goal'), function(inp){
-		// 	if(!isNaN(Math.floor(inp.value))){
-		// 		goals.local = 1
-		// 	}
-		// })
+		Array.prototype.forEach.call(document.querySelectorAll('div.local-team div.goals-bookings input.goal'), function(inp){
+			if(!isNaN(Math.floor(inp.value))){
+				goals.local = parseInt(goals.local)+Math.floor(inp.value)
+			}
+		})
 
-		// [].forEach.call(document.querySelectorAll('div.visitor-team div.goals-bookings input.goal'), function(inp){
-		// 	if(!isNaN(Math.floor(inp.value))){
-		// 		goals.visitor = 1
-		// 	}
-		// })
+		Array.prototype.forEach.call(document.querySelectorAll('div.visitor-team div.goals-bookings input.goal'), function(inp){
+			if(!isNaN(Math.floor(inp.value))){
+				goals.visitor = parseInt(goals.visitor)+Math.floor(inp.value)
+			}
+		})
 
-		document.querySelector('div.local div.team-goals span').value = goals.local;
-		document.querySelector('div.visitor div.team-goals span').value = goals.visitor;
+		document.querySelector('div.local div.team-goals span').textContent = goals.local;
+		document.querySelector('div.visitor div.team-goals span').textContent = goals.visitor;
 	},
 
 	initialize: function(){
@@ -409,6 +417,7 @@ MatchesView = {
 		MatchesView.handleNumberListeners();
 		MatchesView.handleBookingListeners();
 		MatchesView.handleOwnGoalListeners();
+		MatchesView.handleGoalListeners();
 	},
 
 	init: function(){

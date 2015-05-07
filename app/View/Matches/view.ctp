@@ -352,16 +352,15 @@
 <?php $this->append('pageScripts'); ?>
 <script type="text/javascript">
 
-	MatchesView.data = {
-		'goalsByPlayer': <?= json_encode($match['GoalsByPlayer']);?>,
-		'bookingsByPlayer': <?= json_encode($match['BookingsByPlayer']);?>,
-	};
-
 	/*jQuery(document).ready(function() {
 		MatchesView.init();
 	});*/
 
 	document.addEventListener('DOMContentLoaded',function() {
+		MatchesView.data = {
+			'goalsByPlayer': <?= json_encode($match['GoalsByPlayer']);?>,
+			'bookingsByPlayer': <?= json_encode($match['BookingsByPlayer']);?>,
+		};
 		MatchesView.init();
 	});
 
