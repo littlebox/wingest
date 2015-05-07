@@ -94,7 +94,7 @@ class Player extends AppModel {
 				COUNT(*) as `GoalsByPlayer__TotalGoals`,
 				`GoalsByPlayer`.`match_id`,
 				`GoalsByPlayer`.`player_id`
-				FROM `wingest`.`goals` AS `GoalsByPlayer`
+				FROM `goals` AS `GoalsByPlayer`
 				WHERE `GoalsByPlayer`.`player_id` = {$__cakeID__$}
 				GROUP BY `GoalsByPlayer`.`player_id`',
 			'counterQuery' => ''
