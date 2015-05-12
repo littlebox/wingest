@@ -432,7 +432,10 @@
 			}
 		}
 
-		document.querySelector('input[name="jsonData"]').value = JSON.stringify({'Match':{'id': matchId}, 'PlayersShirtNumber': playersNumber, 'Goal': goal, 'Booking':booking});
+		var goals_team1 = parseInt(document.querySelector('div.local div.team-goals span').textContent)
+		var goals_team2 = parseInt(document.querySelector('div.visitor div.team-goals span').textContent)
+
+		document.querySelector('input[name="jsonData"]').value = JSON.stringify({'Match':{'id': matchId, 'goals_team1':goals_team1, 'goals_team2':goals_team2}, 'PlayersShirtNumber': playersNumber, 'Goal': goal, 'Booking':booking});
 
 		$.ajax({
 			type: 'put',
