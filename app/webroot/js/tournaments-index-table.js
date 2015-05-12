@@ -34,6 +34,7 @@ var TournamentsIndexTable = function () {
 				htmlContent += '<a class="btn btn-sm purple-medium" href="'+LocalVar.tournamentScheduleZonesUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-server"></i> '+LocalVar.tournamentScheduleZonesText+'</a> ';
 				htmlContent += '<a class="btn btn-sm green-haze" href="'+LocalVar.tournamentMatchesUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-futbol-o"></i> '+LocalVar.tournamentMatchesText+'</a> ';
 				htmlContent += '<a class="btn btn-sm purple" href="'+LocalVar.tournamentTeamsUrl+"/index/"+aData.Tournament.id+'" ><i class="fa fa-shield"></i> '+LocalVar.tournamentTeamsText+'</a> ';
+				htmlContent += '<a class="btn btn-sm yellow-gold" href="'+LocalVar.tournamentTopScorersUrl+"/"+aData.Tournament.id+'" ><i class="fa fa-rocket"></i> '+LocalVar.tournamentTopScorersText+'</a> ';
 				//Set to column 3
 				$('td:eq(2)', nRow).html(htmlContent);
 			}
