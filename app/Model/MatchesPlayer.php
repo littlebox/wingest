@@ -67,7 +67,8 @@ class MatchesPlayer extends AppModel {
 			'foreignKey' => 'player_id',
 			'conditions' => '',
 			'fields' => '',
-			'order' => ''
+			'order' => '',
+			'counterCache' => 'matches_played'
 		)
 	);
 }

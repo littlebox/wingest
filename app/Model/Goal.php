@@ -60,7 +60,9 @@ class Goal extends AppModel {
 			'foreignKey' => 'player_id',
 			'conditions' => '',
 			'fields' => '',
-			'order' => ''
+			'order' => '',
+			'counterCache' => 'total_goals',
+			'counterScope' => array('Goal.own_goal' => 0),
 		)
 	);
 }

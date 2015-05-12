@@ -634,6 +634,34 @@ class TournamentsController extends AppController {
 
 	}
 
+	public function top_scorers($id = null) {
+		//Check if Tournament exist
+		if (!$this->Tournament->exists($id)) {
+			throw new NotFoundException(__('Invalid tournament'));
+		}
+
+		$this->paginate = array(
+			'fields' => array('id', 'name', 'last_name', 'total_goals', 'matches_played'),
+			'order' => array(
+				'Player.total_goals' => 'desc',
+				'Player.matches_played' => 'asc',
+			),
+			'conditions' => array(
+				'Team.tournament_id' => $id
+			),
+			'contain' => array('Team.tournament_id', 'Team.name'), //Only brings Tournaments, whitout any asociated model
+		);
+
+
+		$this->DataTable->mDataProp = true;
+		//debug($this->DataTable->getResponse(null,$this->Tournament->Team->Player));die();
+		$this->set('response', $this->DataTable->getResponse(null,$this->Tournament->Team->Player));
+		$this->set('_serialize','response');
+
+		$this->set('tournamentId', $id);
+
+	}
+
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->layout = 'metrobox';
