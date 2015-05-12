@@ -52,6 +52,7 @@ class MatchesController extends AppController {
 				//delete goals and bookings associated to match
 				$this->Match->Goal->deleteAll(array('Goal.match_id' => $id));
 				$this->Match->Booking->deleteAll(array('Booking.match_id' => $id));
+				$this->Match->PlayersShirtNumber->deleteAll(array('PlayersShirtNumber.match_id' => $id));
 
 				//Save new data
 				if ( $this->Match->saveAssociated( json_decode($this->request->data['jsonData'],true) ) ) {

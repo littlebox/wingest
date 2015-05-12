@@ -100,6 +100,7 @@ class Match extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
+		//This is MATCHES PLAYERS!!!!!
 		'PlayersShirtNumber' => array(
 			'className' => 'MatchesPlayers',
 			'foreignKey' => 'match_id',
