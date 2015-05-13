@@ -660,6 +660,8 @@ class TournamentsController extends AppController {
 
 		$this->set('tournamentId', $id);
 
+		$log = $this->Tournament->Team->Player->getDataSource()->getLog(false, false);
+
 	}
 
 	public function beforeFilter() {

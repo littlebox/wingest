@@ -40,6 +40,7 @@
 		<table class="table table-striped table-bordered table-hover" id="topScorers_table">
 			<thead>
 				<th><?= __('Name') ?></th>
+				<th><?= __('Last Name') ?></th>
 				<th><?= __('Team') ?></th>
 				<th><?= __('Goals') ?></th>
 				<th><?= __('Matches Played') ?></th>

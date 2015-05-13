@@ -21,6 +21,7 @@ var TopScorersIndexTable = function () {
 			"sAjaxSource": LocalVar.ajaxSource, //set in view
 			"aoColumns": [
 				{mData:"Player.name"},
+				{mData:"Player.last_name"},
 				{mData:"Team.name"},
 				{mData:"Player.total_goals"},
 				{mData:"Player.matches_played"},
@@ -29,8 +30,8 @@ var TopScorersIndexTable = function () {
 			"fnCreatedRow": function(nRow, aData, iDataIndex){ //callback function after create a row for add action buttons en column 3
 				htmlContent = '';
 				htmlContent += '<a class="btn btn-sm green" href="'+LocalVar.topScorerViewrUrl+"/"+aData.Player.id+'" ><i class="fa fa-file"></i> '+LocalVar.topScorerViewText+'</a> ';
-				//Set to column 5
-				$('td:eq(4)', nRow).html(htmlContent);
+				//Set to column 6
+				$('td:eq(5)', nRow).html(htmlContent);
 			}
 		});
 

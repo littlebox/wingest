@@ -98,13 +98,14 @@ class DataTableComponent extends Component{
 		if(isset($httpGet) && !empty($httpGet['sSearch'])){
 			$conditions = $this->getWhereConditions();
 
-			if( !empty($this->controller->paginate['contain']) ){
-				$this->controller->paginate = array_merge_recursive($this->controller->paginate, array('contain'=>$conditions));
-			}
-			else{
+			//COMENTED FOR SEARCH WORK WITH CONTAINABLE BEHAVIOR
+			// if( !empty($this->controller->paginate['contain']) ){
+			//	$this->controller->paginate = array_merge_recursive($this->controller->paginate, array('contain'=>$conditions));
+			// }
+			// else{
 				$this->controller->paginate = array_merge_recursive($this->controller->paginate, array('conditions'=>array('AND'=>$conditions)));
-			}
-			$isFiltered = true;
+			// }
+			// $isFiltered = true;
 		}
 
 		$this->setTimes('Pre','stop');
