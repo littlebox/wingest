@@ -19,6 +19,7 @@ var TopScorersIndexTable = function () {
 			"bProcessing": true,
 			"bServerSide": true,
 			"sAjaxSource": LocalVar.ajaxSource, //set in view
+			"aaSorting": [[3,'desc']], //Ordenar por goles
 			"aoColumns": [
 				{mData:"Player.name"},
 				{mData:"Player.last_name"},
