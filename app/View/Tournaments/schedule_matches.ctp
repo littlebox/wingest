@@ -62,6 +62,7 @@
 									<div class="flex-td"><?= __('Time') ?></div>
 									<div class="flex-td"><?= __('Field') ?></div>
 									<div class="flex-td"><?= __('Actions') ?></div>
+									<div class="flex-td small"></div>
 								</div>
 							<?php endif;?>
 								<div class="team-data flex-row" id="<?= $match['id'];?>">
@@ -123,6 +124,9 @@
 									</div>
 									<div class="flex-td" style="text-align:center;">
 										<a href="<?php echo $this->Html->url(array('controller' => 'Matches', 'action'=>'view', $match['id']))?>" class="btn btn-sm blue"><i class="fa fa-futbol-o"></i> <?= __('Planilla') ?></a>
+									</div>
+									<div class="flex-td small" style="text-align:center;">
+										<input class="team-form-compute" type="checkbox" <?php if($match['compute']){echo 'checked';}?> title="Computar">
 									</div>
 								</div>
 						<?php $i++;endforeach; ?>
@@ -308,12 +312,13 @@
 
 				time = teamForms[i].getElementsByClassName('team-form-time')[0].value;
 				field = teamForms[i].getElementsByClassName('team-form-field')[0].value;
-				saveString += '{"Match":{"id":' + id + ', "date":"' + date + '", "time":"' + time + '", "field":"' + field + '", "round_id":"'+ round +'"}}';
+				compute = teamForms[i].getElementsByClassName('team-form-compute')[0].checked
+				saveString += '{"Match":{"id":' + id + ', "compute":' + compute + ', "date":"' + date + '", "time":"' + time + '", "field":"' + field + '", "round_id":"'+ round +'"}}';
 				if(i<(teamForms.length-1)) saveString += ',';
 			}
 			saveString += ']';
 
-			//console.log(saveString);
+			console.log(saveString);
 			return saveString;
 
 		}

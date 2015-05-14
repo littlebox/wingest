@@ -379,6 +379,7 @@ class TournamentsController extends AppController {
 							'date',
 							'time',
 							'field',
+							'compute',
 						)
 					),
 					'Zone.Match.TeamLocal' => array(
@@ -631,6 +632,15 @@ class TournamentsController extends AppController {
 			$this->set('rounds', $rounds);
 
 		}
+
+	}
+
+	public function clasification($id = null){
+		if (!$this->Tournament->exists($id)) {
+			throw new NotFoundException(__('Invalid tournament'));
+		}
+
+		$this->set('positionTable',$this->Tournament->Zone->positionTable());
 
 	}
 
