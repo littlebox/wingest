@@ -83,6 +83,7 @@
 		LocalVar.tournamentScheduleZonesUrl = ('<?= $this->Html->url(array('controller'=>'tournaments', 'action' => 'schedule_zones')) ?>');
 		LocalVar.tournamentMatchesUrl = ('<?= $this->Html->url(array('controller'=>'tournaments', 'action' => 'schedule_matches')) ?>');
 		LocalVar.tournamentTeamsUrl = ('<?= $this->Html->url(array('controller'=>'teams', 'action' => 'index')) ?>');
+		LocalVar.tournamentClasificationUrl = ('<?= $this->Html->url(array('controller'=>'tournaments', 'action' => 'clasification')) ?>');
 		LocalVar.tournamentEditText = ('<?= __("Edit") ?>');
 		LocalVar.tournamentDeleteText = ('<?= __("Delete") ?>');
 		LocalVar.tournamentViewText = ('<?= __("Details") ?>');
@@ -91,6 +92,7 @@
 		LocalVar.tournamentScheduleZonesText = ('<?= __("Zones") ?>');
 		LocalVar.tournamentMatchesText = ('<?= __("Matches") ?>');
 		LocalVar.tournamentTeamsText = ('<?= __("Teams") ?>');
+		LocalVar.tournamentClasificationText = ('<?= __("Clasification") ?>');
 
 		jQuery(document).ready(function() {
 			TournamentsIndexTable.init();

@@ -216,4 +216,18 @@ class Team extends AppModel {
 		)
 	);
 
+	public function getBadge($id = null){
+		$badge = $this->find('first',array(
+			'containable' => false,
+			'recursive' => 0,
+			'fields' => array(
+				'id',
+				'main_shirt_color',
+				'secondary_shirt_color'
+			),
+			'conditions' => array('id' => $id)
+		));
+		debug($badge);
+	}
+
 }

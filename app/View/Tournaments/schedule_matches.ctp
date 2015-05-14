@@ -263,7 +263,6 @@
 	<?= $this->Html->css('schedule-matches.css');?>
 	<?= $this->Html->css('/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min');?>
 	<?= $this->Html->css('/plugins/bootstrap-datepicker/css/datepicker3');?>
-
 <?php $this->end(); ?>
 
 <?php $this->append('pagePlugins'); ?>
@@ -275,8 +274,6 @@
 	<?= $this->Html->script('/plugins/bootstrap-datepicker/js/bootstrap-datepicker');?>
 	<?= $this->Html->script('/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es');?>
 	<?= $this->Html->script('/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min');?>
-
-
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>

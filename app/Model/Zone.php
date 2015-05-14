@@ -95,57 +95,73 @@ class Zone extends AppModel {
 		)
 	);
 
-	public function positionTable($id = null){
-		$zones = $this->find('all',array('containable' => false,'fields' => array('id'),'recursive' => 0));
+	public function positionTables($id = null){
+		$zones = $this->find('all',
+			array(
+				'containable' => false,
+				'fields' => array('id','name'),
+				'recursive' => 0,
+				'conditions' => array(
+					'Tournament.id'=> $id
+				)
+			));
 
-		$positions = [];
+
+		$tables = [];
 		foreach ($zones as $zone) {
-			$positions[] = $this->getPositions($zone['Zone']['id']);
+			$tables[$zone['Zone']['id']] = $this->getPositions($zone['Zone']['id']);
 		}
 
-		return $positions;
+		// debug($tables);die();
+
+		return $tables;
 	}
 
 	public function getPositions($id = null){
 		$this->Team->virtualFields = array(
-			'id' => 0,
+			'vid' => 0,
+			'name' => 0,
 			'totalPoints' => 0,
 			'playedMatches'=> 0,
-			'winMatches'=> 0,
+			'wonMatches'=> 0,
 			'drawMatches'=> 0,
+			'lostMatches'=> 0,
+			'goalsFavor'=> 0,
+			'goalsAgainst'=> 0,
 		);
-		$position = $this->Team->query(
+		$positions = $this->Team->query(
 			'SELECT
-				team_id as Team__id,
+				team_id as Team__vid,
+				teams.name as Team__name,
 				SUM(team_points) as Team__totalPoints,
 				COUNT(*) as Team__playedMatches,
-				SUM(team_win) as Team__winMatches,
-				SUM(team_draw) as Team__drawMatches
+				SUM(team_win) as Team__wonMatches,
+				SUM(team_draw) as Team__drawMatches,
+				(COUNT(*) - SUM(team_win) - SUM(team_draw)) as Team__lostMatches,
+				SUM(team_goalsf) as Team__goalsFavor,
+				SUM(team_goalsc) as Team__goalsAgainst
 			FROM
 			(SELECT
 				team1_id as team_id,
 				team1_points as team_points,
 				team1_win as team_win,
-				team1_draw as team_draw
+				team1_draw as team_draw,
+				team1_goalsf as team_goalsf,
+				team1_goalsc as team_goalsc
 			FROM (SELECT
 				winners.team1_id as team1_id,
 				IF(winners.winner = 1,3,IF(winners.winner = 0,1,0)) as team1_points,
 				IF(winners.winner = 1,1,0) as team1_win,
-				IF(winners.winner = 0,1,0) as team1_draw
+				IF(winners.winner = 0,1,0) as team1_draw,
+				winners.goals_team1 as team1_goalsf,
+				winners.goals_team2 as team1_goalsc
 			FROM (
 				SELECT
 					id,
 					team1_id,
-					team2_id,
-					IF(
-						goals_team1 = goals_team2,
-						0,
-						IF(
-							goals_team1 > goals_team2,
-							1,
-							2
-						  )
-						) as winner
+					goals_team1,
+					goals_team2,
+					IF(goals_team1 = goals_team2, 0, IF(goals_team1 > goals_team2, 1, 2 ) ) as winner
 					FROM matches
 					WHERE compute = 1 AND zone_id = :id
 			) as winners) as points
@@ -154,34 +170,36 @@ class Zone extends AppModel {
 				team2_id as team_id,
 				team2_points as team_points,
 				team2_win as team_win,
-				team2_draw as team_draw
+				team2_draw as team_draw,
+				team2_goalsf as team_goalsf,
+				team2_goalsc as team_goalsc
 			FROM (SELECT
 				winners.team2_id as team2_id,
 				IF(winners.winner = 2,3,IF(winners.winner = 0,1,0)) as team2_points,
 				IF(winners.winner = 2,1,0) as team2_win,
-				IF(winners.winner = 0,1,0) as team2_draw
-			FROM (
-				SELECT
-					id,
-					team1_id,
-					team2_id,
-					IF(
-						goals_team1 = goals_team2,
-						0,
-						IF(
-							goals_team1 > goals_team2,
-							1,
-							2
-						  )
-						) as winner
-					FROM matches
-					WHERE compute = 1 AND zone_id = :id
+				IF(winners.winner = 0,1,0) as team2_draw,
+				winners.goals_team2 as team2_goalsf,
+				winners.goals_team1 as team2_goalsc
+				FROM (
+					SELECT
+						id,
+						--team1_id,
+						team2_id,
+						goals_team2,
+						goals_team1,
+						IF(goals_team1 = goals_team2, 0, IF(goals_team1 > goals_team2, 1, 2 ) ) as winner
+						FROM matches
+						WHERE compute = 1 AND zone_id = :id
 
-			) as winners) as matches_points) as team
+				) as winners)
+			as matches_points)
+			as team
+			LEFT JOIN teams ON (team.team_id = teams.id)
 			GROUP BY Team_id
 			ORDER BY Team__totalPoints DESC, Team__playedMatches ASC, Team__playedMatches DESC',
 			array('id'=>$id));
-		return $position;
+
+		return $positions;
 	}
 
 }

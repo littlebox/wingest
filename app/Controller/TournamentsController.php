@@ -640,7 +640,29 @@ class TournamentsController extends AppController {
 			throw new NotFoundException(__('Invalid tournament'));
 		}
 
-		$this->set('positionTable',$this->Tournament->Zone->positionTable());
+		$tournaments = $this->Tournament->Zone->find('all',array(
+			'conditions' => array('Tournament.id' => $id),
+			'contain' => array(
+				'Tournament.id'
+			),
+			'fields' => array(
+				'name','id'
+			)
+		));
+
+		$positionTables = $this->Tournament->Zone->positionTables($id);
+
+		foreach($positionTables as $table){
+			foreach($table as $team){
+				// $badge = $this->Tournament->Team->getBadge($team['Team']['id']);
+				// debug($badge);die();
+			}
+		}
+
+		// debug($positionTables);die();
+
+		$this->set('positionTables',$positionTables);
+		$this->set('tournaments',$tournaments);
 
 	}
 
